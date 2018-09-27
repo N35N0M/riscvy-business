@@ -1,0 +1,2 @@
+export GRLIB=/home/kris/dev/riscvy-business/grlib-gpl-2018.1-b4217
+echo "GRLIB root is set to $GRLIB"
