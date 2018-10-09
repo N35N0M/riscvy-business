@@ -1,0 +1,6 @@
+riscv-build-tools/**
+!riscv-build-tools/.gitkeep
+
+test-programs/**
+!test-programs/*.c
+
