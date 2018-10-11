@@ -3,3 +3,5 @@ riscv-build-tools/**
 
 test-programs/**
 !test-programs/*.c
+
+scripts/tmp
