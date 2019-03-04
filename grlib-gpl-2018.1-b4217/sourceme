@@ -1,2 +1,0 @@
-export GRLIB=$(pwd)
-echo "GRLIB root is set to $GRLIB"
