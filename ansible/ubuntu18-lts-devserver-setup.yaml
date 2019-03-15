@@ -111,6 +111,7 @@
       dest: "{{ USER_HOME }}/riscvy-business"
       recursive: true
       version: HEAD
+      force: true
 
   - name: Build RISC-V tools with the script provided in Riscvy-business
     command: build_riscv_tools.sh  

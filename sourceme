@@ -1,3 +1,0 @@
-export RISCVY_HOME=$(pwd)
-export RISCV=$RISCVY_HOME/riscv-build-tools
-export PATH=$PATH:$RISCV/bin
