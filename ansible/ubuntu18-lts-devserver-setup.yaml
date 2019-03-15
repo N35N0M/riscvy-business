@@ -113,6 +113,26 @@
       version: HEAD
       force: true
 
-  - name: Build RISC-V tools with the script provided in Riscvy-business
-    command: build_riscv_tools.sh  
+  - name: Check if RISC-V tools already exist.
+    stat:
+      path: /opt/riscv32i
+    register: toolsinstalled
 
+  - name: Download RISC-V tools via Makefile provided in picorv32
+    command: /usr/bin/make download-tools
+    args:
+      chdir: "{{ USER_HOME }}/riscvy-business/picorv32" 
+    when: "not toolsinstalled.stat.exists"
+
+  - name: Build all relevant variants of the RISC-V tools via picorv32 Makefile
+    shell: /bin/echo "YES" | /usr/bin/make -j$(nproc) build-tools
+    args:
+      chdir: "{{ USER_HOME }}/riscvy-business/picorv32" 
+    when: "not toolsinstalled.stat.exists"
+    become: true
+
+  - name: Add path to relevant build tool set to user's .bashrc . Must be either sourced or restart user session.
+    lineinfile:
+      path: "{{ USER_HOME }}/.bashrc"
+      state: present
+      line: "PATH=$PATH:/opt/riscv32i/bin"
