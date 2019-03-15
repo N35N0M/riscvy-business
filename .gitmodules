@@ -3,4 +3,4 @@
 	url = https://github.com/freechipsproject/rocket-chip
 [submodule "picorv32"]
 	path = picorv32
-	url = git@github.com:N35N0M/picorv32.git
+	url = https://github.com/N35N0M/picorv32
