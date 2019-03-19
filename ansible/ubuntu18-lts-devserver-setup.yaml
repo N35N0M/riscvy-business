@@ -2,18 +2,13 @@
 - name: Configure standardized development server on base Ubuntu 18.04 LTS.
   hosts: devserver
   become: true
-  remote_user: kris
+  become_user: {{ USER }}
   any_errors_fatal: true
 
-  vars_prompt:
-    - name: "USER_HOME"
-      prompt: "Enter absolute path of home folder to install work files in (/home/example)"
-      private: no
-      confirm: no
 
   tasks:
   # TODO: Version freeze the packages when installed for the first time.
-  - name: Get Rocketchip packages and its dependencies
+  - name: Get relevant build packages
     apt:
       name:
         - autoconf
@@ -27,83 +22,21 @@
         - device-tree-compiler
         - flex
         - gawk
+        - git
         - gperf
+        - g++
         - libexpat1-dev
         - libgmp-dev
         - libmpc-dev
         - libmpfr-dev
         - libtool
+        - make
         - patchutils
         - pkg-config
+	- tcl
         - texinfo
         - zlib1g-dev
       state: latest
-   
-  - name: Add Scala Build Tool (SBT) repository to apt's source list.
-    apt_repository:
-      repo: deb https://dl.bintray.com/sbt/debian /
-      state: present
-      filename: sbt.list
-
-  - name: Add key for SBT repository
-    apt_key:
-      keyserver: hkp://keyserver.ubuntu.com:80
-      id: 642AC823
-
-
-  - name: Get SBT package
-    apt:
-      update_cache: true
-      name: sbt
-      state: latest
-  
-  # We list also previously listed packages to show all tool dependencies..
-  - name: Get packages required by Verilator
-    apt:
-      name:
-        - autoconf
-        - bison
-        - flex
-        - git
-        - g++
-        - make
-      state: latest
-
-  - name: Fetch commit tagged verilator_3_922 from the custom Verilator Git repository
-    git:
-      repo: http://git.veripool.org/git/verilator
-      dest: "{{ USER_HOME }}/verilator"
-      version: verilator_3_922
-    register: verilator_git
-
-  - name: Check if Verilator is already built.
-    stat:
-      path: "{{ USER_HOME }}/verilator/bin"
-    register: verilator_bin
-
-  - name: Autoconfigure Verilator build script
-    command: /usr/bin/autoconf
-    args:
-      chdir: "{{ USER_HOME }}/verilator"
-    when: "not verilator_bin.stat.exists or verilator_git.changed"
-
-  - name: Run generated build script for Verilator
-    command: ./configure
-    args:
-      chdir: "{{ USER_HOME }}/verilator"
-    when: "not verilator_bin.stat.exists or verilator_git.changed"
-
-  - name: Run 'make' on Verilator
-    command: /usr/bin/make
-    args:
-      chdir: "{{ USER_HOME }}/verilator"
-    when: "not verilator_bin.stat.exists or verilator_git.changed"
-    
-  - name: Run 'make install' on Verilator
-    command: /usr/bin/make install
-    args:
-      chdir: "{{ USER_HOME }}/verilator"
-    when: "not verilator_bin.stat.exists or verilator_git.changed"
 
   - name: Clone Riscvy-business repository, which contains specific versions of GRLIB and Rocket Chip Generator
     git:
@@ -112,6 +45,13 @@
       recursive: true
       version: HEAD
       force: true
+      
+  - name: Give set user file ownership of repository. Needed for building GRLIB designs, amongst other things.
+    file:
+    	path: "{{ USER_HOME }}/riscvy-business"
+    	owner: {{ USER }}
+    	group: {{ USER }}
+        recurse: {{ USER }}
 
   - name: Check if RISC-V tools already exist.
     stat:
