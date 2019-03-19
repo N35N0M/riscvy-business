@@ -1,8 +1,10 @@
 ---
 - name: Configure standardized development server on base Ubuntu 18.04 LTS.
-  hosts: devserver
+  hosts: devservers
   become: true
-  become_user: {{ USER }}
+  become_user: root
+  become_method: sudo
+  remote_user: "{{ USER }}"
   any_errors_fatal: true
 
 
@@ -33,7 +35,7 @@
         - make
         - patchutils
         - pkg-config
-	- tcl
+        - tcl
         - texinfo
         - zlib1g-dev
       state: latest
@@ -48,10 +50,11 @@
       
   - name: Give set user file ownership of repository. Needed for building GRLIB designs, amongst other things.
     file:
-    	path: "{{ USER_HOME }}/riscvy-business"
-    	owner: {{ USER }}
-    	group: {{ USER }}
-        recurse: {{ USER }}
+        path: "{{ USER_HOME }}/riscvy-business"
+        owner: "{{ USER }}"
+        group: "{{ USER }}"
+        recurse: true
+    become: true
 
   - name: Check if RISC-V tools already exist.
     stat:
