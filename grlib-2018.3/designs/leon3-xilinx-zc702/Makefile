@@ -24,7 +24,7 @@ SIMTOP=testbench
 BITGEN=$(GRLIB)/boards/$(BOARD)/default.ut
 CLEAN=soft-clean
 VCOMOPT=-explicit
-TECHLIBS = secureip unisim 
+TECHLIBS = secureip unisim
 
 LIBSKIP = core1553bbc core1553brm core1553brt gr1553 corePCIF \
 	tmtc openchip ihp usbhc gsi cypress hynix \
@@ -54,7 +54,7 @@ program-zc702:
 	@echo "connect arm hw" >> ./xmd.ini
 	@echo "source ./vivado/$(DESIGN)/$(DESIGN).sdk/SDK/SDK_Export/hw/ps7_init.tcl" >> ./xmd.ini
 	@echo "ps7_init" >> ./xmd.ini
-	@echo "init_user" >> ./xmd.ini
+	@echo "ps7_post_config" >> ./xmd.ini
 	@echo "exit" >> ./xmd.ini
 	xmd
 
@@ -63,7 +63,6 @@ program-zc702-ref:
 	@echo "connect arm hw" >> ./xmd.ini
 	@echo "source ./vivado/$(DESIGN)/$(DESIGN).sdk/SDK/SDK_Export/hw/ps7_init.tcl" >> ./xmd.ini
 	@echo "ps7_init" >> ./xmd.ini
-	@echo "init_user" >> ./xmd.ini
+	@echo "ps7_post_config" >> ./xmd.ini
 	@echo "exit" >> ./xmd.ini
 	xmd
-
