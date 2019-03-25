@@ -1,0 +1,887 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:36:41 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Mar 25 02:07:08 2019
+# Process ID: 9029
+# Current directory: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1
+# Command line: vivado -log leon3mp.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source leon3mp.tcl -notrace
+# Log file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp.vdi
+# Journal file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/vivado.jou
+#-----------------------------------------------------------
+source leon3mp.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/xilinx/Vivado/2018.3/data/ip'.
+Command: link_design -top leon3mp -part xc7z020clg484-1
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Netlist 29-17] Analyzing 351 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2018.3
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.srcs/sources_1/bd/leon3_zc702_stub/ip/leon3_zc702_stub_processing_system7_0_0/leon3_zc702_stub_processing_system7_0_0.xdc] for cell 'leon3_zc702_stub_i/processing_system7_0/U0'
+Finished Parsing XDC File [/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.srcs/sources_1/bd/leon3_zc702_stub/ip/leon3_zc702_stub_processing_system7_0_0/leon3_zc702_stub_processing_system7_0_0.xdc] for cell 'leon3_zc702_stub_i/processing_system7_0/U0'
+Parsing XDC File [/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/leon3mp.xdc]
+Finished Parsing XDC File [/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/leon3mp.xdc]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1670.477 ; gain = 0.000 ; free physical = 45615 ; free virtual = 61540
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 24 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 8 instances
+  RAM32M => RAM32M (RAMD32, RAMD32, RAMD32, RAMD32, RAMD32, RAMD32, RAMS32, RAMS32): 16 instances
+
+10 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+link_design: Time (s): cpu = 00:00:14 ; elapsed = 00:00:17 . Memory (MB): peak = 1670.477 ; gain = 288.980 ; free physical = 45615 ; free virtual = 61540
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1747.508 ; gain = 77.031 ; free physical = 45590 ; free virtual = 61516
+
+Starting Cache Timing Information Task
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Ending Cache Timing Information Task | Checksum: 109921679
+
+Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 2174.070 ; gain = 426.562 ; free physical = 45178 ; free virtual = 61104
+
+Starting Logic Optimization Task
+
+Phase 1 Retarget
+INFO: [Opt 31-138] Pushed 1 inverter(s) to 44 load pin(s).
+INFO: [Opt 31-49] Retargeted 0 cell(s).
+Phase 1 Retarget | Checksum: 1cc7ceb0e
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45144 ; free virtual = 61070
+INFO: [Opt 31-389] Phase Retarget created 0 cells and removed 9 cells
+
+Phase 2 Constant propagation
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Phase 2 Constant propagation | Checksum: 139fd8674
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45144 ; free virtual = 61070
+INFO: [Opt 31-389] Phase Constant propagation created 0 cells and removed 0 cells
+
+Phase 3 Sweep
+Phase 3 Sweep | Checksum: 1472a2650
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45142 ; free virtual = 61068
+INFO: [Opt 31-389] Phase Sweep created 1 cells and removed 90 cells
+INFO: [Opt 31-1021] In phase Sweep, 2 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 4 BUFG optimization
+Phase 4 BUFG optimization | Checksum: 1472a2650
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45142 ; free virtual = 61068
+INFO: [Opt 31-662] Phase BUFG optimization created 0 cells of which 0 are BUFGs and removed 0 cells.
+
+Phase 5 Shift Register Optimization
+Phase 5 Shift Register Optimization | Checksum: 1f4082d31
+
+Time (s): cpu = 00:00:05 ; elapsed = 00:00:04 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45142 ; free virtual = 61068
+INFO: [Opt 31-389] Phase Shift Register Optimization created 0 cells and removed 0 cells
+
+Phase 6 Post Processing Netlist
+Phase 6 Post Processing Netlist | Checksum: 14a12b57d
+
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:04 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45142 ; free virtual = 61068
+INFO: [Opt 31-389] Phase Post Processing Netlist created 0 cells and removed 0 cells
+Opt_design Change Summary
+=========================
+
+
+-------------------------------------------------------------------------------------------------------------------------
+|  Phase                        |  #Cells created  |  #Cells Removed  |  #Constrained objects preventing optimizations  |
+-------------------------------------------------------------------------------------------------------------------------
+|  Retarget                     |               0  |               9  |                                              0  |
+|  Constant propagation         |               0  |               0  |                                              0  |
+|  Sweep                        |               1  |              90  |                                              2  |
+|  BUFG optimization            |               0  |               0  |                                              0  |
+|  Shift Register Optimization  |               0  |               0  |                                              0  |
+|  Post Processing Netlist      |               0  |               0  |                                              0  |
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+Starting Connectivity Check Task
+
+Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45142 ; free virtual = 61068
+Ending Logic Optimization Task | Checksum: 12c5c1d12
+
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:04 . Memory (MB): peak = 2251.070 ; gain = 0.000 ; free physical = 45142 ; free virtual = 61068
+
+Starting Power Optimization Task
+INFO: [Pwropt 34-132] Skipping clock gating for clocks with a period < 2.00 ns.
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Pwropt 34-9] Applying IDT optimizations ...
+INFO: [Pwropt 34-10] Applying ODC optimizations ...
+INFO: [Physopt 32-619] Estimated Timing Summary | WNS=-1.840 | TNS=-126.452 |
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+
+
+Starting PowerOpt Patch Enables Task
+INFO: [Pwropt 34-162] WRITE_MODE attribute of 8 BRAM(s) out of a total of 24 has been updated to save power. Run report_power_opt to get a complete listing of the BRAMs updated.
+INFO: [Pwropt 34-201] Structural ODC has moved 2 WE to EN ports
+Number of BRAM Ports augmented: 0 newly gated: 2 Total Ports: 48
+Ending PowerOpt Patch Enables Task | Checksum: 1dd5dcbf7
+
+Time (s): cpu = 00:00:00.16 ; elapsed = 00:00:00.16 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45102 ; free virtual = 61032
+Ending Power Optimization Task | Checksum: 1dd5dcbf7
+
+Time (s): cpu = 00:00:24 ; elapsed = 00:00:09 . Memory (MB): peak = 2718.840 ; gain = 467.770 ; free physical = 45113 ; free virtual = 61042
+
+Starting Final Cleanup Task
+Ending Final Cleanup Task | Checksum: 1dd5dcbf7
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45113 ; free virtual = 61042
+
+Starting Netlist Obfuscation Task
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45113 ; free virtual = 61042
+Ending Netlist Obfuscation Task | Checksum: 1664b4a78
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45113 ; free virtual = 61042
+INFO: [Common 17-83] Releasing license: Implementation
+33 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+opt_design completed successfully
+opt_design: Time (s): cpu = 00:00:49 ; elapsed = 00:00:31 . Memory (MB): peak = 2718.840 ; gain = 1048.363 ; free physical = 45115 ; free virtual = 61044
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45115 ; free virtual = 61044
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing placer database...
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:00.22 ; elapsed = 00:00:00.05 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45109 ; free virtual = 61041
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45113 ; free virtual = 61046
+INFO: [Common 17-1381] The checkpoint '/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp_opt.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45112 ; free virtual = 61045
+INFO: [runtcl-4] Executing : report_drc -file leon3mp_drc_opted.rpt -pb leon3mp_drc_opted.pb -rpx leon3mp_drc_opted.rpx
+Command: report_drc -file leon3mp_drc_opted.rpt -pb leon3mp_drc_opted.pb -rpx leon3mp_drc_opted.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+INFO: [Common 17-14] Message 'Designutils 20-3303' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Designutils 20-3303' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Common 17-14] Message 'Designutils 20-3303' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Coretcl 2-168] The results of DRC are in file /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp_drc_opted.rpt.
+report_drc completed successfully
+Command: place_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+
+Starting Placer Task
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 8 CPUs
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45112 ; free virtual = 61045
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: 10b2293f6
+
+Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45112 ; free virtual = 61045
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45112 ; free virtual = 61045
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: 10646558f
+
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45093 ; free virtual = 61030
+
+Phase 1.3 Build Placer Netlist Model
+Phase 1.3 Build Placer Netlist Model | Checksum: 1d2458376
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:09 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45075 ; free virtual = 61013
+
+Phase 1.4 Constrain Clocks/Macros
+Phase 1.4 Constrain Clocks/Macros | Checksum: 1d2458376
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:09 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45075 ; free virtual = 61013
+Phase 1 Placer Initialization | Checksum: 1d2458376
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:09 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45075 ; free virtual = 61013
+
+Phase 2 Global Placement
+
+Phase 2.1 Floorplanning
+Phase 2.1 Floorplanning | Checksum: 187af2d20
+
+Time (s): cpu = 00:00:25 ; elapsed = 00:00:11 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45052 ; free virtual = 60990
+
+Phase 2.2 Physical Synthesis In Placer
+INFO: [Physopt 32-65] No nets found for high-fanout optimization.
+INFO: [Physopt 32-232] Optimized 0 net. Created 0 new instance.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/ADDR[4] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/a8.x[0].r0_i_43 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/ADDR[3] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/a8.x[0].r0_i_44 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/ADDR[8] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/a8.x[0].r0_i_39 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/ADDR[6] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/a8.x[0].r0_i_41 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/crami[dcramin][address][8] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/a10.x[0].r_i_22__0 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/ADDR[9] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/a8.x[0].r0_i_38 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/ADDR[7] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/a8.x[0].r0_i_40 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/crami[dcramin][address][7] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/a10.x[0].r_i_23__0 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/ADDR[2] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/icache0/a11.x[0].r_i_3 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/crami[dcramin][address][5] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/a10.x[0].r_i_25__0 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/crami[dcramin][address][9] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/a10.x[0].r_i_21__0 could not be replicated
+INFO: [Physopt 32-117] Net leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/crami[dcramin][address][4] could not be optimized because driver leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/a10.x[0].r_i_26__0 could not be replicated
+INFO: [Physopt 32-68] No nets found for critical-cell optimization.
+INFO: [Physopt 32-232] Optimized 0 net. Created 0 new instance.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-456] No candidate cells for DSP register optimization found in the design.
+INFO: [Physopt 32-775] End 2 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-677] No candidate cells for Shift Register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-526] No candidate cells for BRAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-949] No candidate nets found for HD net replication
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45039 ; free virtual = 60979
+
+Summary of Physical Synthesis Optimizations
+============================================
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+|  Optimization                  |  Added Cells  |  Removed Cells  |  Optimized Cells/Nets  |  Dont Touch  |  Iterations  |  Elapsed   |
+----------------------------------------------------------------------------------------------------------------------------------------
+|  Very High Fanout              |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Critical Cell                 |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  DSP Register                  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Shift Register                |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  BRAM Register                 |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  HD Interface Net Replication  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Total                         |            0  |              0  |                     0  |           0  |           6  |  00:00:00  |
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+Phase 2.2 Physical Synthesis In Placer | Checksum: 19c0edebb
+
+Time (s): cpu = 00:01:27 ; elapsed = 00:00:43 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45041 ; free virtual = 60981
+Phase 2 Global Placement | Checksum: 123a13f05
+
+Time (s): cpu = 00:01:29 ; elapsed = 00:00:44 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45045 ; free virtual = 60985
+
+Phase 3 Detail Placement
+
+Phase 3.1 Commit Multi Column Macros
+Phase 3.1 Commit Multi Column Macros | Checksum: 123a13f05
+
+Time (s): cpu = 00:01:30 ; elapsed = 00:00:44 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45045 ; free virtual = 60985
+
+Phase 3.2 Commit Most Macros & LUTRAMs
+Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: 172b41afb
+
+Time (s): cpu = 00:01:43 ; elapsed = 00:00:48 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45042 ; free virtual = 60982
+
+Phase 3.3 Area Swap Optimization
+Phase 3.3 Area Swap Optimization | Checksum: 17e1f89d6
+
+Time (s): cpu = 00:01:44 ; elapsed = 00:00:48 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45042 ; free virtual = 60983
+
+Phase 3.4 Pipeline Register Optimization
+Phase 3.4 Pipeline Register Optimization | Checksum: 1cad44802
+
+Time (s): cpu = 00:01:44 ; elapsed = 00:00:48 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45042 ; free virtual = 60983
+
+Phase 3.5 Fast Optimization
+Phase 3.5 Fast Optimization | Checksum: 214955b59
+
+Time (s): cpu = 00:02:01 ; elapsed = 00:00:55 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45041 ; free virtual = 60981
+
+Phase 3.6 Small Shape Detail Placement
+Phase 3.6 Small Shape Detail Placement | Checksum: 1046999b9
+
+Time (s): cpu = 00:02:12 ; elapsed = 00:01:06 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45031 ; free virtual = 60973
+
+Phase 3.7 Re-assign LUT pins
+Phase 3.7 Re-assign LUT pins | Checksum: 193e06706
+
+Time (s): cpu = 00:02:14 ; elapsed = 00:01:07 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45032 ; free virtual = 60973
+
+Phase 3.8 Pipeline Register Optimization
+Phase 3.8 Pipeline Register Optimization | Checksum: 144962473
+
+Time (s): cpu = 00:02:14 ; elapsed = 00:01:08 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45032 ; free virtual = 60973
+
+Phase 3.9 Fast Optimization
+Phase 3.9 Fast Optimization | Checksum: 206f58985
+
+Time (s): cpu = 00:02:33 ; elapsed = 00:01:19 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45028 ; free virtual = 60970
+Phase 3 Detail Placement | Checksum: 206f58985
+
+Time (s): cpu = 00:02:34 ; elapsed = 00:01:19 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45029 ; free virtual = 60971
+
+Phase 4 Post Placement Optimization and Clean-Up
+
+Phase 4.1 Post Commit Optimization
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+
+Phase 4.1.1 Post Placement Optimization
+Post Placement Optimization Initialization | Checksum: f434608a
+
+Phase 4.1.1.1 BUFG Insertion
+INFO: [Place 46-46] BUFG insertion identified 0 candidate nets, 0 success, 0 bufg driver replicated, 0 skipped for placement/routing, 0 skipped for timing, 0 skipped for netlist change reason
+Phase 4.1.1.1 BUFG Insertion | Checksum: f434608a
+
+Time (s): cpu = 00:02:48 ; elapsed = 00:01:23 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45033 ; free virtual = 60975
+INFO: [Place 30-746] Post Placement Timing Summary WNS=0.068. For the most accurate timing information please run report_timing.
+Phase 4.1.1 Post Placement Optimization | Checksum: 1327bc922
+
+Time (s): cpu = 00:03:46 ; elapsed = 00:02:21 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45031 ; free virtual = 60973
+Phase 4.1 Post Commit Optimization | Checksum: 1327bc922
+
+Time (s): cpu = 00:03:46 ; elapsed = 00:02:22 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45031 ; free virtual = 60973
+
+Phase 4.2 Post Placement Cleanup
+Phase 4.2 Post Placement Cleanup | Checksum: 1327bc922
+
+Time (s): cpu = 00:03:46 ; elapsed = 00:02:22 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45033 ; free virtual = 60974
+
+Phase 4.3 Placer Reporting
+Phase 4.3 Placer Reporting | Checksum: 1327bc922
+
+Time (s): cpu = 00:03:46 ; elapsed = 00:02:22 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45033 ; free virtual = 60974
+
+Phase 4.4 Final Placement Cleanup
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45033 ; free virtual = 60974
+Phase 4.4 Final Placement Cleanup | Checksum: 17b28bef4
+
+Time (s): cpu = 00:03:46 ; elapsed = 00:02:22 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45033 ; free virtual = 60974
+Phase 4 Post Placement Optimization and Clean-Up | Checksum: 17b28bef4
+
+Time (s): cpu = 00:03:46 ; elapsed = 00:02:22 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45033 ; free virtual = 60974
+Ending Placer Task | Checksum: e0f89b9d
+
+Time (s): cpu = 00:03:46 ; elapsed = 00:02:22 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45055 ; free virtual = 60996
+INFO: [Common 17-83] Releasing license: Implementation
+81 Infos, 100 Warnings, 0 Critical Warnings and 0 Errors encountered.
+place_design completed successfully
+place_design: Time (s): cpu = 00:03:54 ; elapsed = 00:02:27 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45055 ; free virtual = 60996
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45055 ; free virtual = 60996
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing placer database...
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45049 ; free virtual = 60995
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:04 ; elapsed = 00:00:01 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45033 ; free virtual = 60993
+INFO: [Common 17-1381] The checkpoint '/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp_placed.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45049 ; free virtual = 60996
+INFO: [runtcl-4] Executing : report_io -file leon3mp_io_placed.rpt
+report_io: Time (s): cpu = 00:00:00.27 ; elapsed = 00:00:00.34 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45037 ; free virtual = 60983
+INFO: [runtcl-4] Executing : report_utilization -file leon3mp_utilization_placed.rpt -pb leon3mp_utilization_placed.pb
+INFO: [runtcl-4] Executing : report_control_sets -verbose -file leon3mp_control_sets_placed.rpt
+report_control_sets: Time (s): cpu = 00:00:00.14 ; elapsed = 00:00:00.20 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 45047 ; free virtual = 60994
+Command: route_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command route_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+WARNING: [Designutils 20-3303] unexpected site type 'IOPAD' in HDPYFinalizeIO
+INFO: [Common 17-14] Message 'Designutils 20-3303' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+
+
+Starting Routing Task
+INFO: [Route 35-254] Multithreading enabled for route_design using a maximum of 8 CPUs
+Checksum: PlaceDB: 92207a8a ConstDB: 0 ShapeSum: 4ed82113 RouteDB: 0
+
+Phase 1 Build RT Design
+Phase 1 Build RT Design | Checksum: d4eb2b2a
+
+Time (s): cpu = 00:00:39 ; elapsed = 00:00:30 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44918 ; free virtual = 60865
+Post Restoration Checksum: NetGraph: 4e95ce88 NumContArr: 86555ca2 Constraints: 0 Timing: 0
+
+Phase 2 Router Initialization
+
+Phase 2.1 Create Timer
+Phase 2.1 Create Timer | Checksum: d4eb2b2a
+
+Time (s): cpu = 00:00:39 ; elapsed = 00:00:30 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44900 ; free virtual = 60847
+
+Phase 2.2 Fix Topology Constraints
+Phase 2.2 Fix Topology Constraints | Checksum: d4eb2b2a
+
+Time (s): cpu = 00:00:39 ; elapsed = 00:00:31 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44869 ; free virtual = 60816
+
+Phase 2.3 Pre Route Cleanup
+Phase 2.3 Pre Route Cleanup | Checksum: d4eb2b2a
+
+Time (s): cpu = 00:00:39 ; elapsed = 00:00:31 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44869 ; free virtual = 60816
+ Number of Nodes with overlaps = 0
+
+Phase 2.4 Update Timing
+Phase 2.4 Update Timing | Checksum: 1f998951f
+
+Time (s): cpu = 00:00:56 ; elapsed = 00:00:37 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44854 ; free virtual = 60801
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.356  | TNS=0.000  | WHS=-0.173 | THS=-95.711|
+
+Phase 2 Router Initialization | Checksum: 15dbdcf2f
+
+Time (s): cpu = 00:01:02 ; elapsed = 00:00:39 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44854 ; free virtual = 60802
+
+Phase 3 Initial Routing
+Phase 3 Initial Routing | Checksum: 1a516bc3c
+
+Time (s): cpu = 00:01:20 ; elapsed = 00:00:44 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44848 ; free virtual = 60796
+
+Phase 4 Rip-up And Reroute
+
+Phase 4.1 Global Iteration 0
+ Number of Nodes with overlaps = 5274
+ Number of Nodes with overlaps = 1816
+ Number of Nodes with overlaps = 648
+ Number of Nodes with overlaps = 259
+ Number of Nodes with overlaps = 127
+ Number of Nodes with overlaps = 64
+ Number of Nodes with overlaps = 35
+ Number of Nodes with overlaps = 18
+ Number of Nodes with overlaps = 9
+ Number of Nodes with overlaps = 4
+ Number of Nodes with overlaps = 2
+ Number of Nodes with overlaps = 2
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=-1.096 | TNS=-46.322| WHS=N/A    | THS=N/A    |
+
+Phase 4.1 Global Iteration 0 | Checksum: 19f7ac24d
+
+Time (s): cpu = 00:03:40 ; elapsed = 00:01:36 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44820 ; free virtual = 60768
+
+Phase 4.2 Global Iteration 1
+ Number of Nodes with overlaps = 1069
+ Number of Nodes with overlaps = 384
+ Number of Nodes with overlaps = 179
+ Number of Nodes with overlaps = 128
+ Number of Nodes with overlaps = 49
+ Number of Nodes with overlaps = 28
+ Number of Nodes with overlaps = 15
+ Number of Nodes with overlaps = 7
+ Number of Nodes with overlaps = 4
+ Number of Nodes with overlaps = 6
+ Number of Nodes with overlaps = 4
+ Number of Nodes with overlaps = 5
+ Number of Nodes with overlaps = 2
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=-1.018 | TNS=-28.156| WHS=N/A    | THS=N/A    |
+
+Phase 4.2 Global Iteration 1 | Checksum: 1c9a15f6c
+
+Time (s): cpu = 00:04:47 ; elapsed = 00:02:18 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44836 ; free virtual = 60784
+
+Phase 4.3 Global Iteration 2
+ Number of Nodes with overlaps = 738
+ Number of Nodes with overlaps = 371
+ Number of Nodes with overlaps = 173
+ Number of Nodes with overlaps = 96
+ Number of Nodes with overlaps = 39
+ Number of Nodes with overlaps = 14
+ Number of Nodes with overlaps = 18
+ Number of Nodes with overlaps = 14
+ Number of Nodes with overlaps = 7
+ Number of Nodes with overlaps = 3
+ Number of Nodes with overlaps = 8
+ Number of Nodes with overlaps = 4
+ Number of Nodes with overlaps = 1
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=-0.880 | TNS=-19.027| WHS=N/A    | THS=N/A    |
+
+Phase 4.3 Global Iteration 2 | Checksum: 126433efb
+
+Time (s): cpu = 00:05:44 ; elapsed = 00:02:50 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44838 ; free virtual = 60786
+
+Phase 4.4 Global Iteration 3
+ Number of Nodes with overlaps = 897
+ Number of Nodes with overlaps = 289
+ Number of Nodes with overlaps = 109
+ Number of Nodes with overlaps = 71
+ Number of Nodes with overlaps = 45
+ Number of Nodes with overlaps = 33
+ Number of Nodes with overlaps = 14
+ Number of Nodes with overlaps = 18
+ Number of Nodes with overlaps = 10
+ Number of Nodes with overlaps = 3
+ Number of Nodes with overlaps = 3
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=-1.029 | TNS=-27.968| WHS=N/A    | THS=N/A    |
+
+Phase 4.4 Global Iteration 3 | Checksum: 13f68063c
+
+Time (s): cpu = 00:06:53 ; elapsed = 00:03:33 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44836 ; free virtual = 60784
+Phase 4 Rip-up And Reroute | Checksum: 13f68063c
+
+Time (s): cpu = 00:06:53 ; elapsed = 00:03:34 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44836 ; free virtual = 60784
+
+Phase 5 Delay and Skew Optimization
+
+Phase 5.1 Delay CleanUp
+
+Phase 5.1.1 Update Timing
+Phase 5.1.1 Update Timing | Checksum: e277a510
+
+Time (s): cpu = 00:06:56 ; elapsed = 00:03:34 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44836 ; free virtual = 60784
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=-0.765 | TNS=-13.523| WHS=N/A    | THS=N/A    |
+
+ Number of Nodes with overlaps = 0
+Phase 5.1 Delay CleanUp | Checksum: 182f6c632
+
+Time (s): cpu = 00:06:58 ; elapsed = 00:03:35 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44818 ; free virtual = 60766
+
+Phase 5.2 Clock Skew Optimization
+Phase 5.2 Clock Skew Optimization | Checksum: 182f6c632
+
+Time (s): cpu = 00:06:58 ; elapsed = 00:03:35 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44818 ; free virtual = 60766
+Phase 5 Delay and Skew Optimization | Checksum: 182f6c632
+
+Time (s): cpu = 00:06:58 ; elapsed = 00:03:36 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44818 ; free virtual = 60766
+
+Phase 6 Post Hold Fix
+
+Phase 6.1 Hold Fix Iter
+
+Phase 6.1.1 Update Timing
+Phase 6.1.1 Update Timing | Checksum: 1742de6ad
+
+Time (s): cpu = 00:07:00 ; elapsed = 00:03:37 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44818 ; free virtual = 60766
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=-0.721 | TNS=-11.777| WHS=0.054  | THS=0.000  |
+
+Phase 6.1 Hold Fix Iter | Checksum: 1742de6ad
+
+Time (s): cpu = 00:07:01 ; elapsed = 00:03:37 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44818 ; free virtual = 60766
+Phase 6 Post Hold Fix | Checksum: 1742de6ad
+
+Time (s): cpu = 00:07:01 ; elapsed = 00:03:37 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44818 ; free virtual = 60766
+
+Phase 7 Route finalize
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 5.59843 %
+  Global Horizontal Routing Utilization  = 6.04767 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 0
+  Number of Unrouted Nets             = 0
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Congestion Report
+North Dir 1x1 Area, Max Cong = 80.1802%, No Congested Regions.
+South Dir 1x1 Area, Max Cong = 77.4775%, No Congested Regions.
+East Dir 1x1 Area, Max Cong = 83.8235%, No Congested Regions.
+West Dir 1x1 Area, Max Cong = 97.0588%, Congestion bounded by tiles (Lower Left Tile -> Upper Right Tile):
+   INT_L_X30Y79 -> INT_L_X30Y79
+   INT_L_X30Y75 -> INT_L_X30Y75
+
+------------------------------
+Reporting congestion hotspots
+------------------------------
+Direction: North
+----------------
+Congested clusters found at Level 0
+Effective congestion level: 0 Aspect Ratio: 1 Sparse Ratio: 0
+Direction: South
+----------------
+Congested clusters found at Level 0
+Effective congestion level: 0 Aspect Ratio: 1 Sparse Ratio: 0
+Direction: East
+----------------
+Congested clusters found at Level 0
+Effective congestion level: 0 Aspect Ratio: 1 Sparse Ratio: 0
+Direction: West
+----------------
+Congested clusters found at Level 0
+Effective congestion level: 0 Aspect Ratio: 1 Sparse Ratio: 1
+
+Phase 7 Route finalize | Checksum: 1860511ca
+
+Time (s): cpu = 00:07:01 ; elapsed = 00:03:37 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44818 ; free virtual = 60766
+
+Phase 8 Verifying routed nets
+
+ Verification completed successfully
+Phase 8 Verifying routed nets | Checksum: 1860511ca
+
+Time (s): cpu = 00:07:01 ; elapsed = 00:03:37 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44817 ; free virtual = 60765
+
+Phase 9 Depositing Routes
+Phase 9 Depositing Routes | Checksum: 139631e72
+
+Time (s): cpu = 00:07:03 ; elapsed = 00:03:39 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44817 ; free virtual = 60765
+
+Phase 10 Post Router Timing
+INFO: [Route 35-57] Estimated Timing Summary | WNS=-0.721 | TNS=-11.777| WHS=0.054  | THS=0.000  |
+
+WARNING: [Route 35-328] Router estimated timing not met.
+Resolution: For a complete and accurate timing signoff, report_timing_summary must be run after route_design. Alternatively, route_design can be run with the -timing_summary option to enable a complete timing signoff at the end of route_design.
+Phase 10 Post Router Timing | Checksum: 139631e72
+
+Time (s): cpu = 00:07:03 ; elapsed = 00:03:39 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44824 ; free virtual = 60772
+INFO: [Route 35-16] Router Completed Successfully
+
+Time (s): cpu = 00:07:03 ; elapsed = 00:03:39 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44878 ; free virtual = 60827
+
+Routing Is Done.
+INFO: [Common 17-83] Releasing license: Implementation
+102 Infos, 201 Warnings, 0 Critical Warnings and 0 Errors encountered.
+route_design completed successfully
+route_design: Time (s): cpu = 00:07:10 ; elapsed = 00:03:43 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44878 ; free virtual = 60827
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44878 ; free virtual = 60827
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Writing placer database...
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44871 ; free virtual = 60824
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Write XDEF Complete: Time (s): cpu = 00:00:05 ; elapsed = 00:00:02 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44850 ; free virtual = 60821
+INFO: [Common 17-1381] The checkpoint '/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp_routed.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:10 ; elapsed = 00:00:08 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44868 ; free virtual = 60823
+INFO: [runtcl-4] Executing : report_drc -file leon3mp_drc_routed.rpt -pb leon3mp_drc_routed.pb -rpx leon3mp_drc_routed.rpx
+Command: report_drc -file leon3mp_drc_routed.rpt -pb leon3mp_drc_routed.pb -rpx leon3mp_drc_routed.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Coretcl 2-168] The results of DRC are in file /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp_drc_routed.rpt.
+report_drc completed successfully
+INFO: [runtcl-4] Executing : report_methodology -file leon3mp_methodology_drc_routed.rpt -pb leon3mp_methodology_drc_routed.pb -rpx leon3mp_methodology_drc_routed.rpx
+Command: report_methodology -file leon3mp_methodology_drc_routed.rpt -pb leon3mp_methodology_drc_routed.pb -rpx leon3mp_methodology_drc_routed.rpx
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-133] Running Methodology with 8 threads
+INFO: [Coretcl 2-1520] The results of Report Methodology are in file /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp_methodology_drc_routed.rpt.
+report_methodology completed successfully
+report_methodology: Time (s): cpu = 00:00:27 ; elapsed = 00:00:09 . Memory (MB): peak = 2718.840 ; gain = 0.000 ; free physical = 44803 ; free virtual = 60759
+INFO: [runtcl-4] Executing : report_power -file leon3mp_power_routed.rpt -pb leon3mp_power_summary_routed.pb -rpx leon3mp_power_routed.rpx
+Command: report_power -file leon3mp_power_routed.rpt -pb leon3mp_power_summary_routed.pb -rpx leon3mp_power_routed.rpx
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+WARNING: [Power 33-332] Found switching activity that implies high-fanout reset nets being asserted for excessive periods of time which may result in inaccurate power analysis.
+Resolution: To review and fix problems, please run Power Constraints Advisor in the GUI from Tools > Power Constraints Advisor or run report_power with the -advisory option to generate a text report.
+114 Infos, 202 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+report_power: Time (s): cpu = 00:00:15 ; elapsed = 00:00:08 . Memory (MB): peak = 2732.945 ; gain = 14.105 ; free physical = 44777 ; free virtual = 60738
+INFO: [runtcl-4] Executing : report_route_status -file leon3mp_route_status.rpt -pb leon3mp_route_status.pb
+INFO: [runtcl-4] Executing : report_timing_summary -max_paths 10 -file leon3mp_timing_summary_routed.rpt -pb leon3mp_timing_summary_routed.pb -rpx leon3mp_timing_summary_routed.rpx -warn_on_violation 
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+CRITICAL WARNING: [Timing 38-282] The design failed to meet the timing requirements. Please see the timing summary report for details on the timing violations.
+INFO: [runtcl-4] Executing : report_incremental_reuse -file leon3mp_incremental_reuse_routed.rpt
+INFO: [Vivado_Tcl 4-1062] Incremental flow is disabled. No incremental reuse Info to report.
+INFO: [runtcl-4] Executing : report_clock_utilization -file leon3mp_clock_utilization_routed.rpt
+INFO: [runtcl-4] Executing : report_bus_skew -warn_on_violation -file leon3mp_bus_skew_routed.rpt -pb leon3mp_bus_skew_routed.pb -rpx leon3mp_bus_skew_routed.rpx
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [Common 17-206] Exiting Vivado at Mon Mar 25 02:15:06 2019...

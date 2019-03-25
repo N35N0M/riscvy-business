@@ -1,0 +1,33 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:36:41 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Mar 25 00:45:44 2019
+# Process ID: 2946
+# Current directory: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702
+# Command line: vivado -mode gui -source ./vivado/leon3mp_vivado.tcl
+# Log file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado.log
+# Journal file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado.jou
+#-----------------------------------------------------------
+start_gui
+source ./vivado/leon3mp_vivado.tcl
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+add_files -norecurse /home/kris/riscvy-business/riscv_grlib/riscv_side_top.v
+update_compile_order -fileset sources_1
+launch_runs synth_1 -jobs 16
+wait_on_run synth_1
+open_run synth_1 -name synth_1
+close_design
+synth_design -rtl -name rtl_1
+set_property top leon3mp [current_fileset]
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs synth_1 -jobs 16
+wait_on_run synth_1
+close_design
+open_run synth_1 -name synth_1
+close_design
+synth_design -rtl -name rtl_1
+launch_runs impl_1 -jobs 16
+wait_on_run impl_1

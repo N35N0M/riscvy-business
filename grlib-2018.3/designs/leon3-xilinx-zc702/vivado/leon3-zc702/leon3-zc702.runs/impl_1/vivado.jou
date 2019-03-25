@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:36:41 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Mar 25 02:15:51 2019
+# Process ID: 19779
+# Current directory: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1
+# Command line: vivado -log leon3mp.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source leon3mp.tcl -notrace
+# Log file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/leon3mp.vdi
+# Journal file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/impl_1/vivado.jou
+#-----------------------------------------------------------
+source leon3mp.tcl -notrace

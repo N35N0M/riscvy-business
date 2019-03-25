@@ -1,0 +1,1492 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
+| Date         : Mon Mar 25 02:15:05 2019
+| Host         : masterHAL running 64-bit Ubuntu 18.04.2 LTS
+| Command      : report_timing_summary -max_paths 10 -file leon3mp_timing_summary_routed.rpt -pb leon3mp_timing_summary_routed.pb -rpx leon3mp_timing_summary_routed.rpx -warn_on_violation
+| Design       : leon3mp
+| Device       : 7z020-clg484
+| Speed File   : -1  PRODUCTION 1.11 2014-09-11
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  false
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock
+2. checking constant_clock
+3. checking pulse_width_clock
+4. checking unconstrained_internal_endpoints
+5. checking no_input_delay
+6. checking no_output_delay
+7. checking multiple_clock
+8. checking generated_clocks
+9. checking loops
+10. checking partial_input_delay
+11. checking partial_output_delay
+12. checking latch_loops
+
+1. checking no_clock
+--------------------
+ There are 117 register/latch pins with no clock driven by root clock pin: ahbjtaggen0.ahbjtag0/tap0/zynq7v.u0/u0/TCK (HIGH)
+
+
+2. checking constant_clock
+--------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock
+-----------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints
+--------------------------------------------
+ There are 233 pins that are not constrained for maximum delay. (HIGH)
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay
+--------------------------
+ There are 12 input ports with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay
+---------------------------
+ There are 15 ports with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock
+--------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks
+----------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops
+-----------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay
+--------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay
+---------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops
+------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+     -0.713      -11.368                     48                11771        0.056        0.000                      0                11771        4.750        0.000                       0                  5430  
+
+
+Timing constraints are not met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock       Waveform(ns)         Period(ns)      Frequency(MHz)
+-----       ------------         ----------      --------------
+clk_fpga_0  {0.000 6.000}        12.000          83.333          
+clk_fpga_1  {0.000 2.500}        5.000           200.000         
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk_fpga_0         -0.713      -11.368                     48                11771        0.056        0.000                      0                11771        4.750        0.000                       0                  5430  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_fpga_0
+  To Clock:  clk_fpga_0
+
+Setup :           48  Failing Endpoints,  Worst Slack       -0.713ns,  Total Violation      -11.368ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.056ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        4.750ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -0.713ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[4]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.563ns  (logic 2.355ns (20.366%)  route 9.208ns (79.634%))
+  Logic Levels:           13  (LUT2=1 LUT4=1 LUT5=1 LUT6=9 MUXF7=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.688ns = ( 14.688 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/Q
+                         net (fo=102, routed)         1.122     4.521    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0_1
+    SLICE_X40Y90         LUT6 (Prop_lut6_I1_O)        0.124     4.645 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][28]_i_1/O
+                         net (fo=3, routed)           0.559     5.204    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[16]
+    SLICE_X41Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.328 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_140/O
+                         net (fo=8, routed)           0.925     6.253    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/tlbcami[tagin][I1][4]
+    SLICE_X43Y92         LUT6 (Prop_lut6_I4_O)        0.124     6.377 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1/O
+                         net (fo=5, routed)           1.049     7.426    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1_n_0
+    SLICE_X45Y92         LUT6 (Prop_lut6_I3_O)        0.124     7.550 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10/O
+                         net (fo=1, routed)           0.649     8.200    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10_n_0
+    SLICE_X46Y91         LUT6 (Prop_lut6_I0_O)        0.124     8.324 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7/O
+                         net (fo=1, routed)           0.291     8.615    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7_n_0
+    SLICE_X44Y91         LUT6 (Prop_lut6_I2_O)        0.124     8.739 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_4/O
+                         net (fo=20, routed)          0.791     9.530    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r_reg[s2_entry]_1_sn_1
+    SLICE_X43Y91         LUT4 (Prop_lut4_I1_O)        0.124     9.654 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r[s2_entry][1]_i_2__0/O
+                         net (fo=53, routed)          0.744    10.398    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/sel0[1]
+    SLICE_X43Y88         LUT6 (Prop_lut6_I2_O)        0.124    10.522 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___20_i_7/O
+                         net (fo=1, routed)           0.000    10.522    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][31]_i_3_1
+    SLICE_X43Y88         MUXF7 (Prop_muxf7_I1_O)      0.245    10.767 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___20_i_3/O
+                         net (fo=16, routed)          0.760    11.527    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[0]
+    SLICE_X45Y89         LUT6 (Prop_lut6_I3_O)        0.298    11.825 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___21_i_1/O
+                         net (fo=2, routed)           0.333    12.159    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0_n_45
+    SLICE_X42Y89         LUT6 (Prop_lut6_I2_O)        0.124    12.283 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/i___21/O
+                         net (fo=1, routed)           0.627    12.910    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2_reg[wdata][4]
+    SLICE_X40Y82         LUT6 (Prop_lut6_I5_O)        0.124    13.034 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][4]_i_1/O
+                         net (fo=4, routed)           0.580    13.614    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[4]
+    SLICE_X36Y82         LUT2 (Prop_lut2_I0_O)        0.116    13.730 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_18/O
+                         net (fo=1, routed)           0.776    14.506    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/DIA[4]
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[4]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.509    14.688    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.917    
+                         clock uncertainty           -0.183    14.734    
+    RAMB36_X2Y15         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[4])
+                                                     -0.941    13.793    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.793    
+                         arrival time                         -14.506    
+  -------------------------------------------------------------------
+                         slack                                 -0.713    
+
+Slack (VIOLATED) :        -0.632ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[5]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.482ns  (logic 2.355ns (20.510%)  route 9.127ns (79.490%))
+  Logic Levels:           13  (LUT2=1 LUT4=1 LUT5=1 LUT6=9 MUXF7=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.688ns = ( 14.688 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/Q
+                         net (fo=102, routed)         1.122     4.521    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0_1
+    SLICE_X40Y90         LUT6 (Prop_lut6_I1_O)        0.124     4.645 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][28]_i_1/O
+                         net (fo=3, routed)           0.559     5.204    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[16]
+    SLICE_X41Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.328 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_140/O
+                         net (fo=8, routed)           0.925     6.253    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/tlbcami[tagin][I1][4]
+    SLICE_X43Y92         LUT6 (Prop_lut6_I4_O)        0.124     6.377 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1/O
+                         net (fo=5, routed)           1.049     7.426    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1_n_0
+    SLICE_X45Y92         LUT6 (Prop_lut6_I3_O)        0.124     7.550 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10/O
+                         net (fo=1, routed)           0.649     8.200    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10_n_0
+    SLICE_X46Y91         LUT6 (Prop_lut6_I0_O)        0.124     8.324 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7/O
+                         net (fo=1, routed)           0.291     8.615    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7_n_0
+    SLICE_X44Y91         LUT6 (Prop_lut6_I2_O)        0.124     8.739 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_4/O
+                         net (fo=20, routed)          0.791     9.530    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r_reg[s2_entry]_1_sn_1
+    SLICE_X43Y91         LUT4 (Prop_lut4_I1_O)        0.124     9.654 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r[s2_entry][1]_i_2__0/O
+                         net (fo=53, routed)          0.744    10.398    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/sel0[1]
+    SLICE_X43Y88         LUT6 (Prop_lut6_I2_O)        0.124    10.522 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___20_i_7/O
+                         net (fo=1, routed)           0.000    10.522    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][31]_i_3_1
+    SLICE_X43Y88         MUXF7 (Prop_muxf7_I1_O)      0.245    10.767 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___20_i_3/O
+                         net (fo=16, routed)          0.785    11.552    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[0]
+    SLICE_X38Y88         LUT6 (Prop_lut6_I3_O)        0.298    11.850 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___20_i_1/O
+                         net (fo=2, routed)           0.323    12.173    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0_n_46
+    SLICE_X38Y86         LUT6 (Prop_lut6_I2_O)        0.124    12.297 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/i___20/O
+                         net (fo=1, routed)           0.694    12.990    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2_reg[wdata][5]
+    SLICE_X37Y82         LUT6 (Prop_lut6_I5_O)        0.124    13.114 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][5]_i_1/O
+                         net (fo=4, routed)           0.591    13.706    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[5]
+    SLICE_X34Y81         LUT2 (Prop_lut2_I0_O)        0.116    13.822 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_17/O
+                         net (fo=1, routed)           0.604    14.425    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/DIA[5]
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[5]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.509    14.688    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.917    
+                         clock uncertainty           -0.183    14.734    
+    RAMB36_X2Y15         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[5])
+                                                     -0.941    13.793    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.793    
+                         arrival time                         -14.425    
+  -------------------------------------------------------------------
+                         slack                                 -0.632    
+
+Slack (VIOLATED) :        -0.613ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[0]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.460ns  (logic 2.356ns (20.558%)  route 9.104ns (79.442%))
+  Logic Levels:           13  (LUT2=1 LUT4=1 LUT5=1 LUT6=9 MUXF7=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.688ns = ( 14.688 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/Q
+                         net (fo=102, routed)         1.122     4.521    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0_1
+    SLICE_X40Y90         LUT6 (Prop_lut6_I1_O)        0.124     4.645 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][28]_i_1/O
+                         net (fo=3, routed)           0.559     5.204    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[16]
+    SLICE_X41Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.328 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_140/O
+                         net (fo=8, routed)           0.925     6.253    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/tlbcami[tagin][I1][4]
+    SLICE_X43Y92         LUT6 (Prop_lut6_I4_O)        0.124     6.377 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1/O
+                         net (fo=5, routed)           1.049     7.426    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1_n_0
+    SLICE_X45Y92         LUT6 (Prop_lut6_I3_O)        0.124     7.550 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10/O
+                         net (fo=1, routed)           0.649     8.200    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10_n_0
+    SLICE_X46Y91         LUT6 (Prop_lut6_I0_O)        0.124     8.324 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7/O
+                         net (fo=1, routed)           0.291     8.615    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7_n_0
+    SLICE_X44Y91         LUT6 (Prop_lut6_I2_O)        0.124     8.739 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_4/O
+                         net (fo=20, routed)          0.791     9.530    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r_reg[s2_entry]_1_sn_1
+    SLICE_X43Y91         LUT4 (Prop_lut4_I1_O)        0.124     9.654 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r[s2_entry][1]_i_2__0/O
+                         net (fo=53, routed)          0.744    10.398    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/sel0[1]
+    SLICE_X43Y88         LUT6 (Prop_lut6_I2_O)        0.124    10.522 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___20_i_7/O
+                         net (fo=1, routed)           0.000    10.522    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][31]_i_3_1
+    SLICE_X43Y88         MUXF7 (Prop_muxf7_I1_O)      0.245    10.767 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___20_i_3/O
+                         net (fo=16, routed)          0.729    11.496    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[0]
+    SLICE_X43Y89         LUT6 (Prop_lut6_I5_O)        0.298    11.794 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][12]_i_6/O
+                         net (fo=1, routed)           0.758    12.552    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/mmudco[wbtransdata][data][4]
+    SLICE_X41Y82         LUT6 (Prop_lut6_I5_O)        0.124    12.676 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r[wb][addr][12]_i_3/O
+                         net (fo=2, routed)           0.337    13.014    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r[wb][addr][12]_i_3_n_0
+    SLICE_X38Y81         LUT6 (Prop_lut6_I5_O)        0.124    13.138 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][0]_i_1/O
+                         net (fo=4, routed)           0.442    13.580    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[0]
+    SLICE_X36Y81         LUT2 (Prop_lut2_I0_O)        0.117    13.697 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_22/O
+                         net (fo=1, routed)           0.706    14.403    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/DIA[0]
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[0]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.509    14.688    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.917    
+                         clock uncertainty           -0.183    14.734    
+    RAMB36_X2Y15         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[0])
+                                                     -0.944    13.790    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.790    
+                         arrival time                         -14.403    
+  -------------------------------------------------------------------
+                         slack                                 -0.613    
+
+Slack (VIOLATED) :        -0.521ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[16]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.576ns  (logic 2.363ns (20.414%)  route 9.213ns (79.586%))
+  Logic Levels:           13  (LUT2=2 LUT4=1 LUT5=1 LUT6=8 MUXF7=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.688ns = ( 14.688 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/Q
+                         net (fo=102, routed)         1.122     4.521    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0_1
+    SLICE_X40Y90         LUT6 (Prop_lut6_I1_O)        0.124     4.645 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][28]_i_1/O
+                         net (fo=3, routed)           0.559     5.204    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[16]
+    SLICE_X41Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.328 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_140/O
+                         net (fo=8, routed)           0.925     6.253    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/tlbcami[tagin][I1][4]
+    SLICE_X43Y92         LUT6 (Prop_lut6_I4_O)        0.124     6.377 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1/O
+                         net (fo=5, routed)           1.049     7.426    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1_n_0
+    SLICE_X45Y92         LUT6 (Prop_lut6_I3_O)        0.124     7.550 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10/O
+                         net (fo=1, routed)           0.649     8.200    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10_n_0
+    SLICE_X46Y91         LUT6 (Prop_lut6_I0_O)        0.124     8.324 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7/O
+                         net (fo=1, routed)           0.291     8.615    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7_n_0
+    SLICE_X44Y91         LUT6 (Prop_lut6_I2_O)        0.124     8.739 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_4/O
+                         net (fo=20, routed)          0.791     9.530    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r_reg[s2_entry]_1_sn_1
+    SLICE_X43Y91         LUT4 (Prop_lut4_I1_O)        0.124     9.654 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r[s2_entry][1]_i_2__0/O
+                         net (fo=53, routed)          0.744    10.398    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/sel0[1]
+    SLICE_X43Y88         LUT6 (Prop_lut6_I2_O)        0.124    10.522 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___20_i_7/O
+                         net (fo=1, routed)           0.000    10.522    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][31]_i_3_1
+    SLICE_X43Y88         MUXF7 (Prop_muxf7_I1_O)      0.245    10.767 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___20_i_3/O
+                         net (fo=16, routed)          0.641    11.408    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[0]
+    SLICE_X41Y89         LUT2 (Prop_lut2_I0_O)        0.298    11.706 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][28]_i_8/O
+                         net (fo=11, routed)          0.688    12.394    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][28]_i_8_n_0
+    SLICE_X39Y88         LUT6 (Prop_lut6_I3_O)        0.124    12.518 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][28]_i_5/O
+                         net (fo=2, routed)           0.441    12.959    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r2_reg[wdata][16][2]
+    SLICE_X37Y87         LUT6 (Prop_lut6_I4_O)        0.124    13.083 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r2[wdata][16]_i_1/O
+                         net (fo=4, routed)           0.815    13.898    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[16]
+    SLICE_X34Y80         LUT2 (Prop_lut2_I1_O)        0.124    14.022 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_6__0/O
+                         net (fo=1, routed)           0.497    14.519    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/DIA[16]
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[16]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.509    14.688    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.917    
+                         clock uncertainty           -0.183    14.734    
+    RAMB36_X2Y15         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[16])
+                                                     -0.737    13.997    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.997    
+                         arrival time                         -14.519    
+  -------------------------------------------------------------------
+                         slack                                 -0.521    
+
+Slack (VIOLATED) :        -0.488ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[2]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.543ns  (logic 2.285ns (19.796%)  route 9.258ns (80.204%))
+  Logic Levels:           12  (LUT2=1 LUT4=1 LUT5=2 LUT6=7 MUXF7=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.688ns = ( 14.688 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/Q
+                         net (fo=175, routed)         1.094     4.493    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][3]_0[1]
+    SLICE_X42Y91         LUT6 (Prop_lut6_I2_O)        0.124     4.617 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][26]_i_1/O
+                         net (fo=3, routed)           0.960     5.578    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[14]
+    SLICE_X40Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.702 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_136/O
+                         net (fo=8, routed)           0.723     6.425    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/tlbcami[tagin][I1][2]
+    SLICE_X39Y93         LUT6 (Prop_lut6_I2_O)        0.124     6.549 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_116/O
+                         net (fo=5, routed)           0.835     7.384    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_116_n_0
+    SLICE_X36Y94         LUT5 (Prop_lut5_I2_O)        0.124     7.508 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_50/O
+                         net (fo=1, routed)           0.452     7.960    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_50_n_0
+    SLICE_X39Y94         LUT6 (Prop_lut6_I0_O)        0.124     8.084 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_17__0/O
+                         net (fo=3, routed)           0.435     8.519    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_17__0_n_0
+    SLICE_X41Y93         LUT6 (Prop_lut6_I0_O)        0.124     8.643 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_7__0/O
+                         net (fo=2, routed)           0.953     9.595    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r_reg[s2_flush]_0
+    SLICE_X41Y90         LUT4 (Prop_lut4_I0_O)        0.124     9.719 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___30_i_2/O
+                         net (fo=30, routed)          0.575    10.294    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r_reg[s2_flush]
+    SLICE_X42Y90         MUXF7 (Prop_muxf7_S_O)       0.292    10.586 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___19_i_4/O
+                         net (fo=22, routed)          1.031    11.617    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[1]
+    SLICE_X39Y86         LUT6 (Prop_lut6_I2_O)        0.297    11.914 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][14]_i_4/O
+                         net (fo=2, routed)           0.644    12.558    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r_reg[wb][addr][14]_0
+    SLICE_X38Y81         LUT6 (Prop_lut6_I0_O)        0.124    12.682 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][2]_i_2/O
+                         net (fo=1, routed)           0.282    12.964    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][2]_i_2_n_0
+    SLICE_X38Y81         LUT6 (Prop_lut6_I1_O)        0.124    13.088 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][2]_i_1/O
+                         net (fo=4, routed)           0.813    13.901    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[2]
+    SLICE_X34Y77         LUT2 (Prop_lut2_I0_O)        0.124    14.025 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_20/O
+                         net (fo=1, routed)           0.460    14.486    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/DIA[2]
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[2]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.509    14.688    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.917    
+                         clock uncertainty           -0.183    14.734    
+    RAMB36_X2Y15         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[2])
+                                                     -0.737    13.997    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.997    
+                         arrival time                         -14.486    
+  -------------------------------------------------------------------
+                         slack                                 -0.488    
+
+Slack (VIOLATED) :        -0.481ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[12]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.535ns  (logic 2.336ns (20.251%)  route 9.199ns (79.749%))
+  Logic Levels:           13  (LUT2=1 LUT4=1 LUT5=1 LUT6=9 MUXF7=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.688ns = ( 14.688 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/Q
+                         net (fo=102, routed)         1.122     4.521    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0_1
+    SLICE_X40Y90         LUT6 (Prop_lut6_I1_O)        0.124     4.645 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][28]_i_1/O
+                         net (fo=3, routed)           0.559     5.204    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[16]
+    SLICE_X41Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.328 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_140/O
+                         net (fo=8, routed)           0.925     6.253    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/tlbcami[tagin][I1][4]
+    SLICE_X43Y92         LUT6 (Prop_lut6_I4_O)        0.124     6.377 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1/O
+                         net (fo=5, routed)           1.049     7.426    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1_n_0
+    SLICE_X45Y92         LUT6 (Prop_lut6_I3_O)        0.124     7.550 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10/O
+                         net (fo=1, routed)           0.649     8.200    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10_n_0
+    SLICE_X46Y91         LUT6 (Prop_lut6_I0_O)        0.124     8.324 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7/O
+                         net (fo=1, routed)           0.291     8.615    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7_n_0
+    SLICE_X44Y91         LUT6 (Prop_lut6_I2_O)        0.124     8.739 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_4/O
+                         net (fo=20, routed)          0.791     9.530    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r_reg[s2_entry]_1_sn_1
+    SLICE_X43Y91         LUT4 (Prop_lut4_I1_O)        0.124     9.654 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r[s2_entry][1]_i_2__0/O
+                         net (fo=53, routed)          0.685    10.339    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/sel0[1]
+    SLICE_X43Y90         LUT6 (Prop_lut6_I2_O)        0.124    10.463 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/r[wb][addr][24]_i_10/O
+                         net (fo=1, routed)           0.000    10.463    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][24]_i_4_1
+    SLICE_X43Y90         MUXF7 (Prop_muxf7_I1_O)      0.217    10.680 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r_reg[wb][addr][24]_i_7/O
+                         net (fo=1, routed)           0.793    11.473    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r_reg[wb][addr][24]_i_7_n_0
+    SLICE_X38Y87         LUT6 (Prop_lut6_I3_O)        0.299    11.772 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][24]_i_4/O
+                         net (fo=2, routed)           0.731    12.504    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r_reg[wb][addr][24]_0
+    SLICE_X38Y81         LUT6 (Prop_lut6_I0_O)        0.124    12.628 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][12]_i_2/O
+                         net (fo=1, routed)           0.305    12.933    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][12]_i_2_n_0
+    SLICE_X38Y79         LUT6 (Prop_lut6_I1_O)        0.124    13.057 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][12]_i_1/O
+                         net (fo=4, routed)           0.637    13.694    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[12]
+    SLICE_X36Y81         LUT2 (Prop_lut2_I1_O)        0.124    13.818 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_10/O
+                         net (fo=1, routed)           0.660    14.478    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/DIA[12]
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[12]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.509    14.688    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.917    
+                         clock uncertainty           -0.183    14.734    
+    RAMB36_X2Y15         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[12])
+                                                     -0.737    13.997    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.997    
+                         arrival time                         -14.478    
+  -------------------------------------------------------------------
+                         slack                                 -0.481    
+
+Slack (VIOLATED) :        -0.475ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[8]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.529ns  (logic 2.285ns (19.819%)  route 9.244ns (80.181%))
+  Logic Levels:           12  (LUT2=1 LUT4=1 LUT5=3 LUT6=6 MUXF7=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.688ns = ( 14.688 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/Q
+                         net (fo=175, routed)         1.094     4.493    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][3]_0[1]
+    SLICE_X42Y91         LUT6 (Prop_lut6_I2_O)        0.124     4.617 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][26]_i_1/O
+                         net (fo=3, routed)           0.960     5.578    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[14]
+    SLICE_X40Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.702 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_136/O
+                         net (fo=8, routed)           0.723     6.425    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/tlbcami[tagin][I1][2]
+    SLICE_X39Y93         LUT6 (Prop_lut6_I2_O)        0.124     6.549 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_116/O
+                         net (fo=5, routed)           0.835     7.384    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_116_n_0
+    SLICE_X36Y94         LUT5 (Prop_lut5_I2_O)        0.124     7.508 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_50/O
+                         net (fo=1, routed)           0.452     7.960    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_50_n_0
+    SLICE_X39Y94         LUT6 (Prop_lut6_I0_O)        0.124     8.084 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_17__0/O
+                         net (fo=3, routed)           0.435     8.519    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_17__0_n_0
+    SLICE_X41Y93         LUT6 (Prop_lut6_I0_O)        0.124     8.643 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_7__0/O
+                         net (fo=2, routed)           0.953     9.595    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r_reg[s2_flush]_0
+    SLICE_X41Y90         LUT4 (Prop_lut4_I0_O)        0.124     9.719 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___30_i_2/O
+                         net (fo=30, routed)          0.575    10.294    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r_reg[s2_flush]
+    SLICE_X42Y90         MUXF7 (Prop_muxf7_S_O)       0.292    10.586 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___19_i_4/O
+                         net (fo=22, routed)          1.048    11.634    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[1]
+    SLICE_X39Y86         LUT5 (Prop_lut5_I2_O)        0.297    11.931 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][20]_i_4/O
+                         net (fo=2, routed)           0.618    12.549    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r_reg[wb][addr][20]_0
+    SLICE_X40Y81         LUT6 (Prop_lut6_I0_O)        0.124    12.673 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][8]_i_2/O
+                         net (fo=1, routed)           0.298    12.971    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][8]_i_2_n_0
+    SLICE_X39Y81         LUT6 (Prop_lut6_I1_O)        0.124    13.095 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][8]_i_1/O
+                         net (fo=4, routed)           0.603    13.698    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[8]
+    SLICE_X37Y77         LUT2 (Prop_lut2_I0_O)        0.124    13.822 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_14/O
+                         net (fo=1, routed)           0.650    14.472    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/DIA[8]
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[8]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.509    14.688    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y15         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.917    
+                         clock uncertainty           -0.183    14.734    
+    RAMB36_X2Y15         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[8])
+                                                     -0.737    13.997    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.997    
+                         arrival time                         -14.472    
+  -------------------------------------------------------------------
+                         slack                                 -0.475    
+
+Slack (VIOLATED) :        -0.474ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[1]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.329ns  (logic 2.389ns (21.087%)  route 8.940ns (78.913%))
+  Logic Levels:           13  (LUT2=1 LUT4=1 LUT5=1 LUT6=9 MUXF7=1)
+  Clock Path Skew:        -0.021ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.693ns = ( 14.693 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/Q
+                         net (fo=102, routed)         1.122     4.521    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0_1
+    SLICE_X40Y90         LUT6 (Prop_lut6_I1_O)        0.124     4.645 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][28]_i_1/O
+                         net (fo=3, routed)           0.559     5.204    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[16]
+    SLICE_X41Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.328 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_140/O
+                         net (fo=8, routed)           0.925     6.253    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/tlbcami[tagin][I1][4]
+    SLICE_X43Y92         LUT6 (Prop_lut6_I4_O)        0.124     6.377 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1/O
+                         net (fo=5, routed)           1.049     7.426    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1_n_0
+    SLICE_X45Y92         LUT6 (Prop_lut6_I3_O)        0.124     7.550 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10/O
+                         net (fo=1, routed)           0.649     8.200    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10_n_0
+    SLICE_X46Y91         LUT6 (Prop_lut6_I0_O)        0.124     8.324 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7/O
+                         net (fo=1, routed)           0.291     8.615    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7_n_0
+    SLICE_X44Y91         LUT6 (Prop_lut6_I2_O)        0.124     8.739 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_4/O
+                         net (fo=20, routed)          0.791     9.530    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r_reg[s2_entry]_1_sn_1
+    SLICE_X43Y91         LUT4 (Prop_lut4_I1_O)        0.124     9.654 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r[s2_entry][1]_i_2__0/O
+                         net (fo=53, routed)          0.744    10.398    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/sel0[1]
+    SLICE_X43Y88         LUT6 (Prop_lut6_I2_O)        0.124    10.522 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___20_i_7/O
+                         net (fo=1, routed)           0.000    10.522    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][31]_i_3_1
+    SLICE_X43Y88         MUXF7 (Prop_muxf7_I1_O)      0.245    10.767 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___20_i_3/O
+                         net (fo=16, routed)          0.637    11.404    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[0]
+    SLICE_X39Y87         LUT6 (Prop_lut6_I3_O)        0.298    11.702 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___22_i_1/O
+                         net (fo=2, routed)           0.374    12.076    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0_n_43
+    SLICE_X38Y87         LUT6 (Prop_lut6_I2_O)        0.124    12.200 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/i___22/O
+                         net (fo=1, routed)           0.651    12.851    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2_reg[wdata][1]
+    SLICE_X38Y80         LUT6 (Prop_lut6_I5_O)        0.124    12.975 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/r2[wdata][1]_i_1/O
+                         net (fo=4, routed)           0.475    13.450    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[1]
+    SLICE_X38Y80         LUT2 (Prop_lut2_I0_O)        0.150    13.600 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_20__0/O
+                         net (fo=1, routed)           0.673    14.272    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/DIA[1]
+    RAMB36_X2Y16         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[1]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.514    14.693    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y16         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.922    
+                         clock uncertainty           -0.183    14.739    
+    RAMB36_X2Y16         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[1])
+                                                     -0.941    13.798    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         13.798    
+                         arrival time                         -14.272    
+  -------------------------------------------------------------------
+                         slack                                 -0.474    
+
+Slack (VIOLATED) :        -0.425ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/syncrregs.r_reg[splt_ds1][op][trans_op]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.952ns  (logic 1.938ns (16.215%)  route 10.014ns (83.785%))
+  Logic Levels:           12  (LUT4=2 LUT5=2 LUT6=8)
+  Clock Path Skew:        -0.057ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.657ns = ( 14.657 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][1]/Q
+                         net (fo=175, routed)         1.094     4.493    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][3]_0[1]
+    SLICE_X42Y91         LUT6 (Prop_lut6_I2_O)        0.124     4.617 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][26]_i_1/O
+                         net (fo=3, routed)           0.960     5.578    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[14]
+    SLICE_X40Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.702 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_136/O
+                         net (fo=8, routed)           0.723     6.425    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/tlbcami[tagin][I1][2]
+    SLICE_X39Y93         LUT6 (Prop_lut6_I2_O)        0.124     6.549 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_116/O
+                         net (fo=5, routed)           0.835     7.384    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_116_n_0
+    SLICE_X36Y94         LUT5 (Prop_lut5_I2_O)        0.124     7.508 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_50/O
+                         net (fo=1, routed)           0.452     7.960    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_50_n_0
+    SLICE_X39Y94         LUT6 (Prop_lut6_I0_O)        0.124     8.084 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_17__0/O
+                         net (fo=3, routed)           0.435     8.519    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_17__0_n_0
+    SLICE_X41Y93         LUT6 (Prop_lut6_I0_O)        0.124     8.643 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r[s2_hm]_i_7__0/O
+                         net (fo=2, routed)           0.953     9.595    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/syncrregs.r_reg[s2_flush]_0
+    SLICE_X41Y90         LUT4 (Prop_lut4_I0_O)        0.124     9.719 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___30_i_2/O
+                         net (fo=30, routed)          1.268    10.988    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___126_i_4_1
+    SLICE_X49Y95         LUT6 (Prop_lut6_I2_O)        0.124    11.112 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___126_i_12/O
+                         net (fo=4, routed)           0.521    11.633    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___126_i_12_n_0
+    SLICE_X48Y95         LUT6 (Prop_lut6_I0_O)        0.124    11.757 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___126_i_8/O
+                         net (fo=1, routed)           0.636    12.393    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___126_i_8_n_0
+    SLICE_X48Y94         LUT6 (Prop_lut6_I2_O)        0.124    12.517 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___126_i_4/O
+                         net (fo=6, routed)           0.578    13.095    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r_reg[splt_ds1][tlbactive]_2
+    SLICE_X49Y92         LUT6 (Prop_lut6_I4_O)        0.124    13.219 f  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/i___126_i_1/O
+                         net (fo=7, routed)           0.598    13.816    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[splt_ds1][op][trans_op]_6
+    SLICE_X47Y93         LUT4 (Prop_lut4_I0_O)        0.118    13.934 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r[splt_ds1][op][trans_op]_i_1/O
+                         net (fo=1, routed)           0.960    14.895    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0_n_66
+    SLICE_X36Y92         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/syncrregs.r_reg[splt_ds1][op][trans_op]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.478    14.657    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/FCLK_CLK0
+    SLICE_X36Y92         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/syncrregs.r_reg[splt_ds1][op][trans_op]/C
+                         clock pessimism              0.229    14.886    
+                         clock uncertainty           -0.183    14.703    
+    SLICE_X36Y92         FDRE (Setup_fdre_C_D)       -0.233    14.470    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/syncrregs.r_reg[splt_ds1][op][trans_op]
+  -------------------------------------------------------------------
+                         required time                         14.470    
+                         arrival time                         -14.895    
+  -------------------------------------------------------------------
+                         slack                                 -0.425    
+
+Slack (VIOLATED) :        -0.389ns  (required time - arrival time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[16]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.000ns  (clk_fpga_0 rise@12.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        11.448ns  (logic 2.363ns (20.641%)  route 9.085ns (79.359%))
+  Logic Levels:           13  (LUT2=2 LUT4=1 LUT5=1 LUT6=8 MUXF7=1)
+  Clock Path Skew:        -0.021ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.693ns = ( 14.693 - 12.000 ) 
+    Source Clock Delay      (SCD):    2.943ns
+    Clock Pessimism Removal (CPR):    0.229ns
+  Clock Uncertainty:      0.183ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.360ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.193     1.193    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.101     1.294 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.649     2.943    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FCLK_CLK0
+    SLICE_X40Y90         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X40Y90         FDRE (Prop_fdre_C_Q)         0.456     3.399 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0/Q
+                         net (fo=102, routed)         1.122     4.521    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/FSM_sequential_r_reg[dstate][2]_rep__0_1
+    SLICE_X40Y90         LUT6 (Prop_lut6_I1_O)        0.124     4.645 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/dcache0/syncrregs.r[s2_data][28]_i_1/O
+                         net (fo=3, routed)           0.559     5.204    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/D[16]
+    SLICE_X41Y92         LUT5 (Prop_lut5_I2_O)        0.124     5.328 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[s2_hm]_i_140/O
+                         net (fo=8, routed)           0.925     6.253    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/tlbcami[tagin][I1][4]
+    SLICE_X43Y92         LUT6 (Prop_lut6_I4_O)        0.124     6.377 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1/O
+                         net (fo=5, routed)           1.049     7.426    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/syncrregs.r[btag][M]_i_11__1_n_0
+    SLICE_X45Y92         LUT6 (Prop_lut6_I3_O)        0.124     7.550 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10/O
+                         net (fo=1, routed)           0.649     8.200    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_10_n_0
+    SLICE_X46Y91         LUT6 (Prop_lut6_I0_O)        0.124     8.324 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7/O
+                         net (fo=1, routed)           0.291     8.615    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_7_n_0
+    SLICE_X44Y91         LUT6 (Prop_lut6_I2_O)        0.124     8.739 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___30_i_4/O
+                         net (fo=20, routed)          0.791     9.530    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r_reg[s2_entry]_1_sn_1
+    SLICE_X43Y91         LUT4 (Prop_lut4_I1_O)        0.124     9.654 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[2].tag0/syncrregs.r[s2_entry][1]_i_2__0/O
+                         net (fo=53, routed)          0.744    10.398    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/sel0[1]
+    SLICE_X43Y88         LUT6 (Prop_lut6_I2_O)        0.124    10.522 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[7].tag0/i___20_i_7/O
+                         net (fo=1, routed)           0.000    10.522    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][31]_i_3_1
+    SLICE_X43Y88         MUXF7 (Prop_muxf7_I1_O)      0.245    10.767 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/i___20_i_3/O
+                         net (fo=16, routed)          0.641    11.408    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/LVL__0[0]
+    SLICE_X41Y89         LUT2 (Prop_lut2_I0_O)        0.298    11.706 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][28]_i_8/O
+                         net (fo=11, routed)          0.688    12.394    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][28]_i_8_n_0
+    SLICE_X39Y88         LUT6 (Prop_lut6_I3_O)        0.124    12.518 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[4].tag0/r[wb][addr][28]_i_5/O
+                         net (fo=2, routed)           0.441    12.959    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r2_reg[wdata][16][2]
+    SLICE_X37Y87         LUT6 (Prop_lut6_I4_O)        0.124    13.083 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r2[wdata][16]_i_1/O
+                         net (fo=4, routed)           0.467    13.550    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/crami[dcramin][ptag][0]_133[16]
+    SLICE_X38Y89         LUT2 (Prop_lut2_I1_O)        0.124    13.674 r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/a9.x[0].r0_i_5__2/O
+                         net (fo=1, routed)           0.717    14.391    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/DIA[16]
+    RAMB36_X2Y16         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/DIADI[16]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                     12.000    12.000 r  
+    PS7_X0Y0             PS7                          0.000    12.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           1.088    13.088    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.179 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        1.514    14.693    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/FCLK_CLK0
+    RAMB36_X2Y16         RAMB36E1                                     r  leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+                         clock pessimism              0.229    14.922    
+                         clock uncertainty           -0.183    14.739    
+    RAMB36_X2Y16         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[16])
+                                                     -0.737    14.002    leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[1].dtags1/xc2v.x0/a6.x0/a9.x[0].r0
+  -------------------------------------------------------------------
+                         required time                         14.002    
+                         arrival time                         -14.391    
+  -------------------------------------------------------------------
+                         slack                                 -0.389    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.056ns  (arrival time - required time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd][6]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][6]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.393ns  (logic 0.164ns (41.739%)  route 0.229ns (58.261%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.267ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.180ns
+    Source Clock Delay      (SCD):    0.878ns
+    Clock Pessimism Removal (CPR):    0.035ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.542     0.878    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/FCLK_CLK0
+    SLICE_X50Y72         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd][6]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y72         FDRE (Prop_fdre_C_Q)         0.164     1.042 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd][6]/Q
+                         net (fo=3, routed)           0.229     1.271    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd]__0[6]
+    SLICE_X49Y69         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.814     1.180    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/FCLK_CLK0
+    SLICE_X49Y69         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][6]/C
+                         clock pessimism             -0.035     1.145    
+    SLICE_X49Y69         FDRE (Hold_fdre_C_D)         0.070     1.215    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][6]
+  -------------------------------------------------------------------
+                         required time                         -1.215    
+                         arrival time                           1.271    
+  -------------------------------------------------------------------
+                         slack                                  0.056    
+
+Slack (MET) :             0.085ns  (arrival time - required time)
+  Source:                 dsugen.dsu0/x0/r2_reg[timer][15]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            dsugen.dsu0/x0/r2_reg[timer][16]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.568ns  (logic 0.371ns (65.362%)  route 0.197ns (34.638%))
+  Logic Levels:           3  (CARRY4=2 LUT5=1)
+  Clock Path Skew:        0.348ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.278ns
+    Source Clock Delay      (SCD):    0.895ns
+    Clock Pessimism Removal (CPR):    0.035ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.559     0.895    dsugen.dsu0/x0/FCLK_CLK0
+    SLICE_X32Y99         FDRE                                         r  dsugen.dsu0/x0/r2_reg[timer][15]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X32Y99         FDRE (Prop_fdre_C_Q)         0.164     1.059 r  dsugen.dsu0/x0/r2_reg[timer][15]/Q
+                         net (fo=5, routed)           0.196     1.255    dsugen.dsu0/x0/r2_reg[timer][15]_0
+    SLICE_X32Y99         LUT5 (Prop_lut5_I4_O)        0.045     1.300 r  dsugen.dsu0/x0/r2[timer][12]_i_2/O
+                         net (fo=1, routed)           0.000     1.300    dsugen.dsu0/x0/r2[timer][12]_i_2_n_0
+    SLICE_X32Y99         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.109     1.409 r  dsugen.dsu0/x0/r2_reg[timer][12]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     1.409    dsugen.dsu0/x0/r2_reg[timer][12]_i_1_n_0
+    SLICE_X32Y100        CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.053     1.462 r  dsugen.dsu0/x0/r2_reg[timer][16]_i_1/O[0]
+                         net (fo=1, routed)           0.000     1.462    dsugen.dsu0/x0/r2_reg[timer][16]_i_1_n_7
+    SLICE_X32Y100        FDRE                                         r  dsugen.dsu0/x0/r2_reg[timer][16]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.912     1.278    dsugen.dsu0/x0/FCLK_CLK0
+    SLICE_X32Y100        FDRE                                         r  dsugen.dsu0/x0/r2_reg[timer][16]/C
+                         clock pessimism             -0.035     1.243    
+    SLICE_X32Y100        FDRE (Hold_fdre_C_D)         0.134     1.377    dsugen.dsu0/x0/r2_reg[timer][16]
+  -------------------------------------------------------------------
+                         required time                         -1.377    
+                         arrival time                           1.462    
+  -------------------------------------------------------------------
+                         slack                                  0.085    
+
+Slack (MET) :             0.090ns  (arrival time - required time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd][3]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][3]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.428ns  (logic 0.141ns (32.955%)  route 0.287ns (67.045%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.268ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.179ns
+    Source Clock Delay      (SCD):    0.876ns
+    Clock Pessimism Removal (CPR):    0.035ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.540     0.876    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/FCLK_CLK0
+    SLICE_X53Y73         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd][3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X53Y73         FDRE (Prop_fdre_C_Q)         0.141     1.017 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd][3]/Q
+                         net (fo=5, routed)           0.287     1.303    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][ctrl][rd]__0[3]
+    SLICE_X49Y70         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][3]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.813     1.179    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/FCLK_CLK0
+    SLICE_X49Y70         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][3]/C
+                         clock pessimism             -0.035     1.144    
+    SLICE_X49Y70         FDRE (Hold_fdre_C_D)         0.070     1.214    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[e][ctrl][rd][3]
+  -------------------------------------------------------------------
+                         required time                         -1.214    
+                         arrival time                           1.303    
+  -------------------------------------------------------------------
+                         slack                                  0.090    
+
+Slack (MET) :             0.091ns  (arrival time - required time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][22]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/RAMB/I
+                            (rising edge-triggered cell RAMD32 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.272ns  (logic 0.141ns (51.905%)  route 0.131ns (48.095%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.035ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.276ns
+    Source Clock Delay      (SCD):    0.973ns
+    Clock Pessimism Removal (CPR):    0.268ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.637     0.973    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/FCLK_CLK0
+    SLICE_X49Y106        FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][22]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X49Y106        FDRE (Prop_fdre_C_Q)         0.141     1.114 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][22]/Q
+                         net (fo=6, routed)           0.131     1.245    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/DIB0
+    SLICE_X46Y106        RAMD32                                       r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/RAMB/I
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.910     1.276    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/WCLK
+    SLICE_X46Y106        RAMD32                                       r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/RAMB/CLK
+                         clock pessimism             -0.268     1.008    
+    SLICE_X46Y106        RAMD32 (Hold_ramd32_CLK_I)
+                                                      0.146     1.154    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/RAMB
+  -------------------------------------------------------------------
+                         required time                         -1.154    
+                         arrival time                           1.245    
+  -------------------------------------------------------------------
+                         slack                                  0.091    
+
+Slack (MET) :             0.094ns  (arrival time - required time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_data][10]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][data][10]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.563ns  (logic 0.231ns (41.041%)  route 0.332ns (58.959%))
+  Logic Levels:           2  (LUT5=1 LUT6=1)
+  Clock Path Skew:        0.349ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.273ns
+    Source Clock Delay      (SCD):    0.889ns
+    Clock Pessimism Removal (CPR):    0.035ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.553     0.889    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/FCLK_CLK0
+    SLICE_X51Y99         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_data][10]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X51Y99         FDRE (Prop_fdre_C_Q)         0.141     1.030 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_data][10]/Q
+                         net (fo=1, routed)           0.170     1.199    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[3].tag0/syncrregs.r_reg[wb][data][31][8]
+    SLICE_X51Y100        LUT6 (Prop_lut6_I0_O)        0.045     1.244 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/tlbcam0[3].tag0/syncrregs.r[wb][data][10]_i_2/O
+                         net (fo=1, routed)           0.162     1.406    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][data][10]_0
+    SLICE_X50Y100        LUT5 (Prop_lut5_I3_O)        0.045     1.451 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r[wb][data][10]_i_1/O
+                         net (fo=1, routed)           0.000     1.451    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/mcmmi[next_data][10]
+    SLICE_X50Y100        FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][data][10]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.907     1.273    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/FCLK_CLK0
+    SLICE_X50Y100        FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][data][10]/C
+                         clock pessimism             -0.035     1.238    
+    SLICE_X50Y100        FDRE (Hold_fdre_C_D)         0.120     1.358    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][data][10]
+  -------------------------------------------------------------------
+                         required time                         -1.358    
+                         arrival time                           1.451    
+  -------------------------------------------------------------------
+                         slack                                  0.094    
+
+Slack (MET) :             0.095ns  (arrival time - required time)
+  Source:                 ahbjtaggen0.ahbjtag0/newcom.jtagcom0/ar_reg[dreg][25]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/a8.r0/DIBDI[25]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.467ns  (logic 0.209ns (44.730%)  route 0.258ns (55.270%))
+  Logic Levels:           1  (LUT5=1)
+  Clock Path Skew:        0.076ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.320ns
+    Source Clock Delay      (SCD):    0.976ns
+    Clock Pessimism Removal (CPR):    0.268ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.640     0.976    ahbjtaggen0.ahbjtag0/newcom.jtagcom0/FCLK_CLK0
+    SLICE_X34Y106        FDRE                                         r  ahbjtaggen0.ahbjtag0/newcom.jtagcom0/ar_reg[dreg][25]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X34Y106        FDRE (Prop_fdre_C_Q)         0.164     1.140 r  ahbjtaggen0.ahbjtag0/newcom.jtagcom0/ar_reg[dreg][25]/Q
+                         net (fo=8, routed)           0.152     1.292    dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/a8.r0_0[25]
+    SLICE_X32Y105        LUT5 (Prop_lut5_I2_O)        0.045     1.337 r  dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/a8.r0_i_42__2/O
+                         net (fo=1, routed)           0.106     1.443    dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/di[data]_0[25]
+    RAMB36_X2Y20         RAMB36E1                                     r  dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/a8.r0/DIBDI[25]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.954     1.320    dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/FCLK_CLK0
+    RAMB36_X2Y20         RAMB36E1                                     r  dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/a8.r0/CLKBWRCLK
+                         clock pessimism             -0.268     1.052    
+    RAMB36_X2Y20         RAMB36E1 (Hold_ramb36e1_CLKBWRCLK_DIBDI[25])
+                                                      0.296     1.348    dsugen.dsu0/x0/tb0.mem0/mem32[0].ram0/nopar.s64.xc2v.x0/a8.r0
+  -------------------------------------------------------------------
+                         required time                         -1.348    
+                         arrival time                           1.443    
+  -------------------------------------------------------------------
+                         slack                                  0.095    
+
+Slack (MET) :             0.098ns  (arrival time - required time)
+  Source:                 dsugen.dsu0/x0/r2_reg[timer][15]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            dsugen.dsu0/x0/r2_reg[timer][18]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.581ns  (logic 0.384ns (66.137%)  route 0.197ns (33.863%))
+  Logic Levels:           3  (CARRY4=2 LUT5=1)
+  Clock Path Skew:        0.348ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.278ns
+    Source Clock Delay      (SCD):    0.895ns
+    Clock Pessimism Removal (CPR):    0.035ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.559     0.895    dsugen.dsu0/x0/FCLK_CLK0
+    SLICE_X32Y99         FDRE                                         r  dsugen.dsu0/x0/r2_reg[timer][15]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X32Y99         FDRE (Prop_fdre_C_Q)         0.164     1.059 r  dsugen.dsu0/x0/r2_reg[timer][15]/Q
+                         net (fo=5, routed)           0.196     1.255    dsugen.dsu0/x0/r2_reg[timer][15]_0
+    SLICE_X32Y99         LUT5 (Prop_lut5_I4_O)        0.045     1.300 r  dsugen.dsu0/x0/r2[timer][12]_i_2/O
+                         net (fo=1, routed)           0.000     1.300    dsugen.dsu0/x0/r2[timer][12]_i_2_n_0
+    SLICE_X32Y99         CARRY4 (Prop_carry4_S[3]_CO[3])
+                                                      0.109     1.409 r  dsugen.dsu0/x0/r2_reg[timer][12]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     1.409    dsugen.dsu0/x0/r2_reg[timer][12]_i_1_n_0
+    SLICE_X32Y100        CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.066     1.475 r  dsugen.dsu0/x0/r2_reg[timer][16]_i_1/O[2]
+                         net (fo=1, routed)           0.000     1.475    dsugen.dsu0/x0/r2_reg[timer][16]_i_1_n_5
+    SLICE_X32Y100        FDRE                                         r  dsugen.dsu0/x0/r2_reg[timer][18]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.912     1.278    dsugen.dsu0/x0/FCLK_CLK0
+    SLICE_X32Y100        FDRE                                         r  dsugen.dsu0/x0/r2_reg[timer][18]/C
+                         clock pessimism             -0.035     1.243    
+    SLICE_X32Y100        FDRE (Hold_fdre_C_D)         0.134     1.377    dsugen.dsu0/x0/r2_reg[timer][18]
+  -------------------------------------------------------------------
+                         required time                         -1.377    
+                         arrival time                           1.475    
+  -------------------------------------------------------------------
+                         slack                                  0.098    
+
+Slack (MET) :             0.099ns  (arrival time - required time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][8]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/RAMA/I
+                            (rising edge-triggered cell RAMD32 clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.261ns  (logic 0.141ns (53.979%)  route 0.120ns (46.021%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.299ns
+    Source Clock Delay      (SCD):    0.996ns
+    Clock Pessimism Removal (CPR):    0.288ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.660     0.996    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/FCLK_CLK0
+    SLICE_X57Y102        FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][8]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X57Y102        FDRE (Prop_fdre_C_Q)         0.141     1.137 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][8]/Q
+                         net (fo=6, routed)           0.120     1.257    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/DIA0
+    SLICE_X58Y103        RAMD32                                       r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/RAMA/I
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.933     1.299    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/WCLK
+    SLICE_X58Y103        RAMD32                                       r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/RAMA/CLK
+                         clock pessimism             -0.288     1.011    
+    SLICE_X58Y103        RAMD32 (Hold_ramd32_CLK_I)
+                                                      0.147     1.158    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/RAMA
+  -------------------------------------------------------------------
+                         required time                         -1.158    
+                         arrival time                           1.257    
+  -------------------------------------------------------------------
+                         slack                                  0.099    
+
+Slack (MET) :             0.100ns  (arrival time - required time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][26]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_twaddr][24]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.414ns  (logic 0.164ns (39.647%)  route 0.250ns (60.353%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.267ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.276ns
+    Source Clock Delay      (SCD):    0.970ns
+    Clock Pessimism Removal (CPR):    0.039ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.634     0.970    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/FCLK_CLK0
+    SLICE_X50Y103        FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][26]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y103        FDRE (Prop_fdre_C_Q)         0.164     1.134 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tw0/syncrregs.r_reg[wb][addr][26]/Q
+                         net (fo=6, routed)           0.250     1.384    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_twaddr][29]_2[24]
+    SLICE_X48Y104        FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_twaddr][24]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.910     1.276    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/FCLK_CLK0
+    SLICE_X48Y104        FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_twaddr][24]/C
+                         clock pessimism             -0.039     1.237    
+    SLICE_X48Y104        FDRE (Hold_fdre_C_D)         0.046     1.283    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/syncrregs.r_reg[tlbdis_twaddr][24]
+  -------------------------------------------------------------------
+                         required time                         -1.283    
+                         arrival time                           1.384    
+  -------------------------------------------------------------------
+                         slack                                  0.100    
+
+Slack (MET) :             0.104ns  (arrival time - required time)
+  Source:                 leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[d][inst][0][18]/C
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Destination:            leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][imm][28]/D
+                            (rising edge-triggered cell FDRE clocked by clk_fpga_0  {rise@0.000ns fall@6.000ns period=12.000ns})
+  Path Group:             clk_fpga_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_fpga_0 rise@0.000ns - clk_fpga_0 rise@0.000ns)
+  Data Path Delay:        0.477ns  (logic 0.212ns (44.448%)  route 0.265ns (55.552%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        0.266ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.183ns
+    Source Clock Delay      (SCD):    0.882ns
+    Clock Pessimism Removal (CPR):    0.035ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.310     0.310    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.026     0.336 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.546     0.882    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/FCLK_CLK0
+    SLICE_X50Y67         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[d][inst][0][18]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X50Y67         FDRE (Prop_fdre_C_Q)         0.164     1.046 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[d][inst][0][18]/Q
+                         net (fo=10, routed)          0.265     1.311    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[d][inst_n_0_][0][18]
+    SLICE_X48Y66         LUT4 (Prop_lut4_I0_O)        0.048     1.359 r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r[a][imm][28]_i_1/O
+                         net (fo=1, routed)           0.000     1.359    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/imm_data[28]
+    SLICE_X48Y66         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][imm][28]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_fpga_0 rise edge)
+                                                      0.000     0.000 r  
+    PS7_X0Y0             PS7                          0.000     0.000 r  leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0]
+                         net (fo=1, routed)           0.337     0.337    leon3_zc702_stub_i/processing_system7_0/U0/FCLK_CLK_unbuffered[0]
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.029     0.366 r  leon3_zc702_stub_i/processing_system7_0/U0/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O
+                         net (fo=5430, routed)        0.817     1.183    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/FCLK_CLK0
+    SLICE_X48Y66         FDRE                                         r  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][imm][28]/C
+                         clock pessimism             -0.035     1.148    
+    SLICE_X48Y66         FDRE (Hold_fdre_C_D)         0.107     1.255    leon3_0.cpu[0].u0/leon3x0/vhdl.p0/iu/r_reg[a][imm][28]
+  -------------------------------------------------------------------
+                         required time                         -1.255    
+                         arrival time                           1.359    
+  -------------------------------------------------------------------
+                         slack                                  0.104    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_fpga_0
+Waveform(ns):       { 0.000 6.000 }
+Period(ns):         12.000
+Sources:            { leon3_zc702_stub_i/processing_system7_0/U0/PS7_i/FCLKCLK[0] }
+
+Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
+Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         12.000      9.424      RAMB18_X3Y31   leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dd0[1].ddsram.ddata0/xc2v.x0/a10.x[1].r/CLKARDCLK
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.576         12.000      9.424      RAMB36_X3Y17   leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags0/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+Min Period        n/a     RAMB36E1/CLKBWRCLK  n/a            2.576         12.000      9.424      RAMB36_X3Y17   leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags0/xc2v.x0/a6.x0/a9.x[0].r0/CLKBWRCLK
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.576         12.000      9.424      RAMB36_X2Y12   leon3_0.cpu[0].u0/leon3x0/vhdl.rf0/s1.rhu/s1.dp.x0/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+Min Period        n/a     RAMB36E1/CLKBWRCLK  n/a            2.576         12.000      9.424      RAMB36_X2Y12   leon3_0.cpu[0].u0/leon3x0/vhdl.rf0/s1.rhu/s1.dp.x0/xc2v.x0/a6.x0/a9.x[0].r0/CLKBWRCLK
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.576         12.000      9.424      RAMB36_X2Y9    leon3_0.cpu[0].u0/leon3x0/vhdl.rf0/s1.rhu/s1.dp.x1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+Min Period        n/a     RAMB36E1/CLKBWRCLK  n/a            2.576         12.000      9.424      RAMB36_X2Y9    leon3_0.cpu[0].u0/leon3x0/vhdl.rf0/s1.rhu/s1.dp.x1/xc2v.x0/a6.x0/a9.x[0].r0/CLKBWRCLK
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.576         12.000      9.424      RAMB36_X2Y15   leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKARDCLK
+Min Period        n/a     RAMB36E1/CLKBWRCLK  n/a            2.576         12.000      9.424      RAMB36_X2Y15   leon3_0.cpu[0].u0/leon3x0/vhdl.cmem0/dme.dtags1.mdt1.fast.mdt0[0].dtags1/xc2v.x0/a6.x0/a9.x[0].r0/CLKBWRCLK
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.576         12.000      9.424      RAMB36_X2Y11   leon3_0.cpu[0].u0/leon3x0/vhdl.tbmem_gen.tbmem_1p.tbmem0/mem32[0].ram0/nopar.s64.xc2v.x0/a8.r0/CLKARDCLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMA/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMA_D1/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMB/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMB_D1/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMC/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMC_D1/CLK
+Low Pulse Width   Slow    RAMS32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMD/CLK
+Low Pulse Width   Slow    RAMS32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y104  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_24_29/RAMD_D1/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y106  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/RAMA/CLK
+Low Pulse Width   Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X46Y106  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.itlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_18_23/RAMA_D1/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMA/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMA_D1/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMB/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMB_D1/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMC/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMC_D1/CLK
+High Pulse Width  Slow    RAMS32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMD/CLK
+High Pulse Width  Slow    RAMS32/CLK          n/a            1.250         6.000       4.750      SLICE_X30Y113  ahb2axi3/ahb2axibx/wbuffer/inf.x0/rfd_reg_0_1_6_11/RAMD_D1/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X58Y102  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/RAMA/CLK
+High Pulse Width  Slow    RAMD32/CLK          n/a            1.250         6.000       4.750      SLICE_X58Y102  leon3_0.cpu[0].u0/leon3x0/vhdl.p0/c0mmu/mmugen.m0/tlbsplit0.dtlb0/dataram/xc2v.x0/a0.r0/memarr_reg_0_7_6_11/RAMA_D1/CLK
+
+
+

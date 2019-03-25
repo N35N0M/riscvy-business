@@ -1,0 +1,8 @@
+[Device]
+Family = ;
+PartNumber = XC7Z0201CLG484;
+Package = ;
+PartType = XC7Z020;
+Speed = 1;
+Operating_condition = COM;
+Status = Production;

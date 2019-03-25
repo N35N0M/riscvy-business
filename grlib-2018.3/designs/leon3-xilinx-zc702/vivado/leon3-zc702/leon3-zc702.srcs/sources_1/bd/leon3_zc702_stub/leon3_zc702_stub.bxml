@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root MajorVersion="0" MinorVersion="27">
+  <CompositeFile CompositeFileTopName="leon3_zc702_stub" CanBeSetAsTop="true" CanDisplayChildGraph="true">
+    <Description>Composite Fileset</Description>
+    <Generation Name="SYNTHESIS" State="GENERATED"/>
+    <Generation Name="IMPLEMENTATION" State="GENERATED"/>
+    <Generation Name="SIMULATION" State="GENERATED"/>
+    <FileCollection Name="SOURCES" Type="SOURCES">
+      <File Name="ip/leon3_zc702_stub_processing_system7_0_0/leon3_zc702_stub_processing_system7_0_0.xci" Type="IP">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="hdl/leon3_zc702_stub.vhd" Type="VHDL">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="leon3_zc702_stub_ooc.xdc" Type="XDC">
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="false"/>
+        <Library Name="work"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="OUT_OF_CONTEXT"/>
+      </File>
+    </FileCollection>
+  </CompositeFile>
+</Root>

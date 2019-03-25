@@ -18,7 +18,7 @@ module riscv_ahb_master (
   output [2:0]  HBURST,
   output [3:0]  HPROT,
   output [31:0] HWDATA
-  )
+  );
 
   picorv32_ahb_if pico_with_ahb_interface #(
     // PicoRV parameters
@@ -46,7 +46,7 @@ module riscv_ahb_master (
   	.LATCHED_IRQ         (32'h ffff_ffff),
   	.PROGADDR_RESET      (32'h 0000_0000),
   	.PROGADDR_IRQ        (32'h 0000_0010),
-  	.STACKADDR           (32'h ffff_ffff)
+  	.STACKADDR           (32'h ffff_ffff),
     )(
       .clk               (HCLK          ),
       .resetn            (RESETn        ),

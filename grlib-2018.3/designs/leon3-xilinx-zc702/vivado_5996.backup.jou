@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:36:41 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Mar 25 01:07:46 2019
+# Process ID: 5677
+# Current directory: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702
+# Command line: vivado -mode batch -source ./vivado/leon3mp_vivado.tcl ./vivado/leon3mp_vivado_run.tcl
+# Log file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado.log
+# Journal file: /home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado.jou
+#-----------------------------------------------------------
+source ./vivado/leon3mp_vivado.tcl

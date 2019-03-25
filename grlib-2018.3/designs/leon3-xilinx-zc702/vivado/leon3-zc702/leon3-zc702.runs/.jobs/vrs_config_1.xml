@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="synth_1" LaunchDir="/home/kris/riscvy-business/grlib-2018.3/designs/leon3-xilinx-zc702/vivado/leon3-zc702/leon3-zc702.runs/synth_1" FlowId="Vivado Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+</Runs>
+
