@@ -1,8 +1,8 @@
 [submodule "picorv32"]
-	path = picorv32
+	path = riscvy-grlib/lib/riscv/picorv/core
 	url = https://github.com/N35N0M/picorv32
         branch = master
 [submodule "FreeAHB"]
-	path = FreeAHB
+	path = riscvy-grlib/lib/riscv/shared/FreeAHB
 	url = https://github.com/N35N0M/FreeAHB.git
         branch = master

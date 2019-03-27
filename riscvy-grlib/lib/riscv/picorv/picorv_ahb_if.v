@@ -1,7 +1,6 @@
-
-`include "../picorv32/picorv32.v"
-`include "../picorv32/picorv32_ahb_adapter.v"
-`include "../FreeAHB/ahb_master/sources/ahb_master.v"
+`include "core/picorv32.v"
+`include "picorv32_ahb_adapter.v"
+`include "../shared/FreeAHB/ahb_master/sources/ahb_master.v"
 
 // Pico
 module picorv32_ahb_if #(
