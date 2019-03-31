@@ -68,6 +68,7 @@ package devices is
   constant VENDOR_TAS        : amba_vendor_type := 16#A5#;
   constant VENDOR_RECORE     : amba_vendor_type := 16#A6#;
   constant VENDOR_AAC        : amba_vendor_type := 16#AA#;
+  constant VENDOR_RISCVY     : amba_vendor_type := 16#AB#; -- Doesnt really exist, but nice to use for internal purposes.
   constant VENDOR_ACTEL      : amba_vendor_type := 16#AC#;
   constant VENDOR_APPLECORE  : amba_vendor_type := 16#AE#;
   constant VENDOR_C3E        : amba_vendor_type := 16#C3#;
@@ -259,6 +260,9 @@ package devices is
   constant GAISLER_DFIERRINJ     : amba_device_type := 16#0B3#;
   constant GAISLER_DFICHECK      : amba_device_type := 16#0B4#;
   constant GAISLER_GRCANFD       : amba_device_type := 16#0B5#;
+
+-- Riscvy
+  constant DEVICE_RISCVY : amba_device_type := 16#001#;
 
 -- Sun Microsystems
 

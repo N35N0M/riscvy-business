@@ -1,6 +1,0 @@
-
-addfile -vhdl config.vhd
-addfile -vhdl ahbrom.vhd
-addfile -vhdl leon3mp.vhd
-addfile -vhdl leon3_zc702_stub_sim.vhd
-addfile -vhdl testbench.vhd

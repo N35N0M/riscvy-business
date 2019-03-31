@@ -16,4 +16,4 @@ esa
 fmf
 spansion
 gsi
-riscv/picorv
+riscv

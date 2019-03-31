@@ -29,6 +29,10 @@ use grlib.amba.all;
 use grlib.stdlib.all;
 use grlib.config.all;
 use grlib.devices.all;
+
+--library riscv;
+--use riscv.picorv.all;
+
 use techmap.gencomp.all;
 library gaisler;
 use gaisler.leon3.all;
@@ -264,6 +268,18 @@ begin
      nahbm => maxahbm, nahbs => maxahbs)
   port map (rstn, clkm, ahbmi, ahbmo, ahbsi, ahbso);
 
+
+
+----------------------------------------------------------------------
+---  PicoRV RISC-V Processor with FreeAHB ----------------------------
+----------------------------------------------------------------------
+--  picorv_0: picorv_grlib_ahb_master
+--                generic map (hindex  =>       5)
+--                port map(
+--                        rst     =>      rstn,
+--                        clk     =>      clkm,
+--                        ahbmi   =>      ahbmi,
+--			ahbmo   =>      ahbmo(5)); -- Havent accounted for this before, but is what the leon does...
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
 ----------------------------------------------------------------------

@@ -1,21 +1,26 @@
 -- This wrapper is a combination of grlib.pdf's chapter 8.3 (but adapted for a master, not a slave),
 -- and Xilinx' suggestion for instantiating a Verilog module to a VHDL library.
 
-library ieee; use ieee.std_logic_1164.all;
+library ieee; 
+use ieee.numeric_std.all;
+use ieee.std_logic_1164.all;
+
+library grlib; 
+use grlib.amba.all;
+use grlib.config_types.all;
+use grlib.config.all;
+use grlib.stdlib.all;
 
 entity picorv_grlib_ahb_master is
-	generic (
-		hindex	:	integer := 0;
-		-- haddr	:	integer := 0;
-		-- hmask	:	integer := 16#fff#);
+	generic (hindex	:	integer := 5);
 	port (
 		rst	:	in std_ulogic;
 		clk	:	in std_ulogic;
 		ahbmi	:	in ahb_mst_in_type;
-		ahbmo	:	in ahb_mst_out_type);
+		ahbmo	:	out ahb_mst_out_type);
 end;
 
-architecture rtl of picorv_grlib_ahb_master is
+architecture pico of picorv_grlib_ahb_master is
 	component riscv_ahb_master
 		port (
 			HCLK	:	in  std_ulogic;
@@ -39,32 +44,29 @@ architecture rtl of picorv_grlib_ahb_master is
 	-- GRLIB Plug&play information --
 	constant HCONFIG: ahb_config_type := (
 		-- Only the first config word must be defined for masters (all other words are memory areas, and that is not applicable for master(s))
-		0 => ahb_device_reg (venid, devid 0, version, 0), -- TODO: Define venid, devid, version etc. Last position is which interrupt it drives (0 indicates none).
+		0 => ahb_device_reg (16#AB#, 16#001#, 0, 1, 0), -- TODO: Define venid, devid, version etc. Last position is which interrupt it drives (0 indicates none).
 		others => X"00000000");
 	
-	begin 
-		ahbmo.hconfig 	<= HCONFIG;
-		ahbmo.hirq 	<= (others => '0'); -- TODO: We will want to connect to the interrupt bus later when bare C programs work. But then with ahbmi, not ahbmo.
-		
-		wrapped_picorv: riscv_ahb_master
-			generic map(hindex 	=> 5);
-
-			port map(
-				HCLK 		=> clk,
-				HRESETn 	=> rst,
-				HGRANTx		=> ahbmi.hgrant,
-				HREADY		=> ahbmi.hready,
-				HRESP		=> ahbmi.hresp,
-				HRDATA		=> ahbmi.hrdata,
-
-				BUSREQx		=> ahbmo.hbusreq, -- TODO: Should rename BUSREQx to HBUSREQx or HBUSREQ for consistency.
-				HLOCKx		=> ahbmo.hlock,
-				HTRANS		=> ahbmo.htrans,
-				HADDR		=> ahbmo.haddr,
-				HWRITE		=> ahbmo.hwrite,
-				HSIZE		=> ahbmo.hsize,
-				HBURST	 	=> ahbmo.hburst,
-				HPROT		=> ahbmo.hprot,
-				HWDATA          => ahbmo.hwdata);
-	end;
+begin 
+	ahbmo.hconfig 	<= HCONFIG;
+	--ahbmo.hirq 	<= (others => '0'); -- TODO: We will want to connect to the interrupt bus later when bare C programs work. But then with ahbmi, not ahbmo.
 	
+	wrapped_picorv: riscv_ahb_master
+		port map(
+			HCLK 		=> clk,
+			HRESETn 	=> rst,
+			HGRANTx		=> ahbmi.hgrant(hindex),
+			HREADY		=> ahbmi.hready,
+			HRESP		=> ahbmi.hresp,
+			HRDATA		=> ahbmi.hrdata,
+
+			BUSREQx		=> ahbmo.hbusreq, -- TODO: Should rename BUSREQx to HBUSREQx or HBUSREQ for consistency.
+			HLOCKx		=> ahbmo.hlock,
+			HTRANS		=> ahbmo.htrans,
+			HADDR		=> ahbmo.haddr,
+			HWRITE		=> ahbmo.hwrite,
+			HSIZE		=> ahbmo.hsize,
+			HBURST	 	=> ahbmo.hburst,
+			HPROT		=> ahbmo.hprot,
+			HWDATA          => ahbmo.hwdata);
+end;
