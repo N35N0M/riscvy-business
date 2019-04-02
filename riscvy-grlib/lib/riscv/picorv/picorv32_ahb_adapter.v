@@ -13,10 +13,10 @@ module picorv32_to_ahb_master_adapter (
   input mem_ahb_ready,
   output [31:0] mem_ahb_wdata,
   output [3:0] mem_ahb_prot, // We can set instr/data, but hardly any of the other bits since we don't cache anything?
-	output 			 mem_ahb_lock;
+	output 			 mem_ahb_lock,
   input [31:0] mem_ahb_rdata,
   output [31:0] mem_ahb_addr,
-  output [2:0]  mem_ahb_size,
+  output reg [2:0]  mem_ahb_size,
 
 	// Native PicoRV32 memory interface
 	input         mem_valid,
@@ -32,15 +32,15 @@ module picorv32_to_ahb_master_adapter (
   assign mem_ahb_prot  = mem_instr ? 4'b0000 : 4'b0001; // Cacheable?, bufferable?, privileged?, data?
 	assign mem_ahb_lock  = 0'b1; // Always a locked transfer
   assign mem_ahb_valid = mem_valid;
-  assign mem_ahb_wdata = mem_data;
-  assign mem_ahb_waddr = mem_addr;
+  assign mem_ahb_wdata = mem_wdata;
+  assign mem_ahb_addr = mem_addr;
   assign mem_ready     = mem_ahb_ready;
   assign mem_rdata     = mem_ahb_rdata;
 
 	// The original FreeAHB uses dedicated write and read signals in combination with valid to
 	// detect a start of transfer..
-	assign mem_ahb_write <= mem_wstrb == 4'b0000 ? 1'b0 : 1'b1;
-	assign mem_ahb_read  <= mem_wstrb == 4'b0000 ? 1'b1 : 1'b0;
+	assign mem_ahb_write = mem_wstrb == 4'b0000 ? 1'b0 : 1'b1;
+	assign mem_ahb_read  = mem_wstrb == 4'b0000 ? 1'b1 : 1'b0;
 
 
   // Determine size of the transfer for the AHB master, which doesn't use WTRB, which AXI does.
@@ -52,7 +52,7 @@ module picorv32_to_ahb_master_adapter (
     if (mem_wstrb == 4'b011)  //write aligned half word
       mem_ahb_size <= 3'b001;
     if (mem_wstrb == 4'b001) begin //write aligned byte
-      mem_ahb_size <= 3'b000;
+     	mem_ahb_size <= 3'b000;
     end else begin // Default case is to always write all 32-bits. TODO: This might not be a good decision. Maybe should not be supported at all.
       mem_ahb_size <= 3'b010;
     end

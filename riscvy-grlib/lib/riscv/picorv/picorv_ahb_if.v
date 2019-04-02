@@ -71,17 +71,9 @@ module picorv32_ahb_if #(
 
 	// Trace Interface
 	output        trace_valid,
-	output [35:0] trace_data
-);
-	wire        mem_valid;
-	wire [31:0] mem_addr;
-	wire [31:0] mem_wdata;
-	wire [ 3:0] mem_wstrb;
-	wire        mem_instr;
-	wire        mem_ready;
-	wire [31:0] mem_rdata;
+	output [35:0] trace_data,
 
-  // AHB master interface lines
+	// AHB master interface lines
 	output        mem_ahb_valid,
   output        mem_ahb_write,
   output        mem_ahb_read,
@@ -91,19 +83,27 @@ module picorv32_ahb_if #(
   output        mem_ahb_lock,
   input  [31:0] mem_ahb_rdata,
   output [31:0] mem_ahb_addr,
-  output [2:0]  mem_ahb_size,
+  output [2:0]  mem_ahb_size
+);
+
+	wire        mem_valid;
+	wire [31:0] mem_addr;
+	wire [31:0] mem_wdata;
+	wire [ 3:0] mem_wstrb;
+	wire        mem_instr;
+	wire        mem_ready;
+	wire [31:0] mem_rdata;
+
+  //ahb_master #(
+  //  .DATA_WDT       (32             ),
+  //  .BEAT_WDT       (32             )
+  //)
+  //(
+  //  .i_hclk(hclk)
+  //);
 
 
-  ahb_master #(
-    .DATA_WDT       (32             ),
-    .BEAT_WDT       (32             )
-  )
-  (
-    .i_hclk(hclk)
-  );
-
-
-	picorv32_ahb_adapter ahb_adapter (
+	picorv32_to_ahb_master_adapter ahb_adapter (
 		.clk            (clk            ),
 		.resetn         (resetn         ),
 		.mem_valid      (mem_valid      ),

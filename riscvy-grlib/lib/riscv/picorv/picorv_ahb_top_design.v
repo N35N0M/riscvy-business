@@ -1,4 +1,5 @@
 `include "picorv_ahb_if.v"
+`include "../shared/FreeAHB/ahb_master/sources/ahb_master.v"
 
 // This is what is seen by the GRLIB AMBA bus, so
 module riscv_ahb_master (
@@ -20,7 +21,7 @@ module riscv_ahb_master (
   output [31:0] HWDATA
   );
 
-  picorv32_ahb_if pico_with_ahb_interface #(
+  picorv32_ahb_if #(
     // PicoRV parameters
     .ENABLE_COUNTERS     (1             ),
   	.ENABLE_COUNTERS64   (1             ),
@@ -46,8 +47,8 @@ module riscv_ahb_master (
   	.LATCHED_IRQ         (32'h ffff_ffff),
   	.PROGADDR_RESET      (32'h 0000_0000),
   	.PROGADDR_IRQ        (32'h 0000_0010),
-  	.STACKADDR           (32'h ffff_ffff),
-    )(
+  	.STACKADDR           (32'h ffff_ffff)
+    ) pico_with_ahb_interface (
       .clk               (HCLK          ),
       .resetn            (RESETn        ),
       .trap              (              ),
@@ -80,9 +81,7 @@ module riscv_ahb_master (
       .mem_ahb_prot      (i_prot        ),
       .mem_ahb_rdata     (o_data        ),
       .mem_ahb_addr      (i_addr        ),
-      .mem_ahb_size      (i_size        ),
-
-
+      .mem_ahb_size      (i_size        )
     );
 
     wire        o_next; // Not currently used
@@ -101,10 +100,10 @@ module riscv_ahb_master (
     wire        i_lock;
 
     // FreeAHB AHB Master instance
-    ahb_master freeahb_master #(
+    ahb_master  #(
       .DATA_WDT(32),
-      .BEAT_WDT(32)
-      )
+      .BEAT_WDT(32),
+      ) freeahb_master
     (
       // Actual Full AHB Lines
       .i_hclk     (HCLK       ),
@@ -121,7 +120,7 @@ module riscv_ahb_master (
       .o_hwrite   (HWRITE     ),
       .o_hbusreq  (HBUSREQx   ),
       .o_hprot    (HPROT      ),
-      .o_hlock    (HLOCKx     )
+      .o_hlock    (HLOCKx     ),
 
       // Interfacing with the PicoRV adapter
       .o_next       (           ), // Not used, we expect a single transfer.
@@ -137,7 +136,7 @@ module riscv_ahb_master (
       .o_addr       (           ), // Not used, we dont verify the read addr.
       .o_ready      (o_ready    ),
       .i_lock       (i_lock     ),
-      .i_prot       (i_prot     ),
+      .i_prot       (i_prot     )
     );
 
 

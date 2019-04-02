@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 --  LEON3 Zc702 Demonstration design
 --  Copyright (C) 2012 Fredrik Ringhage, Aeroflex Gaisler
---  Modifed by Jiri Gaisler to provide working AXI interface, 2014-04-05 
+--  Modifed by Jiri Gaisler to provide working AXI interface, 2014-04-05
 ------------------------------------------------------------------------------
 --  This file is a part of the GRLIB VHDL IP LIBRARY
 --  Copyright (C) 2003 - 2008, Gaisler Research
@@ -19,7 +19,7 @@
 --
 --  You should have received a copy of the GNU General Public License
 --  along with this program; if not, write to the Free Software
---  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+--  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ------------------------------------------------------------------------------
 
 library ieee;
@@ -30,8 +30,8 @@ use grlib.stdlib.all;
 use grlib.config.all;
 use grlib.devices.all;
 
---library riscv;
---use riscv.picorv.all;
+library riscv;
+use riscv.picorv.all;
 
 use techmap.gencomp.all;
 library gaisler;
@@ -150,11 +150,11 @@ component leon3_zc702_stub
   S_AXI_GP0_wready : out STD_LOGIC;
   S_AXI_GP0_wstrb : in STD_LOGIC_VECTOR ( 3 downto 0 );
   S_AXI_GP0_wvalid : in STD_LOGIC
-  
+
   );
 end component;
 
-constant maxahbm : integer := (CFG_LEON3*CFG_NCPU)+CFG_AHB_JTAG;
+constant maxahbm : integer := (CFG_LEON3*CFG_NCPU)+CFG_AHB_JTAG + 1; -- TODO: We should add RISCV conf to the configurator as well, instead of manually adding one here...
 constant maxahbs : integer := 8;
 constant maxapbs : integer := 16;
 
@@ -193,7 +193,7 @@ signal gpioo : gpio_out_type;
 signal tck, tckn, tms, tdi, tdo : std_ulogic;
 
 constant BOARD_FREQ : integer := 83333;   -- CLK0 frequency in KHz
-constant CPU_FREQ : integer := BOARD_FREQ; 
+constant CPU_FREQ : integer := BOARD_FREQ;
 
 signal stati : ahbstat_in_type;
 
@@ -273,13 +273,13 @@ begin
 ----------------------------------------------------------------------
 ---  PicoRV RISC-V Processor with FreeAHB ----------------------------
 ----------------------------------------------------------------------
---  picorv_0: picorv_grlib_ahb_master
---                generic map (hindex  =>       5)
---                port map(
---                        rst     =>      rstn,
---                        clk     =>      clkm,
---                        ahbmi   =>      ahbmi,
---			ahbmo   =>      ahbmo(5)); -- Havent accounted for this before, but is what the leon does...
+  picorv_0: picorv_grlib_ahb_master
+                generic map (hindex  =>       2)
+                port map(
+                        rst     =>      rstn,
+                        clk     =>      clkm,
+                        ahbmi   =>      ahbmi,
+			ahbmo   =>      ahbmo(2)); -- Havent accounted for this before, but is what the leon does...
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
 ----------------------------------------------------------------------
@@ -299,7 +299,7 @@ begin
     end generate;
   end generate;
   nocpu : if CFG_LEON3 = 0 generate dbgo(0) <= dbgo_none; end generate;
-   
+
   led1_pad : outpad generic map (tech => padtech, level => cmos, voltage => x33v) port map (led(1), dbgo(0).error);
 
   dsugen : if CFG_DSU = 1 generate
@@ -320,7 +320,7 @@ begin
     ahbjtag0 : ahbjtag generic map(tech => fabtech, hindex => CFG_LEON3*CFG_NCPU)
       port map(rstn, clkm, tck, tms, tdi, tdo, ahbmi, ahbmo(CFG_LEON3*CFG_NCPU),
                open, open, open, open, open, open, open, gnd);
-  end generate; 
+  end generate;
 
   leon3_zc702_stub_i : leon3_zc702_stub
         port map (
@@ -430,11 +430,11 @@ begin
     S_AXI_GP0_awvalid <= aximo.aw.valid;
     aximi.aw.ready <=  S_AXI_GP0_awready;
 
-    aximi.b.id <= S_AXI_GP0_bid(3 downto 0);                   
+    aximi.b.id <= S_AXI_GP0_bid(3 downto 0);
     S_AXI_GP0_bready <= aximo.b.ready;
     aximi.b.resp <=  S_AXI_GP0_bresp;
     aximi.b.valid <=  S_AXI_GP0_bvalid;
-  
+
     aximi.r.data <= S_AXI_GP0_rdata;
     aximi.r.id <= S_AXI_GP0_rid(3 downto 0);
     aximi.r.last <= S_AXI_GP0_rlast;
@@ -454,7 +454,7 @@ begin
     apbo(0).pconfig <= pconfig;
     apbo(0).pirq <= (others => '0');
     apbo(0).prdata <= (others=>'0');
-  
+
 
 ----------------------------------------------------------------------
 ---  APB Bridge and various periherals -------------------------------
@@ -509,7 +509,7 @@ begin
 
   ua1 : if CFG_UART1_ENABLE /= 0 generate
     uart1 : apbuart                     -- UART 1
-      generic map (pindex   => 1, paddr => 1, pirq => 2, console => dbguart, 
+      generic map (pindex   => 1, paddr => 1, pirq => 2, console => dbguart,
          fifosize => CFG_UART1_FIFO)
       port map (rstn, clkm, apbi, apbo(1), u1i, u1o);
     u1i.rxd    <= rxd1;
@@ -519,12 +519,12 @@ begin
 
   end generate;
   noua0 : if CFG_UART1_ENABLE = 0 generate apbo(1) <= apb_none; end generate;
-  
-  hready_pad : outpad generic map (level => cmos, voltage => x33v, tech => padtech) 
+
+  hready_pad : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
      port map (led(2), ahbmi.hready);
-  rsti_pad : outpad generic map (level => cmos, voltage => x33v, tech => padtech) 
+  rsti_pad : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
      port map (led(3), rsti);
-     
+
   ahbs : if CFG_AHBSTAT = 1 generate   -- AHB status register
     stati <= ahbstat_in_none;
     ahbstat0 : ahbstat generic map (pindex => 15, paddr => 15, pirq => 7,
@@ -551,7 +551,7 @@ begin
    tech => CFG_MEMTECH, kbytes => CFG_AHBRSZ, pipe => CFG_AHBRPIPE)
     port map ( rstn, clkm, ahbsi, ahbso(5));
   end generate;
-  
+
 -----------------------------------------------------------------------
 ---  Test report module  ----------------------------------------------
 -----------------------------------------------------------------------
@@ -568,7 +568,7 @@ begin
   nam1 : for i in (maxahbs+1) to NAHBMST-1 generate
     ahbmo(i) <= ahbm_none;
   end generate;
- 
+
  -----------------------------------------------------------------------
  ---  Boot message  ----------------------------------------------------
  -----------------------------------------------------------------------
@@ -582,4 +582,3 @@ begin
     );
  -- pragma translate_on
  end;
-
