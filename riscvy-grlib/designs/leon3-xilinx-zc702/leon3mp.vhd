@@ -279,7 +279,7 @@ begin
                         rst     =>      rstn,
                         clk     =>      clkm,
                         ahbmi   =>      ahbmi,
-			ahbmo   =>      ahbmo(2)); -- Havent accounted for this before, but is what the leon does...
+			ahbmo   =>      ahbmo(2));
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
 ----------------------------------------------------------------------

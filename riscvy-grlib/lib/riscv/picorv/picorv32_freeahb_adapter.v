@@ -2,9 +2,7 @@
 // picorv32_to_freeahb_adapter
 // *****************************************************************************
 
-module picorv32_to_freeahb_adapter (
-	input clk, resetn,												// Will be provided by AHB bus.
-
+module picorv32_freeahb_adapter (
   // FreeAHB interface
   output reg			[31:0]		freeahb_wdata,
   output reg								freeahb_valid,
@@ -22,27 +20,35 @@ module picorv32_to_freeahb_adapter (
 	input       [31:0]    freeahb_result_addr, // Not used.
 	input 								freeahb_ready, 				// rdata contains valid data.
 
+	input 								freeahb_clk,
+	input 								freeahb_resetn,
+
 	// Native PicoRV32 memory interface
 	input         				mem_valid,
 	input         				mem_instr,
-	output reg       				mem_ready,
+	output reg       			mem_ready,
 	input  			[31:0] 		mem_addr,
 	input  			[31:0] 		mem_wdata,
 	input  			[3:0] 		mem_wstrb,
-	output 			[31:0] 		mem_rdata
+	output 			[31:0] 		mem_rdata,
+
+	// Clock and reset passed from the bus.
+	output 								pico_clk,
+	output 								pico_resetn
 );
 
-
-	assign mem_rdata = freeahb_rdata;
+  assign pico_clk 		=	freeahb_clk;
+	assign pico_resetn 	= freeahb_resetn;
+	assign mem_rdata 		= freeahb_rdata;
 
 
 	reg [3:0] write_ctr;	// Used to keep track of which bit in
 												// wstrb we are working on.
 
-	always @(posedge clk or negedge resetn) begin
+	always @(posedge freeahb_clk or negedge freeahb_resetn) begin
 	  // Idle/reset conditions.
 		// We expect that a finished transfer (mem_ready) always lowers mem_valid.
-		if (!resetn || !mem_valid) begin
+		if (!freeahb_resetn || !mem_valid) begin
 			freeahb_valid <= 0;
 			mem_ready 		<= 0;
 			write_ctr 		<= 0;

@@ -1,2 +1,2 @@
-picorv_ahb_top_design.vhd
+picorv_ahb.vhd
 picorv.vhd

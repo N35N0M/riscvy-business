@@ -48,6 +48,9 @@ module adapter_and_freeahb_test;
     logic [3:0]            o_hprot;
     logic                  o_hlock;
 
+    logic                  pico_clk;
+    logic                  pico_resetn;
+
 
     bit clk;
     bit resetn;
@@ -68,9 +71,11 @@ ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (.i_hclk(clk),
                                                          .o_data(freeahb_rdata),
                                                          .o_addr(freeahb_result_addr),
                                                          .o_ready(freeahb_ready),
+                                                         .o_clk(ahb_clk),
+                                                         .o_reset(ahb_reset),
                                                          .*);
 
-picorv32_to_freeahb_adapter FREEAHB_ADAPT    (.*);
+picorv32_freeahb_adapter FREEAHB_ADAPT    (.freeahb_clk(ahb_clk), .freeahb_resetn(ahb_reset), .*);
 
 
 always #10 clk++;
@@ -78,11 +83,11 @@ always #10 clk++;
 
 initial
 begin
-        $dumpfile("freeahb_adapter.vcd");
+        $dumpfile("freeahb_and_adapter.vcd");
         $dumpvars;
         resetn <= 1;
         d(10);
-        // FIRST CASE: TEST READ
+        // Only case: WRITE
         // Initialize write session by acting as PicoRV memory IF
         mem_addr    <= 32'b10000000000000000000000000000000;
         mem_wdata   <= 32'hF0FF0FAA;
