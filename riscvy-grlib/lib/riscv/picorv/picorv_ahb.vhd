@@ -13,12 +13,12 @@ use grlib.stdlib.all;
 use grlib.devices.all;
 
 entity picorv_grlib_ahb_master is
-	generic (hindex	:	integer := 5);
+	generic (master_index	:	integer := 5);
 	port (
-		rst	:		in std_ulogic;
-		clk	:		in std_ulogic;
-		ahbmi	:	in ahb_mst_in_type;
-		ahbmo	:	out ahb_mst_out_type);
+		rst	  :		in    std_ulogic;
+		clk	  :		in    std_ulogic;
+		ahbmi	:	  in    ahb_mst_in_type;
+		ahbmo	:	  out   ahb_mst_out_type);
 end;
 
 architecture pico of picorv_grlib_ahb_master is
@@ -50,14 +50,14 @@ architecture pico of picorv_grlib_ahb_master is
 
 begin
 	ahbmo.hconfig 	<= HCONFIG; -- Dont think it is possible to use HCONFIG at all due to licencing...
-	ahbmo.hindex    <= 2; -- TODO: Should be parameterized.
+	ahbmo.hindex    <= master_index; -- TODO: Should be parameterized.
 	ahbmo.hirq 			<= (others => '0'); -- TODO: We will want to connect to the interrupt bus later when bare C programs work. But then with ahbmi, not ahbmo.
 
 	wrapped_picorv: pico_ahb_master
 		port map(
 			HCLK 					=> clk,
 			HRESETn 			=> rst,
-			HGRANTx				=> ahbmi.hgrant(hindex),
+			HGRANTx				=> ahbmi.hgrant(master_index),
 			HREADY				=> ahbmi.hready,
 			HRESP					=> ahbmi.hresp,
 			HRDATA				=> ahbmi.hrdata,

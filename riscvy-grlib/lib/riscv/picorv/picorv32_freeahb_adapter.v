@@ -7,7 +7,7 @@ module picorv32_freeahb_adapter (
   output reg			[31:0]		freeahb_wdata,
   output reg								freeahb_valid,
 	output reg			[31:0]		freeahb_addr,
-	output reg     [2:0]			freeahb_size,
+	output reg      [2:0]			freeahb_size,
 	output reg								freeahb_write,
 	output reg								freeahb_read,
 	output reg			[31:0]		freeahb_min_len,// Minimum "guaranteed size of burst"
@@ -15,31 +15,31 @@ module picorv32_freeahb_adapter (
   output reg			[3:0]			freeahb_prot,
 	output reg								freeahb_lock,
 
-	input 								freeahb_next, // Asserted indicates transfer finished.
-	input 			[31:0]		freeahb_rdata,
-	input       [31:0]    freeahb_result_addr, // Not used.
-	input 								freeahb_ready, 				// rdata contains valid data.
+	input 					          freeahb_next, // Asserted indicates transfer finished.
+	input 			    [31:0]		freeahb_rdata,
+	input           [31:0]    freeahb_result_addr, // Not used.
+	input 								    freeahb_ready, 				// rdata contains valid data.
 
-	input 								freeahb_clk,
-	input 								freeahb_resetn,
+	input 								    freeahb_clk,
+	input 								    freeahb_resetn,
 
 	// Native PicoRV32 memory interface
-	input         				mem_valid,
-	input         				mem_instr,
-	output reg       			mem_ready,
-	input  			[31:0] 		mem_addr,
-	input  			[31:0] 		mem_wdata,
-	input  			[3:0] 		mem_wstrb,
-	output 			[31:0] 		mem_rdata,
+	input             				mem_valid,
+	input             				mem_instr,
+	output reg           			mem_ready,
+	input  			    [31:0] 		mem_addr,
+	input  			    [31:0] 		mem_wdata,
+	input  			    [3:0] 		mem_wstrb,
+	output 			    [31:0] 		mem_rdata,
 
 	// Clock and reset passed from the bus.
-	output 								pico_clk,
-	output 								pico_resetn
+	output 					    			pico_clk,
+	output 							    	pico_resetn
 );
 
-  assign pico_clk 		=	freeahb_clk;
-	assign pico_resetn 	= freeahb_resetn;
-	assign mem_rdata 		= freeahb_rdata;
+  assign pico_clk 		=	    freeahb_clk;
+	assign pico_resetn 	=     freeahb_resetn;
+	assign mem_rdata 		=     freeahb_rdata;
 
 
 	reg [3:0] write_ctr;	// Used to keep track of which bit in
@@ -68,7 +68,7 @@ module picorv32_freeahb_adapter (
 			freeahb_min_len 	  <= 32;
 			freeahb_cont				<= 1'b0;
 			freeahb_prot				<= mem_instr ? 4'b0000 : 4'b0001;
-			freeahb_lock				<= 1'b1;
+			freeahb_lock				<= 1'b0;
 		end
 
 		// READ transfer complete
@@ -88,7 +88,7 @@ module picorv32_freeahb_adapter (
 		// into one transfer, to reduce transfers from bestcase 4clk to bestcase
 		// 1 clk (all bytes enabled
 		else if (mem_wstrb != 4'b0000 && freeahb_next && write_ctr < 4) begin
-		  if (mem_wstrb[3-write_ctr] === 1) begin
+		  if (mem_wstrb[3-write_ctr] == 1) begin
 				case (3-write_ctr)
 					3:	begin
 								freeahb_wdata 			<= mem_wdata[31:24];
@@ -120,8 +120,10 @@ module picorv32_freeahb_adapter (
 				freeahb_cont				<= 1'b0;	// Byte strobes are not necessarily
 																			// sequential. Start new transfer.
 				freeahb_prot				<= mem_instr ? 4'b0000 : 4'b0001;
-				freeahb_lock				<= 1'b1;  // We always lock to ensure that the
-																			// entire write is done noninterrupted.
+				freeahb_lock				<= 1'b0;  // Never lock, so we do not block the bus
+                                      // indefinitely (remember we have absolutely
+                                      // no cache, so instructions and data
+                                      // will constantly be fetched...)
 
 			end
 			write_ctr <= write_ctr + 1;
