@@ -154,7 +154,7 @@ component leon3_zc702_stub
   );
 end component;
 
-constant maxahbm : integer := 9; -- TODO: We should add RISCV conf to the configurator as well, instead of manually adding one here...
+constant maxahbm : integer := 3; -- TODO: We should add RISCV conf to the configurator as well, instead of manually adding one here...
 constant maxahbs : integer := 7;
 constant maxapbs : integer := 16;
 
@@ -273,13 +273,13 @@ begin
 ----------------------------------------------------------------------
 ---  PicoRV RISC-V Processor with FreeAHB ----------------------------
 ----------------------------------------------------------------------
-  picorv0: picorv_grlib_ahb_master
-                generic map (master_index  =>       5)
+ picorv0: picorv_grlib_ahb_master
+                generic map (master_index  =>       2)
                 port map(
                         rst     =>      rstn,
                         clk     =>      clkm,
                         ahbmi   =>      ahbmi,
-			ahbmo   =>      ahbmo(5));
+			ahbmo   =>      ahbmo(2));
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
 ----------------------------------------------------------------------

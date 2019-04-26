@@ -84,14 +84,14 @@ module pico_ahb_master (
     .o_addr       (ahb_to_adapter_addr     ), // Not used, we dont verify the read addr.
     .o_data       (ahb_to_adapter_data     ),
     .o_next       (ahb_to_adapter_next     ), // Not used, we expect a single transfer.
-    .o_ready      (ahb_to_adapter_ready    ),
+    .o_ready      (ahb_to_adapter_ready    )
   );
 
 
 
   picorv32_freeahb_adapter pico_ahb_adapter(
     .clk                  (HCLK               ),
-    .freeahb_resetn       (HRESETn            ),
+    .resetn  	          (HRESETn            ),
 
 
     // FreeAHB interface
