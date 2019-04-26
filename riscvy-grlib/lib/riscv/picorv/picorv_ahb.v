@@ -35,11 +35,9 @@ module pico_ahb_master (
   wire            adapter_to_ahb_valid;
   wire            adapter_to_ahb_write;
   wire [31:0]     ahb_to_adapter_addr;
-  wire            ahb_to_adapter_clk;
   wire [31:0]     ahb_to_adapter_data;
   wire            ahb_to_adapter_next;
   wire            ahb_to_adapter_ready;
-  wire            ahb_to_adapter_reset;
 
   // Wiring between the PicoRV core and the PicoRV memory IF adapter.
   wire            pico_to_adapter_valid;
@@ -49,8 +47,6 @@ module pico_ahb_master (
   wire [31:0]     pico_to_adapter_wdata;
   wire [3:0]      pico_to_adapter_wstrb;
   wire [31:0]     adapter_to_pico_rdata;
-  wire            adapter_to_pico_clk;
-  wire            adapter_to_pico_resetn;
 
   ahb_master  #(
     .DATA_WDT(32),
@@ -86,19 +82,20 @@ module pico_ahb_master (
     .i_valid      (adapter_to_ahb_valid    ),
     .i_write      (adapter_to_ahb_write    ),
     .o_addr       (ahb_to_adapter_addr     ), // Not used, we dont verify the read addr.
-    .o_clk        (ahb_to_adapter_clk      ),
     .o_data       (ahb_to_adapter_data     ),
     .o_next       (ahb_to_adapter_next     ), // Not used, we expect a single transfer.
     .o_ready      (ahb_to_adapter_ready    ),
-    .o_reset      (ahb_to_adapter_reset    )
   );
 
 
 
   picorv32_freeahb_adapter pico_ahb_adapter(
+    .clk                  (HCLK               ),
+    .freeahb_resetn       (HRESETn            ),
+
+
     // FreeAHB interface
     .freeahb_addr         (adapter_to_ahb_addr),
-    .freeahb_clk          (ahb_to_adapter_clk),
     .freeahb_next         (ahb_to_adapter_next), // Asserted indicates transfer finished.
     .freeahb_wdata        (adapter_to_ahb_data),
     .freeahb_valid        (adapter_to_ahb_valid),
@@ -110,7 +107,6 @@ module pico_ahb_master (
     .freeahb_rdata        (ahb_to_adapter_data),
     .freeahb_result_addr  (ahb_to_adapter_addr), // Not used.
     .freeahb_ready        (ahb_to_adapter_ready), 		 // rdata contains valid data.
-    .freeahb_resetn       (ahb_to_adapter_reset),
     .freeahb_lock         (adapter_to_ahb_lock),
     .freeahb_prot         (adapter_to_ahb_prot),
 
@@ -122,12 +118,8 @@ module pico_ahb_master (
     .mem_addr             (pico_to_adapter_addr),
     .mem_wdata            (pico_to_adapter_wdata),
     .mem_wstrb            (pico_to_adapter_wstrb),
-    .mem_rdata            (adapter_to_pico_rdata),
-
-    // Clock and reset passed from the bus.
-    .pico_clk             (adapter_to_pico_clk),
-    .pico_resetn          (adapter_to_pico_resetn)
-  );
+    .mem_rdata            (adapter_to_pico_rdata)
+    );
 
   picorv32 #(
   .ENABLE_COUNTERS      (1                   ),
@@ -158,8 +150,8 @@ module pico_ahb_master (
   .STACKADDR            (32'h 5000_0000      )
   ) picorv32_core (
     // Clock, reset, traps
-  .clk                  (adapter_to_pico_clk),
-  .resetn               (adapter_to_pico_resetn),
+  .clk                  (HCLK                  ),
+  .resetn               (HRESETn               ),
   .trap                 (),
 
     // Memory interface output

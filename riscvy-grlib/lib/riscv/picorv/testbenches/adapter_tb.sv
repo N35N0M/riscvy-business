@@ -13,8 +13,6 @@ module freeahb_adapter_test;
     logic 								freeahb_cont;			// Continues prev transfer
     logic 			[3:0]			freeahb_prot;
     logic 								freeahb_lock;
-    logic                 pico_clk;
-    logic                 pico_resetn;
 
     bit 			   					freeahb_next; // Asserted indicates transfer finished.
     bit 			  [31:0]		freeahb_rdata;
@@ -36,7 +34,7 @@ module freeahb_adapter_test;
     bit resetn;
 
 
-picorv32_freeahb_adapter FREEAHB_ADAPT    (.freeahb_clk(clk),.freeahb_resetn(resetn), .*);
+picorv32_freeahb_adapter FREEAHB_ADAPT    (.clk(clk),.resetn(resetn), .*);
 
 
 always #10 clk++;

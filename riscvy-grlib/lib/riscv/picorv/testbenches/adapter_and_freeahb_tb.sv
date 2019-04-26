@@ -48,9 +48,6 @@ module adapter_and_freeahb_test;
     logic [3:0]            o_hprot;
     logic                  o_hlock;
 
-    logic                  pico_clk;
-    logic                  pico_resetn;
-
 
     bit clk;
     bit resetn;
@@ -71,11 +68,9 @@ ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (.i_hclk(clk),
                                                          .o_data(freeahb_rdata),
                                                          .o_addr(freeahb_result_addr),
                                                          .o_ready(freeahb_ready),
-                                                         .o_clk(ahb_clk),
-                                                         .o_reset(ahb_reset),
                                                          .*);
 
-picorv32_freeahb_adapter FREEAHB_ADAPT    (.freeahb_clk(ahb_clk), .freeahb_resetn(ahb_reset), .*);
+picorv32_freeahb_adapter FREEAHB_ADAPT    (.clk(clk), .resetn(resetn), .*);
 
 
 always #10 clk++;
