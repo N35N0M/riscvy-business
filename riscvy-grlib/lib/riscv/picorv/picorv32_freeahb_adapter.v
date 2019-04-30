@@ -3,36 +3,36 @@
 // *****************************************************************************
 
 module picorv32_freeahb_adapter (
-    input                                     clk,
-    input                                     resetn,
+    input                               clk,
+    input                               resetn,
 
     // FreeAHB interface
     output reg            [31:0]        freeahb_wdata,
-    output reg                                freeahb_valid,
+    output reg                          freeahb_valid,
     output reg            [31:0]        freeahb_addr,
-    output reg      [2:0]            freeahb_size,
-    output reg                                freeahb_write,
-    output reg                                freeahb_read,
+    output reg            [2:0]         freeahb_size,
+    output reg                          freeahb_write,
+    output reg                          freeahb_read,
     output reg            [31:0]        freeahb_min_len,// Minimum "guaranteed size of burst"
-    output reg                                freeahb_cont,             // Continues prev transfer
-    output reg            [3:0]            freeahb_prot,
-    output reg                                freeahb_lock,
+    output reg                          freeahb_cont,             // Continues prev transfer
+    output reg            [3:0]         freeahb_prot,
+    output reg                          freeahb_lock,
 
     input                               freeahb_next, // Asserted indicates transfer finished.
     input                 [31:0]        freeahb_rdata,
-    input           [31:0]    freeahb_result_addr, // Not used.
-    input                                     freeahb_ready,                 // rdata contains valid data.
+    input                 [31:0]        freeahb_result_addr, // Not used.
+    input                               freeahb_ready,                 // rdata contains valid data.
 
 
 
     // Native PicoRV32 memory interface
-    input                             mem_valid,
-    input                             mem_instr,
-    output reg                       mem_ready,
-    input                  [31:0]         mem_addr,
-    input                  [31:0]         mem_wdata,
-    input                  [3:0]         mem_wstrb,
-    output                 [31:0]         mem_rdata
+    input                               mem_valid,
+    input                               mem_instr,
+    output reg                          mem_ready,
+    input                  [31:0]       mem_addr,
+    input                  [31:0]       mem_wdata,
+    input                  [3:0]        mem_wstrb,
+    output                 [31:0]        mem_rdata
 
 );
 
@@ -40,17 +40,20 @@ module picorv32_freeahb_adapter (
 
 
     reg [3:0] write_ctr;    // Used to keep track of which bit in
-    reg [2:0] wait_cycle;                                     // wstrb we are working on.
+    //reg [2:0] wait_cycle                                     // wstrb we are working on.
+
     always @(posedge clk or negedge resetn) begin
-      // Idle/reset conditions.
+        // Idle/reset conditions.
         // We expect that a finished transfer (mem_ready) always lowers mem_valid.
-        if (!resetn || !mem_valid && wait_cycle) begin
-            freeahb_valid <= 0;
+        if (!resetn || !mem_valid) begin
+            freeahb_valid     <= 0;
             mem_ready         <= 0;
+            freeahb_write     <= 0;
+            freeahb_read      <= 0;
             write_ctr         <= 0;
-	    wait_cycle 	      <= 0;
+	          //wait_cycle 	      <= 0;
         end
-        
+
         // *************************************************************************
         // READS
         //**************************************************************************
@@ -62,17 +65,17 @@ module picorv32_freeahb_adapter (
             freeahb_size              <= 3'b010;
             freeahb_write             <= 1'b0;
             freeahb_read              <= 1'b1;
-            freeahb_min_len       <= 32;
-            freeahb_cont                <= 1'b0;
-            freeahb_prot                <= mem_instr ? 4'b0000 : 4'b0001;
-            freeahb_lock                <= 1'b0;
+            freeahb_min_len           <= 32;
+            freeahb_cont              <= 1'b0;
+            freeahb_prot              <= mem_instr ? 4'b0000 : 4'b0001;
+            freeahb_lock              <= 1'b0;
         end
 
         // READ transfer complete
         else if (mem_wstrb == 4'b0000 && freeahb_valid && freeahb_ready) begin
-            mem_ready <= 1'b1;
-	    wait_cycle <= 1;
-	    freeahb_read <= 1'b0;
+            mem_ready     <= 1'b1;
+            //freeahb_valid <= 0;
+	          //freeahb_read  <= 1'b0;
         end
 
         // *************************************************************************
@@ -115,7 +118,7 @@ module picorv32_freeahb_adapter (
                 freeahb_size              <= 3'b000; // byte
                 freeahb_write             <= 1'b1;
                 freeahb_read              <= 1'b0;
-                freeahb_min_len         <= 8;
+                freeahb_min_len           <= 8;
                 freeahb_cont                <= 1'b0;    // Byte strobes are not necessarily
                                                                             // sequential. Start new transfer.
                 freeahb_prot                <= mem_instr ? 4'b0000 : 4'b0001;
@@ -136,16 +139,18 @@ module picorv32_freeahb_adapter (
 
         // Write sequence finished
 	else if (mem_wstrb != 4'b0000 && freeahb_next && write_ctr == 4) begin
-            mem_ready <= 1'b1;
-    	    wait_cycle <= 1;
-	    freeahb_write <= 1'b0;
-        end
-
-	else if ( wait_cycle > 0 && wait_cycle < 4) begin
-	    wait_cycle <= wait_cycle + 1;
-	end
-	else if (wait_cycle == 4) begin
-	    wait_cycle <= 0;
-        end
-    end
+            mem_ready     <= 1'b1;
+    	      // wait_cycle    <= 1;
+	          //freeahb_write <= 1'b0;
+            //freeahb_valid <= 1'b0;
+            write_ctr     <= 0;
+  end
+end
+//	else if ( wait_cycle > 0 && wait_cycle < 4) begin
+//	    wait_cycle <= wait_cycle + 1;
+//	end
+//	else if (wait_cycle == 4) begin
+//	    wait_cycle <= 0;
+//        end
+//    end
 endmodule

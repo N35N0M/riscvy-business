@@ -11,7 +11,7 @@ use grlib.stdlib.all;
 package picorv is
         component picorv_grlib_ahb_master is
                 generic (
-                        master_index  :       integer := 5);
+                        master_index  :       integer := 2);
                 port (
                         rst     :       in std_ulogic;
                         clk     :       in std_ulogic;

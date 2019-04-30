@@ -13,10 +13,11 @@ use grlib.stdlib.all;
 use grlib.devices.all;
 
 entity picorv_grlib_ahb_master is
-	generic (master_index	:	integer := 5);
+	generic (master_index	:	integer := 2);
 	port (
 		rst	  :		in    std_ulogic;
 		clk	  :		in    std_ulogic;
+		enable:   in 		std_ulogic;
 		ahbmi	:	  in    ahb_mst_in_type;
 		ahbmo	:	  out   ahb_mst_out_type);
 end;

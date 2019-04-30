@@ -242,6 +242,8 @@ signal S_AXI_GP0_wid : STD_LOGIC_VECTOR ( 5 downto 0 );  --
 signal aximi : axi_somi_type;
 signal aximo : axi3_mosi_type;
 
+signal pico_reset_button, pico_resets : std_ulogic;
+
 constant pconfig : apb_config_type := (
   0 => ahb_device_reg ( VENDOR_GAISLER, GAISLER_MIGDDR2, 0, 0, 0),
   1 => apb_iobar(0, 16#fff#));
@@ -273,13 +275,36 @@ begin
 ----------------------------------------------------------------------
 ---  PicoRV RISC-V Processor with FreeAHB ----------------------------
 ----------------------------------------------------------------------
- picorv0: picorv_grlib_ahb_master
-                generic map (master_index  =>       2)
-                port map(
-                        rst     =>      rstn,
-                        clk     =>      clkm,
-                        ahbmi   =>      ahbmi,
-			ahbmo   =>      ahbmo(2));
+
+
+-- Enable button, to control when to run the Pico processor
+  enable_pico_pad   : inpad  generic map (level => cmos, voltage => x18v, tech => padtech)
+    port map (button(1), pico_reset_button);
+
+  pico_resets <= rstn and not pico_reset_button;
+
+-- PicoRV instance  
+  picorv0: picorv_grlib_ahb_master
+    generic map (master_index  =>       2)
+    port map(
+                 rst     =>      pico_resets,
+                 clk     =>      clkm,
+                 ahbmi   =>      ahbmi,
+	         ahbmo   =>      ahbmo(2));
+
+  
+  -- DEBUG LED DS15: Enable signal (tied to button) going into the Pico design.
+  enable_signal_led : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
+     port map (led(7), pico_reset_button);
+
+  -- DEBUG LED DS16: FreeAHB's HBUSREQ signal
+  freeahb_busreq_led : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
+     port map (led(6), ahbmo(2).hbusreq);
+
+  -- DEBUG LED DS17: GRLIB AHBCTRL's HGRANT signal to FreeAHB
+  pico_unused_led7 : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
+     port map (led(5), ahbmi.hgrant(2));
+
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
 ----------------------------------------------------------------------
@@ -497,11 +522,11 @@ begin
         pio_pad : iopad generic map (tech => padtech, level => cmos, voltage => x18v)
             port map (switch(i), gpioo.dout(i), gpioo.oen(i), gpioi.din(i));
     end generate;
-    pio_pads2 : for i in 8 to 10 generate
+    pio_pads2 : for i in 9 to 10 generate -- Kris: We changed range 8-10 to 9-10 to "steal" a button for pico enable
         pio_pad : inpad generic map (tech => padtech, level => cmos, voltage => x18v)
             port map (button(i-8+1), gpioi.din(i)); -- Use +1 because button(0) is used for reset
     end generate;
-    pio_pads3 : for i in 11 to 14 generate
+    pio_pads3 : for i in 11 to 11 generate
         pio_pad : outpad generic map (tech => padtech, level => cmos, voltage => x33v)
             port map (led(i-11+4), gpioo.dout(i));
     end generate;

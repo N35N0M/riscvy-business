@@ -22,6 +22,7 @@ module pico_ahb_master (
   output [31:0] HWDATA
   );
 
+
   // Wiring between PicoRV Memory IF to AHB adapter
   // and the FreeAHB master
   wire [31:0]     adapter_to_ahb_addr;
@@ -90,8 +91,8 @@ module pico_ahb_master (
 
 
   picorv32_freeahb_adapter pico_ahb_adapter(
-    .clk                  (HCLK               ),
-    .resetn  	          (HRESETn            ),
+    .clk                (HCLK               ),
+    .resetn  	          (HRESETn    ),
 
 
     // FreeAHB interface
@@ -152,7 +153,7 @@ module pico_ahb_master (
     // Clock, reset, traps
   .clk                  (HCLK                  ),
   .resetn               (HRESETn               ),
-  .trap                 (),
+  .trap                 (                      ),
 
     // Memory interface output
   .mem_valid            (pico_to_adapter_valid),
