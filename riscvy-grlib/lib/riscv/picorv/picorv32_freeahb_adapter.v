@@ -32,7 +32,7 @@ module picorv32_freeahb_adapter (
     input                  [31:0]       mem_addr,
     input                  [31:0]       mem_wdata,
     input                  [3:0]        mem_wstrb,
-    output                 [31:0]        mem_rdata
+    output                 [31:0]       mem_rdata
 
 );
 
@@ -142,7 +142,7 @@ module picorv32_freeahb_adapter (
             end
 
             // If we do not write this round, we must make sure to make the FreeAHB idle.
-            else begin
+            else if (mem_wstrb[3-write_ctr] == 0) begin
                 freeahb_valid             <= 1'b0;
                 freeahb_write             <= 1'b0;
                 write_ctr <= write_ctr + 1;
