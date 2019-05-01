@@ -96,23 +96,26 @@ module picorv32_freeahb_adapter (
             if (mem_wstrb[3-write_ctr] == 1 && freeahb_next) begin
                 case (3-write_ctr)
                     3:    begin
-                                freeahb_wdata             <= mem_wdata[31:24];
+                                // See the AMBA-spec for active byte lanes for the specific endianness.
+                                // This is for a little-endian variant, but we should use a parameter to
+                                // allow for a big-endian variant (or one which converts from little endian to big endian)
+                                freeahb_wdata[7:0]             <= mem_wdata[31:24];
                                 freeahb_addr              <= mem_addr;
 
                             end
                     2: begin
-                                freeahb_wdata             <= mem_wdata[23:16];
+                                freeahb_wdata[7:0]             <= mem_wdata[23:16];
                                 freeahb_addr              <= mem_addr + 1;
 
                          end
                     1:
                          begin
-                                 freeahb_wdata             <= mem_wdata[15:8];
+                                 freeahb_wdata[7:0]             <= mem_wdata[15:8];
                                  freeahb_addr              <= mem_addr + 2;
                          end
                     0:
                           begin
-                                 freeahb_wdata             <= mem_wdata[7:0];
+                                 freeahb_wdata[7:0]             <= mem_wdata[7:0];
                                  freeahb_addr              <= mem_addr + 3;
                           end
                 endcase
