@@ -39,26 +39,27 @@ module picorv32_freeahb_adapter (
     assign mem_rdata         =     freeahb_rdata;
 
 
-    reg [3:0] write_ctr;    // Used to keep track of which bit in
-    //reg [2:0] wait_cycle                                     // wstrb we are working on.
+    reg [3:0] write_ctr;     // Used to keep track of which bit in
+    reg       transfer_done; // mem_valid will always be lowered after a cycle of mem_ready
+                             // We need to ensure that we don't kick off a second round of the same transaction before the adapter sees the lowering of the signal.
+
 
     always @(posedge clk or negedge resetn) begin
-        // Idle/reset conditions.
-        // We expect that a finished transfer (mem_ready) always lowers mem_valid.
+        // IDLE memory system conditions
         if (!resetn || !mem_valid) begin
-            freeahb_valid     <= 0;
-            mem_ready         <= 0;
-            freeahb_write     <= 0;
-            freeahb_read      <= 0;
+            freeahb_valid     <= 1'b0;
+            freeahb_write     <= 1'b0;
+            freeahb_read      <= 1'b0;
+            mem_ready         <= 1'b0;
             write_ctr         <= 0;
-	          //wait_cycle 	      <= 0;
+            transfer_done     <= 1'b0;
         end
 
         // *************************************************************************
         // READS
         //**************************************************************************
         // READ transfer start
-        else if (mem_wstrb == 4'b0000 && !freeahb_valid) begin
+        else if (mem_wstrb == 4'b0000 && !freeahb_valid && !transfer_done) begin
             freeahb_wdata             <= 0;
             freeahb_valid             <= mem_valid;
             freeahb_addr              <= mem_addr;
@@ -74,8 +75,9 @@ module picorv32_freeahb_adapter (
         // READ transfer complete
         else if (mem_wstrb == 4'b0000 && freeahb_valid && freeahb_ready) begin
             mem_ready     <= 1'b1;
-            //freeahb_valid <= 0;
-	          //freeahb_read  <= 1'b0;
+            freeahb_valid <= 1'b0;
+	          freeahb_read  <= 1'b0;
+            transfer_done <= 1'b1;
         end
 
         // *************************************************************************
@@ -89,8 +91,9 @@ module picorv32_freeahb_adapter (
         // There is room for improvement, such as combining sequential strobes
         // into one transfer, to reduce transfers from bestcase 4clk to bestcase
         // 1 clk (all bytes enabled
-        else if (mem_wstrb != 4'b0000 && freeahb_next && write_ctr < 4) begin
-          if (mem_wstrb[3-write_ctr] == 1) begin
+        else if (mem_wstrb != 4'b0000 && write_ctr < 4) begin
+            // If we are to do a write, and freeahb indicates it is ready.
+            if (mem_wstrb[3-write_ctr] == 1 && freeahb_next) begin
                 case (3-write_ctr)
                     3:    begin
                                 freeahb_wdata             <= mem_wdata[31:24];
@@ -114,7 +117,7 @@ module picorv32_freeahb_adapter (
                           end
                 endcase
 
-                freeahb_valid             <= mem_valid;
+                freeahb_valid             <= 1'b1;
                 freeahb_size              <= 3'b000; // byte
                 freeahb_write             <= 1'b1;
                 freeahb_read              <= 1'b0;
@@ -126,31 +129,33 @@ module picorv32_freeahb_adapter (
                                       // indefinitely (remember we have absolutely
                                       // no cache, so instructions and data
                                       // will constantly be fetched...)
+                write_ctr <= write_ctr + 1;
 
             end
-            write_ctr <= write_ctr + 1;
-        end
 
-        // If we couldnt start the next write, it can be because
-        // FreeAHB doesnt have the bus. Setting i_write to 1 will do.
-        else if (mem_wstrb != 4'b0000 && write_ctr < 4) begin
-            freeahb_write <= 1;
+            // We are to write, but currently the FreeAHB isnt ready.
+            // This can be due to it not being granted the bus, so we make sure to raise
+            // freeahb_write.
+            else if (mem_wstrb[3-write_ctr] == 1 && !freeahb_next) begin
+                freeahb_write             <= 1'b1;
+                freeahb_valid             <= 1'b0;
+            end
+
+            // If we do not write this round, we must make sure to make the FreeAHB idle.
+            else begin
+                freeahb_valid             <= 1'b0;
+                freeahb_write             <= 1'b0;
+                write_ctr <= write_ctr + 1;
+            end
+
         end
 
         // Write sequence finished
-	else if (mem_wstrb != 4'b0000 && freeahb_next && write_ctr == 4) begin
+	      else if (mem_wstrb != 4'b0000 && freeahb_next && write_ctr == 4) begin
             mem_ready     <= 1'b1;
-    	      // wait_cycle    <= 1;
-	          //freeahb_write <= 1'b0;
-            //freeahb_valid <= 1'b0;
-            write_ctr     <= 0;
-  end
-end
-//	else if ( wait_cycle > 0 && wait_cycle < 4) begin
-//	    wait_cycle <= wait_cycle + 1;
-//	end
-//	else if (wait_cycle == 4) begin
-//	    wait_cycle <= 0;
-//        end
-//    end
+	          freeahb_write <= 1'b0;
+            freeahb_valid <= 1'b0;
+            transfer_done <= 1'b1;
+        end
+    end
 endmodule

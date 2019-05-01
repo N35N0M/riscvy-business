@@ -72,7 +72,7 @@ begin
         // Initial state
         freeahb_ready <= 0;
         mem_valid <= 0;
-        freeahb_next <= 1;
+        freeahb_next <= 0;
         d(10);
 
 
@@ -82,6 +82,10 @@ begin
         mem_wstrb   <= 4'b1100;
         mem_valid   <= 1'b1;
         mem_instr   <= 1'b1;
+
+        wait_for_freeahb_write;
+
+        freeahb_next <= 1'b1;
 
         wait_for_freeahb_valid;
 
@@ -95,15 +99,20 @@ begin
 end
 
 task wait_for_freeahb_valid;
-        d(1);
         while(freeahb_valid !== 1)
         begin
                 d(1);
         end
 endtask
 
+task wait_for_freeahb_write;
+        while(freeahb_write !== 1)
+        begin
+                d(1);
+        end
+endtask
+
 task wait_for_if_ready;
-        d(1);
         while(mem_ready !== 1)
         begin
                 d(1);
@@ -111,7 +120,6 @@ task wait_for_if_ready;
 endtask
 
 task wait_for_next;
-        d(1);
         while(freeahb_next !== 1)
         begin
                 d(1);
