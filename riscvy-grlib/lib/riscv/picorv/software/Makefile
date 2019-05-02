@@ -21,6 +21,10 @@ firmware32.hex: firmware.elf start.elf hex8tohex32.py
 	python3 hex8tohex32.py firmware.hex > firmware32.hex
 	rm -f start.tmp firmware.tmp
 
+testbench.srec: firmware.elf start.elf
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --gap-fill 0 start.elf start.srec
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --gap-fill 0 firmware.elf firmware.srec
+	cat start.srec firmware.srec > testbench.srec
 firmware.bin: firmware.elf start.elf
 	$(RISCV_TOOLS_PREFIX)objcopy -O binary start.elf start.tmp
 	$(RISCV_TOOLS_PREFIX)objcopy -O binary firmware.elf firmware.tmp
