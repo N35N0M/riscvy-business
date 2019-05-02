@@ -3,36 +3,36 @@
 // *****************************************************************************
 
 module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
-    input                               clk,
-    input                               resetn,
+    input                   clk,
+    input                   resetn,
 
     // FreeAHB interface
-    output reg            [31:0]        freeahb_wdata,
-    output reg                          freeahb_valid,
-    output reg            [31:0]        freeahb_addr,
-    output reg            [2:0]         freeahb_size,
-    output reg                          freeahb_write,
-    output reg                          freeahb_read,
-    output reg            [31:0]        freeahb_min_len,     // Minimum "guaranteed size of burst"
-    output reg                          freeahb_cont,        // Continues prev transfer
-    output reg            [3:0]         freeahb_prot,
-    output reg                          freeahb_lock,
+    output reg    [31:0]    freeahb_wdata,
+    output reg              freeahb_valid,
+    output reg    [31:0]    freeahb_addr,
+    output reg    [2:0]     freeahb_size,
+    output reg              freeahb_write,
+    output reg              freeahb_read,
+    output reg    [31:0]    freeahb_min_len,     // Minimum "guaranteed size of burst"
+    output reg              freeahb_cont,        // Continues prev transfer
+    output reg    [3:0]     freeahb_prot,
+    output reg              freeahb_lock,
 
-    input                               freeahb_next,        // Asserted indicates transfer finished.
-    input                 [31:0]        freeahb_rdata,
-    input                 [31:0]        freeahb_result_addr, // Not used.
-    input                               freeahb_ready,       // rdata contains valid data.
+    input                   freeahb_next,        // Asserted indicates transfer finished.
+    input         [31:0]    freeahb_rdata,
+    input         [31:0]    freeahb_result_addr, // Not used.
+    input                   freeahb_ready,       // rdata contains valid data.
 
 
 
     // Native PicoRV32 memory interface
-    input                               mem_valid,
-    input                               mem_instr,
-    output reg                          mem_ready,
-    input                  [31:0]       mem_addr,
-    input                  [31:0]       mem_wdata,
-    input                  [3:0]        mem_wstrb,
-    output                 [31:0]       mem_rdata
+    input                   mem_valid,
+    input                   mem_instr,
+    output reg              mem_ready,
+    input         [31:0]    mem_addr,
+    input         [31:0]    mem_wdata,
+    input         [3:0]     mem_wstrb,
+    output        [31:0]    mem_rdata
 
 );
     // Arguably, this complexity could/should lie in the AHB master.
@@ -70,16 +70,16 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         //**************************************************************************
         // READ transfer start
         else if (mem_wstrb == 4'b0000 && !freeahb_valid && !transfer_done) begin
-            freeahb_wdata             <= 0;
-            freeahb_valid             <= mem_valid;
-            freeahb_addr              <= mem_addr;
-            freeahb_size              <= 3'b010;
-            freeahb_write             <= 1'b0;
-            freeahb_read              <= 1'b1;
-            freeahb_min_len           <= 32;
-            freeahb_cont              <= 1'b0;
-            freeahb_prot              <= mem_instr ? 4'b0000 : 4'b0001;
-            freeahb_lock              <= 1'b0;
+            freeahb_wdata      <= 0;
+            freeahb_valid      <= mem_valid;
+            freeahb_addr       <= mem_addr;
+            freeahb_size       <= 3'b010;
+            freeahb_write      <= 1'b0;
+            freeahb_read       <= 1'b1;
+            freeahb_min_len    <= 32;
+            freeahb_cont       <= 1'b0;
+            freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
+            freeahb_lock       <= 1'b0;
         end
 
         // READ transfer complete
@@ -115,10 +115,10 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[31:24];
                            end
-                       
-                           freeahb_addr <= mem_addr;
+
+                           freeahb_addr             <= mem_addr + 3;
                        end
-                    
+
                     2: begin
                            if (BIG_ENDIAN_AHB == 1) begin
                                freeahb_wdata[31:24] <= mem_wdata[23:16];
@@ -126,10 +126,10 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[23:16];
                            end
-   
-                           freeahb_addr <= mem_addr + 1;
+
+                           freeahb_addr             <= mem_addr + 2;
                        end
-   
+
                     1: begin
                            if (BIG_ENDIAN_AHB == 1) begin
                                freeahb_wdata[31:24] <= mem_wdata[15:8];
@@ -137,9 +137,10 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[15:8];
                            end
-                           
-			   freeahb_addr <= mem_addr + 2;
+
+                            freeahb_addr            <= mem_addr + 1;
                        end
+
                     0: begin
                            if (BIG_ENDIAN_AHB == 1) begin
                                freeahb_wdata[31:24] <= mem_wdata[7:0];
@@ -147,24 +148,24 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[7:0];
                            end
-                           
-                                 freeahb_addr              <= mem_addr + 3;
+
+                               freeahb_addr         <= mem_addr + 0;
                           end
                 endcase
 
-                freeahb_valid             <= 1'b1;
-                freeahb_size              <= 3'b000; // byte
-                freeahb_write             <= 1'b1;
-                freeahb_read              <= 1'b0;
-                freeahb_min_len           <= 8;
-                freeahb_cont                <= 1'b0;    // Byte strobes are not necessarily
-                                                                            // sequential. Start new transfer.
-                freeahb_prot                <= mem_instr ? 4'b0000 : 4'b0001;
-                freeahb_lock                <= 1'b0;  // Never lock, so we do not block the bus
+                freeahb_valid      <= 1'b1;
+                freeahb_size       <= 3'b000; // byte
+                freeahb_write      <= 1'b1;
+                freeahb_read       <= 1'b0;
+                freeahb_min_len    <= 8;
+                freeahb_cont       <= 1'b0;    // Byte strobes are not necessarily
+                                                                     // sequential. Start new transfer.
+                freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
+                freeahb_lock       <= 1'b0;  // Never lock, so we do not block the bus
                                       // indefinitely (remember we have absolutely
                                       // no cache, so instructions and data
                                       // will constantly be fetched...)
-                write_ctr <= write_ctr + 1;
+                write_ctr          <= write_ctr + 1;
 
             end
 
@@ -172,15 +173,15 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             // This can be due to it not being granted the bus, so we make sure to raise
             // freeahb_write.
             else if (mem_wstrb[3-write_ctr] == 1 && !freeahb_next) begin
-                freeahb_write             <= 1'b1;
-                freeahb_valid             <= 1'b0;
+                freeahb_write      <= 1'b1;
+                freeahb_valid      <= 1'b0;
             end
 
             // If we do not write this round, we must make sure to make the FreeAHB idle.
             else if (mem_wstrb[3-write_ctr] == 0) begin
-                freeahb_valid             <= 1'b0;
-                freeahb_write             <= 1'b0;
-                write_ctr <= write_ctr + 1;
+                freeahb_valid      <= 1'b0;
+                freeahb_write      <= 1'b0;
+                write_ctr          <= write_ctr + 1;
             end
 
         end
