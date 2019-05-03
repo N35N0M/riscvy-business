@@ -38,25 +38,32 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
     // Arguably, this complexity could/should lie in the AHB master.
     // But we'd rather write up a new AHB master at this point, so we
     // place the complexity here for the time being.
+    //
+    // Note that rdata from the bus is only valid when HREADY is raised with
+    // HRESP OKAY.
+    // 
+    // Therefore we can assign our internal rdata_latch continuously to the
+    // mem_rdata to the pico core, but we can only update this latched rdata
+    // whenever HREADY is raised.
     if (BIG_ENDIAN_AHB == 1) begin
-        assign mem_rdata[31:24] = freeahb_rdata[7:0];
-        assign mem_rdata[23:16] = freeahb_rdata[15:8];
-        assign mem_rdata[15:8]  = freeahb_rdata[23:16];
-        assign mem_rdata[7:0]   = freeahb_rdata[31:24];
+        assign mem_rdata[31:24] = latched_rdata[7:0];
+        assign mem_rdata[23:16] = latched_rdata[15:8];
+        assign mem_rdata[15:8]  = latched_rdata[23:16];
+        assign mem_rdata[7:0]   = latched_rdata[31:24];
     end
     else begin
-        assign mem_rdata         =     freeahb_rdata;
+        assign mem_rdata         =     latched_rdata;
     end
 
 
     reg [3:0] write_ctr;     // Used to keep track of which bit in
     reg       transfer_done; // mem_valid will always be lowered after a cycle of mem_ready
                              // We need to ensure that we don't kick off a second round of the same transaction before the adapter sees the lowering of the signal.
-
+    reg [31:0] latched_rdata;
 
     always @(posedge clk or negedge resetn) begin
         // IDLE memory system conditions
-        if (!resetn || !mem_valid) begin
+        if (!resetn || !mem_valid || mem_ready) begin
             freeahb_valid     <= 1'b0;
             freeahb_write     <= 1'b0;
             freeahb_read      <= 1'b0;
@@ -76,7 +83,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             freeahb_size       <= 3'b010;
             freeahb_write      <= 1'b0;
             freeahb_read       <= 1'b1;
-            freeahb_min_len    <= 32;
+            freeahb_min_len    <= 0;
             freeahb_cont       <= 1'b0;
             freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
             freeahb_lock       <= 1'b0;
@@ -88,6 +95,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             freeahb_valid <= 1'b0;
             freeahb_read  <= 1'b0;
             transfer_done <= 1'b1;
+            latched_rdata <= freeahb_rdata;
         end
 
         // *************************************************************************
