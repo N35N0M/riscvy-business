@@ -62,7 +62,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
 
     always @(posedge clk or negedge resetn) begin
         // IDLE memory system conditions
-        if (!resetn || !mem_valid) begin
+        if (!resetn || !mem_valid || mem_ready) begin
             freeahb_valid     <= 1'b0;
             freeahb_write     <= 1'b0;
             freeahb_read      <= 1'b0;

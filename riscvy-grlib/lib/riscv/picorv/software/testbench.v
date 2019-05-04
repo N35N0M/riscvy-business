@@ -1,6 +1,6 @@
 `timescale 1 ns / 1 ps
 `undef VERBOSE_MEM
-`undef WRITE_VCD
+`define WRITE_VCD
 `undef MEM8BIT
 
 module testbench;
