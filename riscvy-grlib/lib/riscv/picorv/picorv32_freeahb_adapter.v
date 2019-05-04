@@ -46,24 +46,23 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
     // mem_rdata to the pico core, but we can only update this latched rdata
     // whenever HREADY is raised.
     if (BIG_ENDIAN_AHB == 1) begin
-        assign mem_rdata[31:24] = latched_rdata[7:0];
-        assign mem_rdata[23:16] = latched_rdata[15:8];
-        assign mem_rdata[15:8]  = latched_rdata[23:16];
-        assign mem_rdata[7:0]   = latched_rdata[31:24];
+        assign mem_rdata[31:24] = freeahb_rdata[7:0];
+        assign mem_rdata[23:16] = freeahb_rdata[15:8];
+        assign mem_rdata[15:8]  = freeahb_rdata[23:16];
+        assign mem_rdata[7:0]   = freeahb_rdata[31:24];
     end
     else begin
-        assign mem_rdata         =     latched_rdata;
+        assign mem_rdata        = freeahb_rdata;
     end
 
 
     reg [3:0] write_ctr;     // Used to keep track of which bit in
     reg       transfer_done; // mem_valid will always be lowered after a cycle of mem_ready
                              // We need to ensure that we don't kick off a second round of the same transaction before the adapter sees the lowering of the signal.
-    reg [31:0] latched_rdata;
 
     always @(posedge clk or negedge resetn) begin
         // IDLE memory system conditions
-        if (!resetn || !mem_valid || mem_ready) begin
+        if (!resetn || !mem_valid) begin
             freeahb_valid     <= 1'b0;
             freeahb_write     <= 1'b0;
             freeahb_read      <= 1'b0;
@@ -76,7 +75,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         // READS
         //**************************************************************************
         // READ transfer start
-        else if (mem_wstrb == 4'b0000 && !freeahb_valid && !transfer_done) begin
+        else if (mem_wstrb == 4'b0000 && !freeahb_valid && !freeahb_ready && !transfer_done) begin
             freeahb_wdata      <= 0;
             freeahb_valid      <= mem_valid;
             freeahb_addr       <= mem_addr;
@@ -95,7 +94,6 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             freeahb_valid <= 1'b0;
             freeahb_read  <= 1'b0;
             transfer_done <= 1'b1;
-            latched_rdata <= freeahb_rdata;
         end
 
         // *************************************************************************
@@ -119,53 +117,54 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                            // allow for a big-endian variant (or one which converts from little endian to big endian)
                            if (BIG_ENDIAN_AHB == 1) begin
                                freeahb_wdata[31:24] <= mem_wdata[31:24];
+                               freeahb_addr         <= mem_addr;
                            end
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[31:24];
+                               freeahb_addr         <= mem_addr + 3;
                            end
 
-                           freeahb_addr             <= mem_addr + 3;
                        end
 
                     2: begin
                            if (BIG_ENDIAN_AHB == 1) begin
                                freeahb_wdata[31:24] <= mem_wdata[23:16];
+                               freeahb_addr         <= mem_addr + 1;
                            end
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[23:16];
+                               freeahb_addr         <= mem_addr + 2;
                            end
-
-                           freeahb_addr             <= mem_addr + 2;
                        end
 
                     1: begin
                            if (BIG_ENDIAN_AHB == 1) begin
                                freeahb_wdata[31:24] <= mem_wdata[15:8];
+                               freeahb_addr         <= mem_addr + 2;
                            end
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[15:8];
+                               freeahb_addr         <= mem_addr + 1;
                            end
-
-                            freeahb_addr            <= mem_addr + 1;
                        end
 
                     0: begin
                            if (BIG_ENDIAN_AHB == 1) begin
                                freeahb_wdata[31:24] <= mem_wdata[7:0];
+                               freeahb_addr         <= mem_addr + 3;
                            end
                            else begin
                                freeahb_wdata[7:0]   <= mem_wdata[7:0];
+                               freeahb_addr         <= mem_addr;
                            end
-
-                               freeahb_addr         <= mem_addr + 0;
-                          end
+                       end
                 endcase
 
                 freeahb_valid      <= 1'b1;
                 freeahb_size       <= 3'b000; // byte
                 freeahb_write      <= 1'b1;
                 freeahb_read       <= 1'b0;
-                freeahb_min_len    <= 8;
+                freeahb_min_len    <= 0;
                 freeahb_cont       <= 1'b0;    // Byte strobes are not necessarily
                                                                      // sequential. Start new transfer.
                 freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
