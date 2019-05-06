@@ -50,9 +50,11 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         assign mem_rdata[23:16] = freeahb_rdata[15:8];
         assign mem_rdata[15:8]  = freeahb_rdata[23:16];
         assign mem_rdata[7:0]   = freeahb_rdata[31:24];
+	
     end
     else begin
         assign mem_rdata        = freeahb_rdata;
+
     end
 
 
@@ -86,7 +88,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             freeahb_read       <= 1'b1;
             freeahb_min_len    <= 0;
             freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
-	        pending_read       <= 1'b1;
+            pending_read       <= 1'b1;
         end
 
         // READ transfer complete
@@ -116,52 +118,49 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                 case (3-write_ctr)
                     3: begin
                            // See the AMBA-spec for active byte lanes for the specific endianness.
-                           // This is for a little-endian variant, but we should use a parameter to
-                           // allow for a big-endian variant (or one which converts from little endian to big endian)
+			   // We always only write one byte at a time.
+			   // We make sure to store in little endian order,
+			   // but adapted to a big endian centered bus.
                            if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata[31:24] <= mem_wdata[31:24];
-                               freeahb_addr         <= mem_addr;
+                               freeahb_wdata        <= {mem_wdata[31:24], 24'b0};
                            end
                            else begin
-                               freeahb_wdata[7:0]   <= mem_wdata[31:24];
-                               freeahb_addr         <= mem_addr + 3;
+                               freeahb_wdata        <= {24'b0, mem_wdata[31:24]};
                            end
-
+                           freeahb_addr <= mem_addr + 3;
                        end
 
                     2: begin
                            if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata[31:24] <= mem_wdata[23:16];
-                               freeahb_addr         <= mem_addr + 1;
+                               freeahb_wdata        <= {mem_wdata[23:16], 24'b0};
                            end
                            else begin
-                               freeahb_wdata[7:0]   <= mem_wdata[23:16];
-                               freeahb_addr         <= mem_addr + 2;
+                               freeahb_wdata        <= {24'b0, mem_wdata[23:16]};
                            end
+                               freeahb_addr         <= mem_addr + 2;
                        end
 
                     1: begin
                            if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata[31:24] <= mem_wdata[15:8];
-                               freeahb_addr         <= mem_addr + 2;
+                               freeahb_wdata        <= {mem_wdata[15:8], 24'b0};
                            end
                            else begin
-                               freeahb_wdata[7:0]   <= mem_wdata[15:8];
-                               freeahb_addr         <= mem_addr + 1;
+                               freeahb_wdata        <= {24'b0, mem_wdata[15:8]};
                            end
+                               freeahb_addr         <= mem_addr + 1;
                        end
 
                     0: begin
                            if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata[31:24] <= mem_wdata[7:0];
-                               freeahb_addr         <= mem_addr + 3;
+                               freeahb_wdata        <= {mem_wdata[7:0], 24'b0};
                            end
                            else begin
-                               freeahb_wdata[7:0]   <= mem_wdata[7:0];
-                               freeahb_addr         <= mem_addr;
+                               freeahb_wdata        <= {24'b0, mem_wdata[7:0]};
                            end
+                               freeahb_addr         <= mem_addr;
                        end
                 endcase
+
 
                 freeahb_valid      <= 1'b1;
                 freeahb_size       <= 3'b000; // byte
@@ -202,6 +201,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         else if (mem_valid && freeahb_next && (pending_read || pending_write) ) begin
             freeahb_read <= 1'b0;
             freeahb_write <= 1'b0;
+	    freeahb_valid <= 1'b0;
             pending_write <= 1'b0; // Could we assume the same for pending_read?
         end
     end
