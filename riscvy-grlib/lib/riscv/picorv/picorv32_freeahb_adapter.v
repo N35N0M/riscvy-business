@@ -41,15 +41,11 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
     //
     // Note that rdata from the bus is only valid when HREADY is raised with
     // HRESP OKAY.
-    // 
-    // Therefore we can assign our internal rdata_latch continuously to the
-    // mem_rdata to the pico core, but we can only update this latched rdata
-    // whenever HREADY is raised.
     if (BIG_ENDIAN_AHB == 1) begin
-        assign mem_rdata[31:24] = freeahb_rdata[7:0];
-        assign mem_rdata[23:16] = freeahb_rdata[15:8];
-        assign mem_rdata[15:8]  = freeahb_rdata[23:16];
-        assign mem_rdata[7:0]   = freeahb_rdata[31:24];
+        assign mem_rdata[31:24] = freeahb_rdata[7:0];   // Byte A+3
+        assign mem_rdata[23:16] = freeahb_rdata[15:8];  // Byte A+2
+        assign mem_rdata[15:8]  = freeahb_rdata[23:16]; // Byte A+1
+        assign mem_rdata[7:0]   = freeahb_rdata[31:24]; // Byte A
 	
     end
     else begin
@@ -58,8 +54,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
     end
 
 
-    reg [3:0] write_ctr;     // Used to keep track of which bit in
-                             // We need to ensure that we don't kick off a second round of the same transaction before the adapter sees the lowering of the signal.
+    reg [3:0] write_ctr;     // Used when composing wstrb into individual writes.
     reg       pending_write;
     reg       pending_read;
 
@@ -93,6 +88,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
 
         // READ transfer complete
         else if (mem_valid && mem_wstrb == 4'b0000 && pending_read && freeahb_ready) begin
+            $display("Read data %h from base address %h", freeahb_rdata, mem_addr);
             mem_ready     <= 1'b1;
             freeahb_valid <= 1'b0;
             freeahb_read  <= 1'b0;
@@ -114,30 +110,17 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         // 1 clk (all bytes enabled
         else if (mem_valid && mem_wstrb != 4'b0000 && write_ctr < 4 && !pending_write) begin
             // If we are to do a write, and freeahb indicates it is ready.
-            if (mem_wstrb[3-write_ctr] == 1) begin
-                case (3-write_ctr)
-                    3: begin
-                           // See the AMBA-spec for active byte lanes for the specific endianness.
-			   // We always only write one byte at a time.
-			   // We make sure to store in little endian order,
-			   // but adapted to a big endian centered bus.
+            if (mem_wstrb[write_ctr] == 1) begin
+		$display("Writing data %h to base address %h", mem_wdata, mem_addr);
+                case (write_ctr)
+                    0: begin
                            if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata        <= {mem_wdata[31:24], 24'b0};
+                               freeahb_wdata        <= {mem_wdata[7:0], 24'b0};
                            end
                            else begin
-                               freeahb_wdata        <= {24'b0, mem_wdata[31:24]};
+                               freeahb_wdata        <= {24'b0, mem_wdata[7:0]};
                            end
-                           freeahb_addr <= mem_addr + 3;
-                       end
-
-                    2: begin
-                           if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata        <= {mem_wdata[23:16], 24'b0};
-                           end
-                           else begin
-                               freeahb_wdata        <= {24'b0, mem_wdata[23:16]};
-                           end
-                               freeahb_addr         <= mem_addr + 2;
+                               freeahb_addr         <= mem_addr;
                        end
 
                     1: begin
@@ -150,14 +133,28 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                                freeahb_addr         <= mem_addr + 1;
                        end
 
-                    0: begin
+                    2: begin
                            if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata        <= {mem_wdata[7:0], 24'b0};
+                               freeahb_wdata        <= {mem_wdata[23:16], 24'b0};
                            end
                            else begin
-                               freeahb_wdata        <= {24'b0, mem_wdata[7:0]};
+                               freeahb_wdata        <= {24'b0, mem_wdata[23:16]};
                            end
-                               freeahb_addr         <= mem_addr;
+                               freeahb_addr         <= mem_addr + 2;
+                       end
+
+                    3: begin
+                           // See the AMBA-spec for active byte lanes for the specific endianness.
+			   // We always only write one byte at a time.
+			   // We make sure to store in little endian order,
+			   // but adapted to a big endian centered bus.
+                           if (BIG_ENDIAN_AHB == 1) begin
+                               freeahb_wdata        <= {mem_wdata[31:24], 24'b0};
+                           end
+                           else begin
+                               freeahb_wdata        <= {24'b0, mem_wdata[31:24]};
+                           end
+                           freeahb_addr <= mem_addr + 3;
                        end
                 endcase
 
@@ -181,7 +178,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
 
 
             // If we do not write this round, we must make sure to make the FreeAHB idle.
-            else if (mem_wstrb[3-write_ctr] == 0) begin
+            else if (mem_wstrb[write_ctr] == 0) begin
                 freeahb_valid      <= 1'b0;
                 freeahb_write      <= 1'b0;
                 write_ctr          <= write_ctr + 1;
@@ -194,6 +191,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             mem_ready     <= 1'b1;
             freeahb_write <= 1'b0;
             freeahb_valid <= 1'b0;
+	    write_ctr     <= 0;
         end
 
         // Clear UI on freeahb_next (so as to not initiate another transfer in the pipeline)
@@ -203,6 +201,10 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             freeahb_write <= 1'b0;
 	    freeahb_valid <= 1'b0;
             pending_write <= 1'b0; // Could we assume the same for pending_read?
+
+	    if (pending_write) begin
+                $display("Wrote byte %h to address %h", freeahb_wdata[31:24], freeahb_addr);
+	    end
         end
     end
 endmodule
