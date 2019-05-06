@@ -56,10 +56,10 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
     end
 
 
-    reg [3:0] write_ctr = 0;     // Used to keep track of which bit in
+    reg [3:0] write_ctr;     // Used to keep track of which bit in
                              // We need to ensure that we don't kick off a second round of the same transaction before the adapter sees the lowering of the signal.
-    reg       pending_write = 0;
-    reg       pending_read = 0;
+    reg       pending_write;
+    reg       pending_read;
 
     always @(posedge clk or negedge resetn) begin
         // IDLE memory system conditions
@@ -68,37 +68,25 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             freeahb_write     <= 1'b0;
             freeahb_read      <= 1'b0;
             freeahb_cont      <= 1'b0;
+            freeahb_lock      <= 1'b0;
             mem_ready         <= 1'b0;
             write_ctr         <= 0;
-	    pending_write     <= 1'b0;
-	    pending_read      <= 1'b0;
+            pending_write     <= 1'b0;
+            pending_read      <= 1'b0;
         end
 	
-	if (pending_write == 1 && freeahb_next) begin
-            freeahb_write <= 0;
-	    freeahb_valid <= 0;
-	    pending_write <= 0;
-	end
 
         // *************************************************************************
         // READS
         //**************************************************************************
-	//READ transfer single transfer UI clear
-	else if (mem_valid && freeahb_next) begin
-	    freeahb_read <= 1'b0;
-	    freeahb_write <= 1'b0;
-	end
         // READ transfer start
         else if (mem_valid && mem_wstrb == 4'b0000 && !pending_read) begin
             freeahb_addr       <= mem_addr;
             freeahb_size       <= 3'b010;
-            freeahb_write      <= 1'b0;
             freeahb_read       <= 1'b1;
             freeahb_min_len    <= 0;
-            freeahb_cont       <= 1'b0;
             freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
-            freeahb_lock       <= 1'b0;
-	    pending_read       <= 1'b1;
+	        pending_read       <= 1'b1;
         end
 
         // READ transfer complete
@@ -106,9 +94,9 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             mem_ready     <= 1'b1;
             freeahb_valid <= 1'b0;
             freeahb_read  <= 1'b0;
-            freeahb_cont  <= 1'b0;
             freeahb_write <= 1'b0;
-	    pending_read  <= 1'b0;
+            freeahb_cont  <= 1'b0;
+            pending_read  <= 1'b0;
         end
 
         // *************************************************************************
@@ -122,7 +110,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         // There is room for improvement, such as combining sequential strobes
         // into one transfer, to reduce transfers from bestcase 4clk to bestcase
         // 1 clk (all bytes enabled
-        else if (mem_valid && mem_wstrb != 4'b0000 && write_ctr < 4 && !freeahb_valid) begin
+        else if (mem_valid && mem_wstrb != 4'b0000 && write_ctr < 4 && !pending_write) begin
             // If we are to do a write, and freeahb indicates it is ready.
             if (mem_wstrb[3-write_ctr] == 1) begin
                 case (3-write_ctr)
@@ -207,6 +195,14 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             mem_ready     <= 1'b1;
             freeahb_write <= 1'b0;
             freeahb_valid <= 1'b0;
+        end
+
+        // Clear UI on freeahb_next (so as to not initiate another transfer in the pipeline)
+        // This statement should most likely go outside this main FSM logic, as it should always catch this regardless of what happens elsewise in our FSM.
+        else if (mem_valid && freeahb_next && (pending_read || pending_write) ) begin
+            freeahb_read <= 1'b0;
+            freeahb_write <= 1'b0;
+            pending_write <= 1'b0; // Could we assume the same for pending_read?
         end
     end
 endmodule
