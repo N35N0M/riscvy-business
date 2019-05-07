@@ -56,6 +56,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
 
     reg [3:0] write_ctr;     // Used when composing wstrb into individual writes.
     reg       pending_write;
+    reg       pending_write_finish;
     reg       pending_read;
 
     always @(posedge clk or negedge resetn) begin
@@ -69,6 +70,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             mem_ready         <= 1'b0;
             write_ctr         <= 0;
             pending_write     <= 1'b0;
+            pending_write_finish <= 1'b0;
             pending_read      <= 1'b0;
         end
 	
@@ -88,7 +90,6 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
 
         // READ transfer complete
         else if (mem_valid && mem_wstrb == 4'b0000 && pending_read && freeahb_ready) begin
-            $display("Read data %h from base address %h", freeahb_rdata, mem_addr);
             mem_ready     <= 1'b1;
             freeahb_valid <= 1'b0;
             freeahb_read  <= 1'b0;
@@ -105,81 +106,45 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         // The mem IF outputs WSTRB (write strobes), but this is a AXI4 construct,
         // and does not suit AHB. We therefore have to translate the strobes to
         // individual AHB transfers.
-        // There is room for improvement, such as combining sequential strobes
-        // into one transfer, to reduce transfers from bestcase 4clk to bestcase
-        // 1 clk (all bytes enabled
-        else if (mem_valid && mem_wstrb != 4'b0000 && write_ctr < 4 && !pending_write) begin
+        else if (mem_valid && mem_wstrb != 4'b0000 && write_ctr < 4 && !pending_write && !pending_write_finish) begin
             // If we are to do a write, and freeahb indicates it is ready.
-            if (mem_wstrb[write_ctr] == 1) begin
-		$display("Writing data %h to base address %h", mem_wdata, mem_addr);
-                case (write_ctr)
-                    0: begin
-                           if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata        <= {mem_wdata[7:0], 24'b0};
-                           end
-                           else begin
-                               freeahb_wdata        <= {24'b0, mem_wdata[7:0]};
-                           end
-                               freeahb_addr         <= mem_addr;
-                       end
-
-                    1: begin
-                           if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata        <= {mem_wdata[15:8], 24'b0};
-                           end
-                           else begin
-                               freeahb_wdata        <= {24'b0, mem_wdata[15:8]};
-                           end
-                               freeahb_addr         <= mem_addr + 1;
-                       end
-
-                    2: begin
-                           if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata        <= {mem_wdata[23:16], 24'b0};
-                           end
-                           else begin
-                               freeahb_wdata        <= {24'b0, mem_wdata[23:16]};
-                           end
-                               freeahb_addr         <= mem_addr + 2;
-                       end
-
-                    3: begin
-                           // See the AMBA-spec for active byte lanes for the specific endianness.
-			   // We always only write one byte at a time.
-			   // We make sure to store in little endian order,
-			   // but adapted to a big endian centered bus.
-                           if (BIG_ENDIAN_AHB == 1) begin
-                               freeahb_wdata        <= {mem_wdata[31:24], 24'b0};
-                           end
-                           else begin
-                               freeahb_wdata        <= {24'b0, mem_wdata[31:24]};
-                           end
-                           freeahb_addr <= mem_addr + 3;
-                       end
-                endcase
-
-
-                freeahb_valid      <= 1'b1;
+            // ADDRESS PHASE
+            if (mem_wstrb[write_ctr]) begin
+                freeahb_valid      <= 1'b0;
+                freeahb_addr       <= mem_addr + write_ctr;
                 freeahb_size       <= 3'b000; // byte
                 freeahb_write      <= 1'b1;
-                freeahb_read       <= 1'b0;
-                freeahb_min_len    <= 0;
                 freeahb_cont       <= 1'b0;    // Byte strobes are not necessarily
                                                                      // sequential. Start new transfer.
                 freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
-                freeahb_lock       <= 1'b0;  // Never lock, so we do not block the bus
-                                      // indefinitely (remember we have absolutely
-                                      // no cache, so instructions and data
-                                      // will constantly be fetched...)
-                write_ctr          <= write_ctr + 1;
-		pending_write      <= 1'b1;
+		        pending_write      <= 1'b1;
+                    case (write_ctr)
+                        0: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[7:0];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata[7:0];
+                           end
+
+                        1: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[15:8];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata[15:8];
+                           end
+
+                        2: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[23:16];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata [23:16];
+                           end
+
+                        3: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[31:24];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata[31:24];
+                           end
+                    endcase
 
             end
 
 
             // If we do not write this round, we must make sure to make the FreeAHB idle.
-            else if (mem_wstrb[write_ctr] == 0) begin
-                freeahb_valid      <= 1'b0;
+            else if (!mem_wstrb[write_ctr]) begin
                 freeahb_write      <= 1'b0;
                 write_ctr          <= write_ctr + 1;
             end
@@ -187,24 +152,30 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
         end
 
         // Write sequence finished
-        else if (mem_valid && mem_wstrb != 4'b0000 && !pending_write && write_ctr == 4) begin
+        else if (mem_valid && mem_wstrb != 4'b0000 && !pending_write && !pending_write_finish && write_ctr == 4) begin
             mem_ready     <= 1'b1;
             freeahb_write <= 1'b0;
             freeahb_valid <= 1'b0;
-	    write_ctr     <= 0;
+	        write_ctr     <= 0;
         end
 
-        // Clear UI on freeahb_next (so as to not initiate another transfer in the pipeline)
-        // This statement should most likely go outside this main FSM logic, as it should always catch this regardless of what happens elsewise in our FSM.
-        else if (mem_valid && freeahb_next && (pending_read || pending_write) ) begin
+        // For 32-bit reads, we simply clear the read bit on the UI.
+        // For writes, we must now drive the data if we are in the address phase.
+        else if (mem_valid && freeahb_next && (pending_read || pending_write || pending_write_finish) ) begin
             freeahb_read <= 1'b0;
-            freeahb_write <= 1'b0;
-	    freeahb_valid <= 1'b0;
-            pending_write <= 1'b0; // Could we assume the same for pending_read?
 
-	    if (pending_write) begin
-                $display("Wrote byte %h to address %h", freeahb_wdata[31:24], freeahb_addr);
-	    end
+	        if (pending_write) begin
+                    freeahb_valid <= 1'b1;
+                    pending_write <= 1'b0;
+                    pending_write_finish <= 1'b1;
+                    write_ctr          <= write_ctr + 1;
+                     
+	        end
+            else if (pending_write_finish) begin 
+                pending_write_finish <= 1'b0;
+                freeahb_write        <= 1'b0;
+                freeahb_valid        <= 1'b0;
+            end
         end
     end
 endmodule
