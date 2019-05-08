@@ -122,27 +122,6 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                                                                      // sequential. Start new transfer.
                 freeahb_prot       <= mem_instr ? 4'b0000 : 4'b0001;
 		        pending_write      <= 1'b1;
-                    case (write_ctr)
-                        0: begin
-                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[7:0];
-                               else                     freeahb_wdata[7:0]   <= mem_wdata[7:0];
-                           end
-
-                        1: begin
-                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[23:16] <= mem_wdata[15:8];
-                               else                     freeahb_wdata[7:0]   <= mem_wdata[15:8];
-                           end
-
-                        2: begin
-                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[15:8] <= mem_wdata[23:16];
-                               else                     freeahb_wdata[7:0]   <= mem_wdata [23:16];
-                           end
-
-                        3: begin
-                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[7:0] <= mem_wdata[31:24];
-                               else                     freeahb_wdata[7:0]   <= mem_wdata[31:24];
-                           end
-                    endcase
             end
 
 
@@ -169,10 +148,30 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             freeahb_read <= 1'b0;
 
 	        if (pending_write) begin
+                    case (write_ctr)
+                        0: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[7:0];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata[7:0];
+                           end
+
+                        1: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[15:8];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata[15:8];
+                           end
+
+                        2: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[23:16];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata [23:16];
+                           end
+
+                        3: begin
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[31:24];
+                               else                     freeahb_wdata[7:0]   <= mem_wdata[31:24];
+                           end
+                    endcase
                     freeahb_valid <= 1'b1;
                     pending_write <= 1'b0;
                     pending_write_finish <= 1'b1;
-                    write_ctr          <= write_ctr + 1;
                      
 	        end
             else if (pending_write_finish) begin 
@@ -180,6 +179,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                 pending_write_finish <= 1'b0;
                 freeahb_write        <= 1'b0;
                 freeahb_valid        <= 1'b0;
+                write_ctr          <= write_ctr + 1;
             end
         end
     end
