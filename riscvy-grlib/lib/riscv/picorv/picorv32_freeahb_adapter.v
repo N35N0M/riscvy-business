@@ -155,17 +155,17 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                            end
 
                         1: begin
-                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[15:8];
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[23:16] <= mem_wdata[15:8];
                                else                     freeahb_wdata[7:0]   <= mem_wdata[15:8];
                            end
 
                         2: begin
-                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[23:16];
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[15:8] <= mem_wdata[23:16];
                                else                     freeahb_wdata[7:0]   <= mem_wdata [23:16];
                            end
 
                         3: begin
-                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[31:24] <= mem_wdata[31:24];
+                               if (BIG_ENDIAN_AHB == 1) freeahb_wdata[7:0] <= mem_wdata[31:24];
                                else                     freeahb_wdata[7:0]   <= mem_wdata[31:24];
                            end
                     endcase
