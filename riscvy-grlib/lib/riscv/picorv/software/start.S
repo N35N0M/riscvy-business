@@ -37,8 +37,11 @@ addi x30, zero, 0
 addi x31, zero, 0
 
 /* set stack pointer */
-lui sp, %hi(1342177280)       // This corresponds to a SP on byte 0x50000000, it is 16-byte alligned.
-addi sp, sp, %lo(1342177280)  // Ditto.
+//lui sp, %hi(1342177280)       // This corresponds to a SP on byte 0x5000_0000, it is 16-byte alligned.
+//addi sp, sp, %lo(1342177280)  // Ditto.
+
+lui sp, %hi(1174405120)         // Stack pointer at 0x4600_0000
+addi sp, sp, %lo(1174405120)
 
 /* push zeros on the stack for argc and argv */
 /* (stack is aligned to 16 bytes in riscv calling convention) */
