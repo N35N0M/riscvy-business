@@ -1,0 +1,1 @@
+export FREEAHB_MASTER_PATH=$(pwd)/shared/FreeAHB/ahb_master/sources/ahb_master.v
