@@ -5,6 +5,7 @@
 module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
     input                   clk,
     input                   resetn,
+    input                   enable,
 
     // FreeAHB interface
     output reg    [31:0]    freeahb_wdata,
@@ -58,18 +59,40 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
     reg       pending_write;
     reg       pending_write_finish;
     reg       pending_read;
+    reg       enabled = 0;
 
     always @(posedge clk or negedge resetn) begin
         // IDLE memory system conditions
-        if (!resetn || !mem_valid || mem_ready) begin
+        if (!resetn && enabled) begin
+            enabled <= 0;
             freeahb_valid     <= 1'b0;
             freeahb_write     <= 1'b0;
             freeahb_read      <= 1'b0;
             freeahb_cont      <= 1'b0;
             freeahb_lock      <= 1'b0;
-	    freeahb_min_len   <= 0;
-	    freeahb_size      <= 0;
-	    freeahb_prot      <= 0;
+            freeahb_min_len   <= 0;
+            freeahb_size      <= 0;
+            freeahb_prot      <= 0;
+            mem_ready         <= 1'b0;
+            write_ctr         <= 0;
+            pending_write     <= 1'b0;
+            pending_write_finish <= 1'b0;
+            pending_read      <= 1'b0;
+        end
+
+        else if (!enabled && enable) begin
+            enabled <= 1;
+        end
+
+        else if (!resetn || !mem_valid || mem_ready || !enabled) begin
+            freeahb_valid     <= 1'b0;
+            freeahb_write     <= 1'b0;
+            freeahb_read      <= 1'b0;
+            freeahb_cont      <= 1'b0;
+            freeahb_lock      <= 1'b0;
+            freeahb_min_len   <= 0;
+            freeahb_size      <= 0;
+            freeahb_prot      <= 0;
             mem_ready         <= 1'b0;
             write_ctr         <= 0;
             pending_write     <= 1'b0;
@@ -93,7 +116,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
 
         // READ transfer complete
         else if (mem_valid && mem_wstrb == 4'b0000 && pending_read && freeahb_ready) begin
-	    $display("READ BASE ADDR %h, RDATA %h", mem_addr, mem_rdata);
+//	    $display("READ BASE ADDR %h, RDATA %h", mem_addr, mem_rdata);
             mem_ready     <= 1'b1;
             freeahb_valid <= 1'b0;
             freeahb_read  <= 1'b0;
@@ -138,8 +161,8 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
             mem_ready     <= 1'b1;
             freeahb_write <= 1'b0;
             freeahb_valid <= 1'b0;
-	    write_ctr     <= 0;
-	    freeahb_wdata <= 0; // Not neccessary, but makes it easier to debug.
+            write_ctr     <= 0;
+            freeahb_wdata <= 0; // Not neccessary, but makes it easier to debug.
         end
 
         // For 32-bit reads, we simply clear the read bit on the UI.
@@ -175,7 +198,7 @@ module picorv32_freeahb_adapter #(parameter BIG_ENDIAN_AHB = 1) (
                      
 	        end
             else if (pending_write_finish) begin 
-		$display("WRITE BASE ADDR %h, MEM WDATA %h", mem_addr, mem_wdata);
+//		$display("WRITE BASE ADDR %h, MEM WDATA %h", mem_addr, mem_wdata);
                 pending_write_finish <= 1'b0;
                 freeahb_write        <= 1'b0;
                 freeahb_valid        <= 1'b0;

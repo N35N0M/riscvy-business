@@ -19,7 +19,10 @@ module pico_ahb_master (
   output [2:0]  HSIZE,
   output [2:0]  HBURST,
   output [3:0]  HPROT,
-  output [31:0] HWDATA
+  output [31:0] HWDATA,
+
+  output        TRAP,
+  input        ENABLE
   );
 
 
@@ -48,6 +51,8 @@ module pico_ahb_master (
   wire [31:0]     pico_to_adapter_wdata;
   wire [3:0]      pico_to_adapter_wstrb;
   wire [31:0]     adapter_to_pico_rdata;
+  
+  assign trap = adapter_to_pico_ready;
 
   ahb_master  #(
     .DATA_WDT(32),
@@ -90,10 +95,10 @@ module pico_ahb_master (
 
 
 
-  picorv32_freeahb_adapter pico_ahb_adapter(
+  picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(1)) pico_ahb_adapter(
     .clk                (HCLK               ),
     .resetn  	          (HRESETn    ),
-
+    .enable               (ENABLE),
 
     // FreeAHB interface
     .freeahb_addr         (adapter_to_ahb_addr),
@@ -125,9 +130,9 @@ module pico_ahb_master (
   picorv32 #(
   //.ENABLE_COUNTERS      (1                   ),
   //.ENABLE_COUNTERS64    (1                   ),
-  .ENABLE_REGS_16_31    (1                   ),
+  //.ENABLE_REGS_16_31    (1                   ),
   //.ENABLE_REGS_DUALPORT (1                   ),
-  .LATCHED_MEM_RDATA    (1                   ), // Our implementation requires this, as adapter READY data can possibly only last one cycle.
+  //.LATCHED_MEM_RDATA    (1                   ), // Our implementation requires this, as adapter READY data can possibly only last one cycle.
   //.TWO_STAGE_SHIFT      (1                   ),
   //.BARREL_SHIFTER       (0                   ),
   //.TWO_CYCLE_COMPARE    (0                   ),
@@ -136,9 +141,9 @@ module pico_ahb_master (
   //.CATCH_MISALIGN       (1                   ),
   //.CATCH_ILLINSN        (1                   ),
   //.ENABLE_PCPI          (0                   ),
-  .ENABLE_MUL           (1                   ),
+  //.ENABLE_MUL           (1                   ),
   //.ENABLE_FAST_MUL      (0                   ),
-  .ENABLE_DIV           (1                   ),
+  //.ENABLE_DIV           (1                   ),
   //.ENABLE_IRQ           (0                   ),
   //.ENABLE_IRQ_QREGS     (1                   ),
   //.ENABLE_IRQ_TIMER     (1                   ),
@@ -146,14 +151,14 @@ module pico_ahb_master (
   //.REGS_INIT_ZERO       (0                   ),  // DEBUG ONLY
   //.MASKED_IRQ           (32'h 0000_0000      ),
   //.LATCHED_IRQ          (32'h ffff_ffff      ),
-  .PROGADDR_RESET       (32'h 4000_0000      ), // Note that this prohibits that the LEON and the RISC run stuff at the same time.
+  .PROGADDR_RESET       (32'h 4500_0000      ), // Note that this prohibits that the LEON and the RISC run stuff at the same time.
   //.PROGADDR_IRQ         (32'h 0000_0010      ),
-  .STACKADDR            (32'h 4010_0000      )
+  //.STACKADDR            (32'h 4010_0000      )
   ) picorv32_core (
     // Clock, reset, traps
   .clk                  (HCLK                  ),
   .resetn               (HRESETn               ),
-  .trap                 (                      ),
+  .trap                 (                  ),
 
     // Memory interface output
   .mem_valid            (pico_to_adapter_valid),

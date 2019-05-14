@@ -15,6 +15,8 @@ package picorv is
                 port (
                         rst     :       in std_ulogic;
                         clk     :       in std_ulogic;
+                        trap    :       out std_ulogic;
+                        enable  :       in std_ulogic;
                         ahbmi   :       in ahb_mst_in_type;
                         ahbmo   :       out ahb_mst_out_type);
         end component;
