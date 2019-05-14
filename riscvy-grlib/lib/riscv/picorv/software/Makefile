@@ -2,8 +2,8 @@ RISCV_TOOLS_PREFIX = /opt/riscv32ic/bin/riscv32-unknown-elf-
 CXX = $(RISCV_TOOLS_PREFIX)g++
 CC = $(RISCV_TOOLS_PREFIX)gcc
 AS = $(RISCV_TOOLS_PREFIX)gcc
-CXXFLAGS = -MD -Os -Wall -std=c++11
-CCFLAGS = -MD -Os -Wall -std=c++11
+CXXFLAGS = -MD  -Wall -std=c++11
+CCFLAGS = -MD  -Wall -std=c++11
 LDFLAGS = -Wl,--gc-sections
 LDLIBS = -lstdc++
 
@@ -31,14 +31,14 @@ firmware.hex: firmware.elf start.elf hex8tohex32.py
 	$(RISCV_TOOLS_PREFIX)objcopy -O verilog firmware.elf firmware.tmp
 	cat start.tmp firmware.tmp > firmware.hex
 
-srecs: firmware.elf start.elf
-	$(RISCV_TOOLS_PREFIX)objcopy -O srec --gap-fill 0 firmware.elf firmware.srec
-	$(RISCV_TOOLS_PREFIX)objcopy -O srec --gap-fill 0 start.elf start.srec
+ram.srec: firmware.elf start.elf
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x46000020 --gap-fill 0 firmware.elf firmware.srec
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x45001000 --gap-fill 0 start.elf start.srec
+	cat start.srec firmware.srec > ram.srec
 
-firmware.bin: firmware.elf start.elf
-	$(RISCV_TOOLS_PREFIX)objcopy -O binary start.elf start.tmp
-	$(RISCV_TOOLS_PREFIX)objcopy -O binary firmware.elf firmware.tmp
-	cat start.tmp firmware.tmp > firmware.bin
+binaries: firmware.elf start.elf
+	$(RISCV_TOOLS_PREFIX)objcopy -O binary start.elf start.bin
+	$(RISCV_TOOLS_PREFIX)objcopy -O binary firmware.elf firmware.bin
 
 firmware.elf: firmware.o syscalls.o
 	$(CC) $(LDFLAGS) -o $@ $^ -T riscv.ld $(LDLIBS)

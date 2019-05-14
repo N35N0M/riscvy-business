@@ -57,8 +57,11 @@ ssize_t _read(int file, void *ptr, size_t len)
 ssize_t _write(int file, const void *ptr, size_t len)
 {
 	const void *eptr = ptr + len;
-	while (ptr != eptr)
-		*(volatile int*)0x80000100 = *(char*)(ptr++); // Address of UART on ZC702 GRLIB design
+	while (ptr != eptr) {
+		*(volatile int*)0x46000010 = *(char*)(ptr); // Write to random location to test implementation
+		*(volatile int*)0x80000100 = *(char*)(ptr); // Write to random location to test implementation
+        ptr++;
+    }
 	return len;
 }
 

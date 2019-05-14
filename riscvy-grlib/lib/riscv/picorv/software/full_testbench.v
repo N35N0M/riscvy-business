@@ -1,5 +1,5 @@
 `timescale 1 ns / 1 ps
-`undef VERBOSE_MEM
+//`define VERBOSE_MEM
 `define WRITE_VCD
 `undef MEM8BIT
 
@@ -42,7 +42,8 @@ module testbench;
     reg                i_hready = 1;
     reg      [1:0]     i_hresp = 0;
 
-    reg single_transfer_first = 1;
+    reg write_data_next = 0; // Only works if we always get valid data after a SEQ. 
+    reg [31:0] write_address = 0;
 
     wire    [31:0]    o_haddr;
     wire    [2:0]     o_hburst;
@@ -66,7 +67,7 @@ module testbench;
 
 	picorv32 #(
 		.COMPRESSED_ISA(1),
-		.PROGADDR_RESET (32'h 4000_0000)
+		.PROGADDR_RESET (32'h 4500_0000)
 	) uut (
 		.clk         		(clk        ),
 		.resetn      		(resetn     ),
@@ -145,14 +146,16 @@ picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (
 `endif
 
 	always @(posedge clk) begin
-		if (mem_valid && !mem_ready) begin
+		if ((mem_valid && !mem_ready) || write_data_next) begin
 			case (1)
-			o_haddr == 32'h 8000_0100 && o_htrans == 2'b10: begin
-                       // if (single_transfer_first) single_transfer_first <= 0;
-                     //   else begin
-                 //           single_transfer_first <= 1;
+			o_haddr == 32'h 8000_0100: begin
+                       if (!write_data_next && o_htrans == 2'b10 && o_hwrite) begin
+                            write_data_next <= 1;
+                       end
+                        else if (write_data_next) begin
+                            write_data_next <= 0;
 				$write("%c", o_hwdata[7:0]);
-               //         end
+                        end
 			end
 				(mem_addr - MEM_OFFSET) < MEM_SIZE: begin
 `ifdef MEM8BIT
@@ -165,16 +168,18 @@ picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (
 						i_hrdata <= {memory[mem_addr - MEM_OFFSET+3], memory[mem_addr - MEM_OFFSET+2], memory[mem_addr - MEM_OFFSET+1], memory[mem_addr - MEM_OFFSET]};
 					end
 `else
-					if (|mem_wstrb && o_htrans == 2'b10) begin
-                       // if (single_transfer_first) single_transfer_first <= 0;
-                        //else begin
-						    if (o_haddr == mem_addr) memory[(mem_addr - MEM_OFFSET) >> 2][7:0] <= o_hwdata[7:0];
-						    if (o_haddr == mem_addr+1) memory[(mem_addr - MEM_OFFSET) >> 2][15:8] <= o_hwdata[7:0];
-						    if (o_haddr == mem_addr+2) memory[(mem_addr - MEM_OFFSET) >> 2][23:16] <= o_hwdata[7:0];
-						    else  memory[(mem_addr - MEM_OFFSET) >> 2][31:24] <= o_hwdata[7:0];
-                            //$display("MEM: I GOT BYTE %h at ADDR %h", o_hwdata[7:0], o_haddr);
-                         //   single_transfer_first <= 1;
-                        //end
+					if (|mem_wstrb || write_data_next) begin
+                        if (!write_data_next && o_htrans == 2'b10 && o_hwrite) begin
+                         write_data_next <= 1;
+                         write_address <= o_haddr;
+                        end
+                        else if (write_data_next) begin
+                            write_data_next <= 0;
+						    if (write_address == mem_addr) memory[(mem_addr - MEM_OFFSET) >> 2][7:0] <= o_hwdata[7:0];
+						    if (write_address == mem_addr+1) memory[(mem_addr - MEM_OFFSET) >> 2][15:8] <= o_hwdata[7:0];
+						    if (write_address == mem_addr+2) memory[(mem_addr - MEM_OFFSET) >> 2][23:16] <= o_hwdata[7:0];
+						    if (write_address == mem_addr+3)  memory[(mem_addr - MEM_OFFSET) >> 2][31:24] <= o_hwdata[7:0];
+                        end
 					end else begin
 
 						i_hrdata <= memory[(mem_addr - MEM_OFFSET) >> 2];
