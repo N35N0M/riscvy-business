@@ -242,7 +242,7 @@ signal S_AXI_GP0_wid : STD_LOGIC_VECTOR ( 5 downto 0 );  --
 signal aximi : axi_somi_type;
 signal aximo : axi3_mosi_type;
 
-signal pico_reset_button, pico_resets : std_ulogic;
+signal pico_reset_button, pico_resets, trap_led : std_ulogic;
 
 constant pconfig : apb_config_type := (
   0 => ahb_device_reg ( VENDOR_GAISLER, GAISLER_MIGDDR2, 0, 0, 0),
@@ -287,23 +287,29 @@ begin
   picorv0: picorv_grlib_ahb_master
     generic map (master_index  =>       2)
     port map(
-                 rst     =>      pico_resets,
+                 rst     =>      rstn,
                  clk     =>      clkm,
+                 trap    =>      trap_led,
+                 enable  =>      pico_reset_button,
                  ahbmi   =>      ahbmi,
-	         ahbmo   =>      ahbmo(2));
+                 ahbmo   =>      ahbmo(2));
 
   
   -- DEBUG LED DS15: Enable signal (tied to button) going into the Pico design.
   enable_signal_led : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
-     port map (led(7), pico_reset_button);
+     port map (led(7), pico_resets);
 
   -- DEBUG LED DS16: FreeAHB's HBUSREQ signal
   freeahb_busreq_led : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
      port map (led(6), ahbmo(2).hbusreq);
 
   -- DEBUG LED DS17: GRLIB AHBCTRL's HGRANT signal to FreeAHB
-  pico_unused_led7 : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
+  hgrant_signal : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
      port map (led(5), ahbmi.hgrant(2));
+
+  -- DEBUG LED DS17: GRLIB AHBCTRL's HGRANT signal to FreeAHB
+  picorv_trap_signal : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
+     port map (led(4), trap_led);
 
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
@@ -526,10 +532,10 @@ begin
         pio_pad : inpad generic map (tech => padtech, level => cmos, voltage => x18v)
             port map (button(i-8+1), gpioi.din(i)); -- Use +1 because button(0) is used for reset
     end generate;
-    pio_pads3 : for i in 11 to 11 generate
-        pio_pad : outpad generic map (tech => padtech, level => cmos, voltage => x33v)
-            port map (led(i-11+4), gpioo.dout(i));
-    end generate;
+--    pio_pads3 : for i in 11 to 11 generate
+--        pio_pad : outpad generic map (tech => padtech, level => cmos, voltage => x33v)
+ --           port map (led(i-11+4), gpioo.dout(i));
+ --   end generate;
   end generate;
 
   ua1 : if CFG_UART1_ENABLE /= 0 generate
