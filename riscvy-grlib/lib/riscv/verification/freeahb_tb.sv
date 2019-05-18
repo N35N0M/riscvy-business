@@ -64,7 +64,7 @@ module ahb_master_test;
         else
             i_hgrant <= 1'd0;
 
-        i_hready <= $random;// Randomly raise HREADY.
+        i_hready <= $random;
         i_hresp  <= 2'b00;  // AHB Slave, OKAY response, all the time.
                             // Master receives HREADY and OKAY
                             // when transfer is successful.
@@ -80,65 +80,6 @@ module ahb_master_test;
 
         i_hgrant <= 1;
 
-        // ********************************************************************
-        // SEQUENCE 1: Locked sequence burst transfers with no BUSY states,
-        // rand HREADY. This is the original testbench, but without random
-        // dav, and with hprot and hlock)
-        // ********************************************************************
-
-        i_hreset_n  <= 1'd0;
-        d(1);
-        i_hreset_n  <= 1'd1;
-
-        // Set IDLE for some time.
-        i_read      <= 0;
-        i_write     <= 0;
-
-        repeat(10) @(posedge i_hclk);
-
-        // We can change inputs at any time.
-        // Starting a write burst.
-        i_min_len     <= 42;
-        i_write       <= 1'd1;
-        i_cont        <= 1'd0; // First txn.
-        i_valid       <= 1'd1; // First UI in write burst must have valid data.
-        i_data        <= 0;    // First data is 0.
-        i_lock        <= 1;    // Lock the bus.
-        i_prot        <= 4'b0001; // Data access.
-
-        // Further change requires o_next.
-        wait_for_next;
-
-        // Write to the unit as if reading from a FIFO with intermittent
-        // FIFO empty conditions shown as dav = 0.
-        repeat(100)
-        begin: bk1
-            dav = 1;         // Blocking assignment
-            dat = dat + dav; // Blocking assignment
-
-            i_cont      <= 1'd1;
-            i_valid     <= dav;
-
-            // This technique is called x-injection.
-            i_data    <= dav ? dat :
-            `ifdef X_INJECTION
-                32'dx;
-            `else
-                0;
-            `endif
-
-            wait_for_next;
-        end
-
-        // Go to IDLE.
-        i_read    <= 1'd0;
-        i_write   <= 1'd0;
-        i_cont    <= 1'd0;
-
-
-        //*********************************************************************
-        // SEQUENCE 2: Sequential burst transfers with BUSY states, rand HREADY
-        //*********************************************************************
         i_hreset_n <= 1'd0;
         d(1);
         i_hreset_n <= 1'd1;

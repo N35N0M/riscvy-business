@@ -14,8 +14,8 @@ module adapter_and_freeahb_test;
     logic              freeahb_cont;        // Continues prev transfer
     logic    [3:0]     freeahb_prot;
     logic              freeahb_lock;
-    bit                freeahb_next;        // Asserted indicates transfer 
-                                            // finished. Must be bit, not logic, 
+    bit                freeahb_next;        // Asserted indicates transfer
+                                            // finished. Must be bit, not logic,
                                             // as our logic doesnt
                                             // support tristate values.
     logic    [31:0]    freeahb_rdata;
@@ -74,7 +74,7 @@ ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (
     .*
 );
 
-picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (              
+picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (
     .clk(clk),
     .resetn(resetn),
 
@@ -111,7 +111,7 @@ always #10 clk++;
 
 initial
 begin
-    $dumpfile("freeahb_and_adapter.vcd");
+    $dumpfile("adapter_and_freeahb.vcd");
     $dumpvars;
     resetn <= 1;
 
@@ -119,8 +119,8 @@ begin
 
     // Only case: WRITE
     // Initialize write session by acting as PicoRV memory IF
-    mem_addr    <= 32'b10000000_00000000_00000000_00000000;
-    mem_wdata   <= 32'b11110000_11111111_00001111_10101010;
+    mem_addr    <= 8'h8000_0000;
+    mem_wdata   <= 8'hF0FF_0FAA;
     mem_wstrb   <= 4'b1100;
     mem_valid   <= 1'b1;
     mem_instr   <= 1'b1;
