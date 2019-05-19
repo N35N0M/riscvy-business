@@ -151,7 +151,7 @@ module pico_ahb_master (
   //.REGS_INIT_ZERO       (0                   ),  // DEBUG ONLY
   //.MASKED_IRQ           (32'h 0000_0000      ),
   //.LATCHED_IRQ          (32'h ffff_ffff      ),
-  .PROGADDR_RESET       (32'h 4500_0000      ), // Note that this prohibits that the LEON and the RISC run stuff at the same time.
+  .PROGADDR_RESET       (32'h 4000_0000      ), // Note that this prohibits that the LEON and the RISC run stuff at the same time.
   //.PROGADDR_IRQ         (32'h 0000_0010      ),
   //.STACKADDR            (32'h 4010_0000      )
   ) picorv32_core (

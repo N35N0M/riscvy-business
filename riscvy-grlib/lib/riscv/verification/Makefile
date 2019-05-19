@@ -13,51 +13,42 @@ adapter_tb: ## Simple test of the Pico-to-AHB adapter, displays wavedump.
 	gtkwave adapter_tb.vcd
 
 
-pico_tb: firmware32.hex ## The original picoRV32 TB. Runs a sample bare-metal application.
-	iverilog -o testbench.vvp testbench.v ${PICO_CORE}
-	chmod -x testbench.vvp
-	vvp -v -N testbench.vvp
-	gtkwave
+pico_tb: ## The original picoRV32 TB. Runs a sample bare-metal application.  
+pico_tb: firmware32.hex 
+	iverilog -o pico_tb.vvp pico_tb.v ${PICO_CORE}
+	chmod -x pico_tb.vvp
+	vvp -v -N pico_tb.vvp
+	gtkwave pico_tb.vcd
 
 
 adapter_and_freeahb_tb: ## Simple test with both the adapter and FreeAHB master.
 	iverilog -g2012 -Wall -Winfloop -o adapter_and_freeahb_tb.vvp -DSIM \
 	${ADAPTER_PATH} adapter_and_freeahb_tb.sv ${FREEAHB_MASTER_PATH};
 	vvp -v -N adapter_and_freeahb_tb.vvp
-	gtkwave
+	gtkwave adapter_and_freeahb.vcd
 
-
-riscv_toplevel_test: firmware32.hex full_testbench.v ## Modded pico_tb. Tests bare-metal software on Pico, getting its memory through the adapter and FreeAHB master.
-	iverilog -o full_testbench.vvp full_testbench.v ../core/picorv32.v ../picorv32_freeahb_adapter.v ../../shared/FreeAHB/ahb_master/sources/ahb_master.v
-	chmod -x full_testbench.vvp
-	vvp -v -N full_testbench.vvp
+topdesign_tb: ## Modded pico_tb. Tests bare-metal software on Pico, getting its memory through the adapter and FreeAHB master.  
+topdesign_tb: firmware32.hex 
+	iverilog -o topdesign_tb.vvp topdesign_tb.v ${PICO_CORE} ${ADAPTER_PATH} ${FREEAHB_MASTER_PATH}
+	chmod -x topdesign_tb.vvp
+	vvp -N topdesign_tb.vvp
+	gtkwave topdesign_tb.vcd
 
 
 
 # SOFTWARE BUILDING FOR DEPENDENT TESTBENCHES
 firmware32.hex:  ## Builds the hexfile needed by the bare-metal application TBs.
-	cd ${PICO_SOFTWARE}
-	$(make) firmware32.hex
-	cp firmware32.hex ${RISCV_LIB_VERIFICATION}/firmware32.hex
+	cd ${PICO_SOFTWARE} && $(MAKE) firmware32.hex && cp firmware32.hex ${RISCV_LIB_VERIFICATION}/firmware32.hex
 
 
 .PHONY: clean help
 
 help: ## This help dialog. Source - gist.github.com/prwhite/8168133
-	@IFS=$$'\n' ; \
-	help_lines=(`fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##/:/'`); \
-	printf "%-30s %s\n" "target" "help" ; \
-	printf "%-30s %s\n" "------" "----" ; \
-	for help_line in $${help_lines[@]}; do \
-		IFS=$$':' ; \
-		help_split=($$help_line) ; \
-		help_command=`echo $${help_split[0]} | sed -e 's/^ *//' -e 's/ *$$//'` ; \
-		help_info=`echo $${help_split[2]} | sed -e 's/^ *//' -e 's/ *$$//'` ; \
-		printf '\033[36m'; \
-		printf "%-30s %s" $$help_command ; \
-		printf '\033[0m'; \
-		printf "%s\n" $$help_info; \
-	done
+	@echo 'usage: make [target] ...'
+	@echo
+	@echo 'targets:'
+	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
 clean: ## Clean files built with this Makefile.
-	rm -f *.vvp *.vcd
+	rm -f *.vvp *.vcd *.hex
+	cd ${PICO_SOFTWARE} && $(MAKE) clean

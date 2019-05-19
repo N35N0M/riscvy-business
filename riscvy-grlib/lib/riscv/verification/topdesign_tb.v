@@ -1,5 +1,5 @@
 `timescale 1 ns / 1 ps
-//`define VERBOSE_MEM
+`undef VERBOSE_MEM
 `define WRITE_VCD
 `undef MEM8BIT
 
@@ -67,7 +67,7 @@ module testbench;
 
 	picorv32 #(
 		.COMPRESSED_ISA(1),
-		.PROGADDR_RESET (32'h 4500_0000)
+		.PROGADDR_RESET (32'h 4000_0000)
 	) uut (
 		.clk         		(clk        ),
 		.resetn      		(resetn     ),
@@ -104,6 +104,7 @@ ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (
 picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (              
     .clk(clk),
     .resetn(resetn),
+    .enable(1'b1),
 
     // FreeAHB UI
     .freeahb_wdata(freeahb_wdata),
@@ -212,7 +213,7 @@ picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (
 
 `ifdef WRITE_VCD
 	initial begin
-		$dumpfile("testbench.vcd");
+		$dumpfile("topdesign_tb.vcd");
 		$dumpvars(0, testbench);
 	end
 `endif

@@ -53,6 +53,7 @@ module adapter_and_freeahb_test;
 
     bit                clk;
     bit                resetn;
+    bit                enable = 1'b1;
 
 ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (
     .i_hclk(clk),
@@ -77,6 +78,7 @@ ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (
 picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (
     .clk(clk),
     .resetn(resetn),
+    .enable(enable),
 
     // FreeAHB UI
     .freeahb_wdata(freeahb_wdata),
@@ -119,13 +121,11 @@ begin
 
     // Only case: WRITE
     // Initialize write session by acting as PicoRV memory IF
-    mem_addr    <= 8'h8000_0000;
-    mem_wdata   <= 8'hF0FF_0FAA;
+    mem_addr    <= 32'h8000_0000;
+    mem_wdata   <= 32'hF0FF_0FAA;
     mem_wstrb   <= 4'b1100;
     mem_valid   <= 1'b1;
     mem_instr   <= 1'b1;
-
-    d(10);
 
     wait_for_hbusreq;
 

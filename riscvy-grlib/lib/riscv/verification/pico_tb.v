@@ -30,7 +30,7 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 // instead of 0x00000000 only.
 
 `timescale 1 ns / 1 ps
-`define VERBOSE_MEM
+`undef VERBOSE_MEM
 `define WRITE_VCD
 `undef MEM8BIT
 
@@ -140,7 +140,7 @@ module testbench;
 
     `ifdef WRITE_VCD
     initial begin
-        $dumpfile("testbench.vcd");
+        $dumpfile("pico_tb.vcd");
         $dumpvars(0, testbench);
     end
     `endif
