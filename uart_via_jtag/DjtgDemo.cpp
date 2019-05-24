@@ -1,3 +1,11 @@
+// UART VIA JTAG routine
+// Written as part of the RISCVY-BUSINESS master thesis code repository.
+// Written by Kris Monsen, utilizing the Digilent Adept SDK.
+
+// As a courtesy, we reproduce the original licence for the demonstration program here (which was included in the SDK). 
+// Most of it is left as-is, but most things after printing out IDCODES are original 
+// (except ErrorExit, ShowUsage and the actual API calls, obviously).
+
 /************************************************************************/
 /*																		*/
 /*  DjtgDemo.cpp  --  DJTG DEMO Main Program							*/
@@ -78,6 +86,9 @@ void UpdateInstructions(BYTE* instructions, int amount_of_bits);
 void UpdateData(BYTE* payload, int amount_of_bits);
 void ReadData(BYTE* readbuffer, int amount_of_bits);
 void ReadInstructions();
+void TdoBufferPrint(BYTE* tdo_buffer, int bitcount);
+void UpdateInstructionsAndData(BYTE* Instructions, BYTE* Payload, int InstructionBits, int PayloadBits);
+
 /* ------------------------------------------------------------ */
 /*				Procedure Definitions							*/
 /* ------------------------------------------------------------ */
@@ -141,7 +152,6 @@ int main(int cszArg, char* rgszArg[]) {
 			printf("Error: DjtgGetTdoBits failed\n");
 			ErrorExit();
 		}
-        printf("Read another TDO 32 bits!");
 		// Convert array of bytes into 32-bit value
 		idcode = (rgbTdo[3] << 24) | (rgbTdo[2] << 16) | (rgbTdo[1] << 8) | (rgbTdo[0]);
 
@@ -163,42 +173,37 @@ int main(int cszArg, char* rgszArg[]) {
     // **************************************************
 
     // First, reset the TAPs, and then put ARM to BYPASS (1111), and Xilinx to USER1 (
-    ReadInstructions();
     ResetThenIdle();
-    ReadInstructions(); 
-
+    printf("\n");
     DWORD current_frequency;
     DWORD oneMHZ = 1000000;
     DjtgGetSpeed(hif, &current_frequency);
-    printf("Current JTAG clock speed: ");
+    printf("JTAG clock speed after reset: ");
     printf("%Id", current_frequency); 
     printf("\n");
     DjtgSetSpeed(hif, oneMHZ, &current_frequency);
     DjtgGetSpeed(hif, &current_frequency);
-    printf("Current JTAG clock speed is now: ");
+    printf("Successfully set JTAG clock speed to: ");
     printf("%Id", current_frequency);
-    printf("\n");
+    printf("\n\n");
 
+    // It is important that we do not go into TEST-IDLE before we shift into the ABHJTAG Command Register...
+    printf("Setting Arm DAP to BYPASS, Xilinx TAP to USER1 ('AHBJTAG Command Register').\n");
     BYTE xilinx_user1_and_arm_bypass[] = {0xc2, 0x03};
-    UpdateInstructions(xilinx_user1_and_arm_bypass, 10); // Arm IR is 4 bits, Xilinx is 6 bits. 10 total
-
-    ReadInstructions();
-	// Instruct a AHB Read to 0x40000000 (test), by writing to the DR of Xilinx TAP USER1 (Command Register)
-    // Arm Bypass DR is 1 bit, Xilinx Tap USER1 is 35 bits
-    BYTE grlib_uart_dr_read[] = {0x00, 0x00, 0x00, 0x40, 0x00};
-    UpdateData(grlib_uart_dr_read, 36);
+    BYTE grlib_uart_dr_read[] = {0x00, 0x00, 0x00, 0x50, 0x00};
+    UpdateInstructionsAndData(xilinx_user1_and_arm_bypass, grlib_uart_dr_read, 10, 36);
   
+    printf("Setting Arm DAP to BYPASS, Xilinx TAP to USER2 ('AHBJTAG Data Register').\n\n");
     BYTE xilinx_user2_and_arm_bypass[] = {0xc3, 0x03};
 	UpdateInstructions(xilinx_user2_and_arm_bypass, 10);
     
-	ReadInstructions();
     // Read the 33-bit AHBJTAG data register until the MSB is 1 (Read finished!)
-	BYTE ahbdata_tdo[5];
+	BYTE ahbdata_tdo[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
     int counter = 0;
 	do {
         // 33 LSB is from Xilinx USER 2 DR, the next is 1 for ARM DAP BYPASS, the final 6 are noise.
         ReadData(ahbdata_tdo, 40);
-        printf("Got 40 bits from TDO!\n");
+        printf("Got 40 bits from TDO!\nBeware that only the 34 lower order bits are relevant.\n");
 
 		// For every received byte, from MSB to LSB
 		for( int i = 4; i>=0; i-- ) {
@@ -209,10 +214,10 @@ int main(int cszArg, char* rgszArg[]) {
             printf(" ");
 		}
 
-		printf("\n");
+		printf("\n\n");
         counter++;
  
-	} while(!(ahbdata_tdo[4] & 1) & counter < 100); // While the SEQ bit is not set. TODO: Create new int array which only has the AHBJTAG DR data.
+	} while(!(ahbdata_tdo[4] & 1) && counter<50); // While the SEQ bit is not set. TODO: Create new int array which only has the AHBJTAG DR data.
     
 
 	// Disable Djtg and close device handle
@@ -234,68 +239,74 @@ int main(int cszArg, char* rgszArg[]) {
 
 // Custom helpers.
 void ResetThenIdle() {
-	BYTE sequence[] = {0x1f};
-	if(!DjtgPutTmsBits(hif, fFalse, sequence, NULL, 6, fFalse)) {
-		printf("Method ResetThenIdle failed!");
-        ErrorExit();
-    }
+	BYTE sequence[] = {0xaa, 0x02};
+	if(!DjtgPutTmsTdiBits(hif, sequence, NULL, 6, fFalse)) {
+		printf("DjtgPutTmsTdiBits failed\n");
+		ErrorExit();
+	}
 }
 
-void UpdateInstructions(BYTE* instructions, int amount_of_bits) {
-	BYTE idle_to_shift_ir[] = {0x03}; // First hex is the only relevant.
-    BYTE shift_ir_to_idle[] = {0x03}; // First three bits are the only relevant
+void UpdateInstructions(BYTE* instructions, int bitCount) {
+	BYTE IdleToShiftIr[] = {0x03}; // First hex is the only relevant.
+    BYTE ShiftIrToIdle[] = {0x03}; // First three bits are the only relevant
 
     // Go from IDLE to SHIFT-IR state
-	if(!DjtgPutTmsBits(hif, fFalse, idle_to_shift_ir, NULL, 4, fFalse)) {
+	if(!DjtgPutTmsBits(hif, fFalse, IdleToShiftIr, NULL, 4, fFalse)) {
 		printf("Pushing TMS bits failed!");
         ErrorExit();
     }
 
     // Shift in instructions to IRs.
-    if(!DjtgPutTdiBits(hif, fFalse, instructions, NULL, amount_of_bits, fFalse)){
+    if(!DjtgPutTdiBits(hif, 0, instructions, NULL, bitCount-1, fFalse)){
 		printf("Pushing TDI bits failed!");
         ErrorExit();
 	}
 
     // Go from SHIFT-IR to IDLE state.
-	if(!DjtgPutTmsBits(hif, fFalse, shift_ir_to_idle, NULL, 3, fFalse)) {
+	if(!DjtgPutTmsBits(hif, fFalse, ShiftIrToIdle, NULL, 3, fFalse)) {
 		printf("Pushing TMS bits failed!");
         ErrorExit();
     }
 }
 
-void ReadInstructions() {
-	BYTE idle_to_shift_ir[] = {0x03}; // First hex is the only relevant.
-    BYTE shift_ir_to_idle[] = {0x03}; // First three bits are the only relevant
-    BYTE tdo_buffer[2];
+// This will set both the IR and DR before landing in TEST-IDLE state.
+void UpdateInstructionsAndData(BYTE* instructions, BYTE* payload, int instructionBits, int payloadBits) {
+	BYTE idleToShiftIr[] = {0x03}; // First hex is the only relevant.
+    BYTE shiftIrToShiftDr[] = {0x7}; // First five bits relevant, does not go into RUN-TEST
+    BYTE shiftDrToIdle[] = {0x03}; // First three bits are the only relevant
 
     // Go from IDLE to SHIFT-IR state
-	if(!DjtgPutTmsBits(hif, fFalse, idle_to_shift_ir, NULL, 4, fFalse)) {
+	if(!DjtgPutTmsBits(hif, fFalse, idleToShiftIr, NULL, 4, fFalse)) {
 		printf("Pushing TMS bits failed!");
         ErrorExit();
     }
 
-    // Read amount_of_bits of DR out via TDO
-	if(!DjtgGetTdoBits(hif, fFalse, fFalse, tdo_buffer, 16, fFalse)) {
-		printf("Error: DjtgGetTdoBits failed\n");
-		ErrorExit();
+    // Shift in instructions to IRs.
+    if(!DjtgPutTdiBits(hif, fFalse, instructions, NULL, instructionBits-1, fFalse)){
+		printf("Pushing TDI bits failed!");
+        ErrorExit();
 	}
 
-    // Go from SHIFT-IR to IDLE state.
-	if(!DjtgPutTmsBits(hif, fFalse, shift_ir_to_idle, NULL, 3, fFalse)) {
+    // Go from SHIFT-IR to SHIFT-DR state.
+	if(!DjtgPutTmsBits(hif, fFalse, shiftIrToShiftDr, NULL, 5, fFalse)) {
 		printf("Pushing TMS bits failed!");
         ErrorExit();
     }
 
-		for( int i = 1; i>=0; i-- ) {
-			// Creds for simple and elegant char-to-binary: https://stackoverflow.com/questions/18327439/printing-binary-representation-of-a-char-in-c
-			for (int j = 0; j < 8; j++) {
-				printf("%d", !!((tdo_buffer[i] << j) & 0x80));
-			}
-            printf(" ");
-		}
-        printf("\n");
+    // Write payload into DR
+    if(!DjtgPutTdiBits(hif, fFalse, payload, NULL, payloadBits-1, fFalse)){
+		printf("Pushing TDI bits failed!");
+        ErrorExit();
+	}
+
+    // Go from SHIFT-DR to IDLE
+	if(!DjtgPutTmsBits(hif, fFalse, shiftDrToIdle, NULL, 3, fFalse)) {
+		printf("Pushing TMS bits failed!");
+        ErrorExit();
+    }
+    
 }
+
 
 void UpdateData(BYTE* payload, int amount_of_bits) {
 	BYTE idle_to_shift_dr[] = {0x01}; // First three bits are relevant
@@ -308,7 +319,8 @@ void UpdateData(BYTE* payload, int amount_of_bits) {
     }
 
     // Shift in payload to DRs.
-    if(!DjtgPutTdiBits(hif, fFalse, payload, NULL, amount_of_bits, fFalse)){
+    // cbits != count of bits. The first bit seems to be clocked in anyway.
+    if(!DjtgPutTdiBits(hif, fFalse, payload, NULL, amount_of_bits-1, fFalse)){
 		printf("Pushing TDI bits failed!");
         ErrorExit();
 	}
@@ -321,6 +333,7 @@ void UpdateData(BYTE* payload, int amount_of_bits) {
 }
 
 void ReadData(BYTE* readbuffer, int amount_of_bits) {
+    printf("Reading from DR...\n");
 	BYTE idle_to_shift_dr[] = {0x01}; // First three bits are relevant
     BYTE shift_dr_to_idle[] = {0x03}; // First three bits are the only relevant
 
@@ -331,7 +344,11 @@ void ReadData(BYTE* readbuffer, int amount_of_bits) {
     }
 
     // Read amount_of_bits of DR out via TDO
-	if(!DjtgGetTdoBits(hif, fTrue, fFalse, readbuffer, amount_of_bits, fFalse)) {
+    // For some DRs, such as the AHBJTAG Data Register (USER2), it is very important
+    // that we are careful about what we shift in. Shifting in a 1 on position 32 (SEQ)
+    // will cause that unit to read from the next sequential address.
+    // Practical if you need it, not so nice if you depend on it to only perform one read.
+	if(!DjtgGetTdoBits(hif, fFalse, fFalse, readbuffer, amount_of_bits, fFalse)) {
 		printf("Error: DjtgGetTdoBits failed\n");
 		ErrorExit();
 	}
