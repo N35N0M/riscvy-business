@@ -59,6 +59,7 @@
 #include "dpcdecl.h" 
 #include "djtg.h"
 #include "dmgr.h"
+#include <signal.h>
 
 /* ------------------------------------------------------------ */
 /*				Local Type and Constant Definitions				*/
@@ -85,9 +86,8 @@ void ResetThenIdle();
 void UpdateInstructions(BYTE* instructions, int amount_of_bits);
 void UpdateData(BYTE* payload, int amount_of_bits);
 void ReadData(BYTE* readbuffer, int amount_of_bits);
-void ReadInstructions();
-void TdoBufferPrint(BYTE* tdo_buffer, int bitcount);
-void UpdateInstructionsAndData(BYTE* Instructions, BYTE* Payload, int InstructionBits, int PayloadBits);
+void HandleInterrupt(int code);
+void ReadWordFromAhb(BYTE* address, BYTE* readBuffer);
 
 /* ------------------------------------------------------------ */
 /*				Procedure Definitions							*/
@@ -105,6 +105,10 @@ void UpdateInstructionsAndData(BYTE* Instructions, BYTE* Payload, int Instructio
 **	Description:
 **		Run the program.
 */
+
+// Source for ctrl+c interrupt handling: https://stackoverflow.com/questions/4217037/catch-ctrl-c-in-c
+// And also The C Programming Language: Second Edition
+static volatile int exitProgram = 0;
 
 int main(int cszArg, char* rgszArg[]) {
 	int i;
@@ -168,9 +172,7 @@ int main(int cszArg, char* rgszArg[]) {
 		printf("0x%08x\n", rgIdcodes[i]);
 	}
 
-    // **************************************************
-    // Routine which commands AHBJTAG to perform reads.
-    // **************************************************
+    // END OF DEMO, START OF OUR APPLICATION.--------------------------------------------------------
 
     // First, reset the TAPs, and then put ARM to BYPASS (1111), and Xilinx to USER1 (
     ResetThenIdle();
@@ -187,38 +189,43 @@ int main(int cszArg, char* rgszArg[]) {
     printf("%Id", current_frequency);
     printf("\n\n");
 
-    // It is important that we do not go into TEST-IDLE before we shift into the ABHJTAG Command Register...
-    printf("Setting Arm DAP to BYPASS, Xilinx TAP to USER1 ('AHBJTAG Command Register').\n");
-    BYTE xilinx_user1_and_arm_bypass[] = {0xc2, 0x03};
-    BYTE grlib_uart_dr_read[] = {0x00, 0x00, 0x00, 0x50, 0x00};
-    UpdateInstructionsAndData(xilinx_user1_and_arm_bypass, grlib_uart_dr_read, 10, 36);
-  
-    printf("Setting Arm DAP to BYPASS, Xilinx TAP to USER2 ('AHBJTAG Data Register').\n\n");
-    BYTE xilinx_user2_and_arm_bypass[] = {0xc3, 0x03};
-	UpdateInstructions(xilinx_user2_and_arm_bypass, 10);
+    // Handle interrupts. A interrupt will cause the program to shutdown cleanly.
+    signal(SIGINT, HandleInterrupt);
     
-    // Read the 33-bit AHBJTAG data register until the MSB is 1 (Read finished!)
-	BYTE ahbdata_tdo[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
-    int counter = 0;
-	do {
-        // 33 LSB is from Xilinx USER 2 DR, the next is 1 for ARM DAP BYPASS, the final 6 are noise.
-        ReadData(ahbdata_tdo, 40);
-        printf("Got 40 bits from TDO!\nBeware that only the 34 lower order bits are relevant.\n");
+    printf("Performing test read to 0x4000_0000, which usually has the data 0x4000_0001...\n");
+    BYTE startOfMem[] = {0x00,0x00,0x00,0x40};
+    BYTE readBuffer[4];
 
-		// For every received byte, from MSB to LSB
-		for( int i = 4; i>=0; i-- ) {
-			// Creds for simple and elegant char-to-binary: https://stackoverflow.com/questions/18327439/printing-binary-representation-of-a-char-in-c
-			for (int j = 0; j < 8; j++) {
-				printf("%d", !!((ahbdata_tdo[i] << j) & 0x80));
-			}
-            printf(" ");
+    ReadWordFromAhb(startOfMem, readBuffer);
+
+	// For every received byte, from MSB to LSB
+	for( int i = 3; i>=0; i-- ) {
+		// Creds for simple and elegant char-to-binary: https://stackoverflow.com/questions/18327439/printing-binary-representation-of-a-char-in-c
+		for (int j = 0; j < 8; j++) {
+			printf("%d", !!((readBuffer[i] << j) & 0x80));
 		}
+        printf(" ");
+	}
 
-		printf("\n\n");
-        counter++;
- 
-	} while(!(ahbdata_tdo[4] & 1) && counter<50); // While the SEQ bit is not set. TODO: Create new int array which only has the AHBJTAG DR data.
+	printf("\n\n");
     
+    // TODO: Do we need to set the UART to debug mode before we start? Check.
+
+    printf("Now monitoring APBUART... Press Ctrl+C to stop.\n");
+
+    while (exitProgram == 0) {
+		// Read the status register...
+
+		// If the status register indicates data exists...
+
+		// Read that data....
+
+		// Do we need to clear any control bits...?
+
+        // Print that character.
+
+		// Loop.
+	}
 
 	// Disable Djtg and close device handle
 	if( hif != hifInvalid ) {
@@ -232,10 +239,33 @@ int main(int cszArg, char* rgszArg[]) {
 	return 0;
 }
 
+// Expects a 32-bit address, and a 32-bit buffer to return the read word to.
+void ReadWordFromAhb(BYTE* address, BYTE* readBuffer){
+    // Setting Arm DAP to BYPASS, Xilinx TAP to USER1 ('AHBJTAG Command Register')
+    BYTE xilinx_user1_and_arm_bypass[] = {0xc2, 0x03};
+    UpdateInstructions(xilinx_user1_and_arm_bypass, 10);
+  
+    // Inform AHBJTAG to perform desired read by setting AHBJTAG Command Register
+    // 34: W/R, 33-32: Size, 31-0: Addr.
+    BYTE grlib_uart_dr_read[] = {address[0], address[1], address[2], address[3], 0x02};
+    UpdateData(grlib_uart_dr_read, 36);
 
+    // Setting Arm DAP to BYPASS, Xilinx TAP to USER2 ('AHBJTAG Data Register')
+    BYTE xilinx_user2_and_arm_bypass[] = {0xc3, 0x03};
+	UpdateInstructions(xilinx_user2_and_arm_bypass, 10);
+    
+    // Read the 33-bit AHBJTAG data register until the MSB is 1 (Read finished!)
+	BYTE ahbdata_tdo[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+	do {
+        ReadData(ahbdata_tdo, 40);
+	} while(!(ahbdata_tdo[4] & 1)); // While the SEQ bit is not set.
+    
+    memcpy(readBuffer, ahbdata_tdo, 4);
+}
 
-
-
+void HandleInterrupt(int code) {
+	exitProgram = 1;
+}
 
 // Custom helpers.
 void ResetThenIdle() {
@@ -269,44 +299,6 @@ void UpdateInstructions(BYTE* instructions, int bitCount) {
     }
 }
 
-// This will set both the IR and DR before landing in TEST-IDLE state.
-void UpdateInstructionsAndData(BYTE* instructions, BYTE* payload, int instructionBits, int payloadBits) {
-	BYTE idleToShiftIr[] = {0x03}; // First hex is the only relevant.
-    BYTE shiftIrToShiftDr[] = {0x7}; // First five bits relevant, does not go into RUN-TEST
-    BYTE shiftDrToIdle[] = {0x03}; // First three bits are the only relevant
-
-    // Go from IDLE to SHIFT-IR state
-	if(!DjtgPutTmsBits(hif, fFalse, idleToShiftIr, NULL, 4, fFalse)) {
-		printf("Pushing TMS bits failed!");
-        ErrorExit();
-    }
-
-    // Shift in instructions to IRs.
-    if(!DjtgPutTdiBits(hif, fFalse, instructions, NULL, instructionBits-1, fFalse)){
-		printf("Pushing TDI bits failed!");
-        ErrorExit();
-	}
-
-    // Go from SHIFT-IR to SHIFT-DR state.
-	if(!DjtgPutTmsBits(hif, fFalse, shiftIrToShiftDr, NULL, 5, fFalse)) {
-		printf("Pushing TMS bits failed!");
-        ErrorExit();
-    }
-
-    // Write payload into DR
-    if(!DjtgPutTdiBits(hif, fFalse, payload, NULL, payloadBits-1, fFalse)){
-		printf("Pushing TDI bits failed!");
-        ErrorExit();
-	}
-
-    // Go from SHIFT-DR to IDLE
-	if(!DjtgPutTmsBits(hif, fFalse, shiftDrToIdle, NULL, 3, fFalse)) {
-		printf("Pushing TMS bits failed!");
-        ErrorExit();
-    }
-    
-}
-
 
 void UpdateData(BYTE* payload, int amount_of_bits) {
 	BYTE idle_to_shift_dr[] = {0x01}; // First three bits are relevant
@@ -333,7 +325,6 @@ void UpdateData(BYTE* payload, int amount_of_bits) {
 }
 
 void ReadData(BYTE* readbuffer, int amount_of_bits) {
-    printf("Reading from DR...\n");
 	BYTE idle_to_shift_dr[] = {0x01}; // First three bits are relevant
     BYTE shift_dr_to_idle[] = {0x03}; // First three bits are the only relevant
 
@@ -359,6 +350,7 @@ void ReadData(BYTE* readbuffer, int amount_of_bits) {
         ErrorExit();
     }
 }
+
 
 
 /* ------------------------------------------------------------ */
