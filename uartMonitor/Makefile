@@ -7,14 +7,13 @@
 CC = gcc
 INC = /usr/include/digilent/adept
 LIBDIR = /usr/lib64/digilent/adept
-TARGETS = DjtgDemo
-CFLAGS = -I $(INC) -L $(LIBDIR) -ldjtg -ldmgr
+TARGETS = UartMonitor
+CFLAGS = -I $(INC) -L  $(LIBDIR) -ldjtg -ldmgr
 
 all: $(TARGETS)
 
-DjtgDemo:
-	$(CC) -o DjtgDemo DjtgDemo.cpp $(CFLAGS)
-	
+UartMonitor:
+	$(CC) -o UartMonitor UartMonitor.cpp $(CFLAGS)	
 
 .PHONY: clean
 

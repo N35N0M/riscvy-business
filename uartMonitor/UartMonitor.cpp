@@ -88,6 +88,9 @@ void UpdateData(BYTE* payload, int amount_of_bits);
 void ReadData(BYTE* readbuffer, int amount_of_bits);
 void HandleInterrupt(int code);
 void ReadWordFromAhb(BYTE* address, BYTE* readBuffer);
+void BinaryPrintOfWord(BYTE* wordBuffer);
+void WriteWordToAhb(BYTE* address, BYTE* writeBuffer);
+void PrintUartRegisters();
 
 /* ------------------------------------------------------------ */
 /*				Procedure Definitions							*/
@@ -109,6 +112,12 @@ void ReadWordFromAhb(BYTE* address, BYTE* readBuffer);
 // Source for ctrl+c interrupt handling: https://stackoverflow.com/questions/4217037/catch-ctrl-c-in-c
 // And also The C Programming Language: Second Edition
 static volatile int exitProgram = 0;
+
+// Important addresses to word-sized registers on the APBUART.... (we skip the scaler register, 0xC)
+static BYTE uartData		[]  = {0x00,0x01,0x00,0x80};
+static BYTE uartStatus		[]  = {0x04,0x01,0x00,0x80};
+static BYTE uartControl		[]  = {0x08,0x01,0x00,0x80};
+static BYTE uartFifoDebug	[]  = {0x10,0x01,0x00,0x80};
 
 int main(int cszArg, char* rgszArg[]) {
 	int i;
@@ -191,40 +200,48 @@ int main(int cszArg, char* rgszArg[]) {
 
     // Handle interrupts. A interrupt will cause the program to shutdown cleanly.
     signal(SIGINT, HandleInterrupt);
+   
+    // Perform an initial read on the UARTs data, status, control and FIFO debug registers 
+    printf("========== INITIAL UART STATUS ==========\n");
+	PrintUartRegisters();
+
+	// Set APBUART to transmit and receive enable, and in FIFO debug mode, and with FIFOs available bit.
+    BYTE setUartToDebug[] = {0x03, 0x08, 0x00, 0x80};
+    WriteWordToAhb(uartControl, setUartToDebug);
+
+    printf("========== UART SET TO FIFO DEBUG MODE ==========\n");
+    PrintUartRegisters();
+
+    // TODO: For completeness, we should actually just write a byte, but that requires that
+    // we take care of memory aligning as well!
+    printf("========== CHARACTER WRITE AND READ TEST ========== \n");
+    BYTE writeH[] = {0x48, 0x00, 0x00,0x00}; // Remember that the UART data goes into bits 0-7
+    WriteWordToAhb(uartData, writeH);
+	
+	BYTE readBuffer[4];
+    // Check control register...
+    ReadWordFromAhb(uartStatus, readBuffer);
+    BinaryPrintOfWord(readBuffer);
+     
+    // And read...
+    //ReadWordFromAhb(uartFifoDebug, readBuffer);
+	//printf("We got %c from the UART transmitter!\n\n", readBuffer[0]);
     
-    printf("Performing test read to 0x4000_0000, which usually has the data 0x4000_0001...\n");
-    BYTE startOfMem[] = {0x00,0x00,0x00,0x40};
-    BYTE readBuffer[4];
-
-    ReadWordFromAhb(startOfMem, readBuffer);
-
-	// For every received byte, from MSB to LSB
-	for( int i = 3; i>=0; i-- ) {
-		// Creds for simple and elegant char-to-binary: https://stackoverflow.com/questions/18327439/printing-binary-representation-of-a-char-in-c
-		for (int j = 0; j < 8; j++) {
-			printf("%d", !!((readBuffer[i] << j) & 0x80));
-		}
-        printf(" ");
-	}
-
-	printf("\n\n");
-    
-    // TODO: Do we need to set the UART to debug mode before we start? Check.
-
+    printf("==================================================\n");
     printf("Now monitoring APBUART... Press Ctrl+C to stop.\n");
-
+    printf("==================================================\n");
     while (exitProgram == 0) {
 		// Read the status register...
+		ReadWordFromAhb(uartStatus, readBuffer);
 
-		// If the status register indicates data exists...
-
-		// Read that data....
-
-		// Do we need to clear any control bits...?
-
-        // Print that character.
-
-		// Loop.
+		// If the status register indicates data exists (TE != 1)...
+		if ( !(readBuffer[0] & 1<<2) ) {
+			// Read that data....
+            ReadWordFromAhb(uartFifoDebug, readBuffer);
+			
+			// Print that character.
+			printf("Got %c \n", readBuffer[0]);
+		}
 	}
 
 	// Disable Djtg and close device handle
@@ -237,6 +254,65 @@ int main(int cszArg, char* rgszArg[]) {
 	}
 
 	return 0;
+}
+
+void PrintUartRegisters(){
+    BYTE readBuffer[4];
+
+    printf("UART Data Register \n");
+    ReadWordFromAhb(uartData, readBuffer);
+    BinaryPrintOfWord(readBuffer);
+
+    printf("UART Status Register \n");
+    ReadWordFromAhb(uartStatus, readBuffer);
+    BinaryPrintOfWord(readBuffer);
+    
+    printf("UART Control Register \n");
+    ReadWordFromAhb(uartControl, readBuffer);
+    BinaryPrintOfWord(readBuffer);
+
+    printf("UART FIFO Debug Register \n");
+    ReadWordFromAhb(uartFifoDebug, readBuffer);
+    BinaryPrintOfWord(readBuffer);
+
+}
+
+void BinaryPrintOfWord(BYTE* wordBuffer){
+	for (int i=3; i>=0; i--) {
+        // Source: https://stackoverflow.com/questions/18327439/printing-binary-representation-of-a-char-in-c
+		for (int j=0; j<8; j++){
+			printf("%d", !!((wordBuffer[i] << j) & 0x80));
+		}
+        printf(" ");
+	}
+    printf("\n\n");
+}
+
+// Expects a 32-bit address, and a 32-bit buffer with valid bytes to write.
+void WriteWordToAhb(BYTE* address, BYTE* writeBuffer){
+    // Setting Arm DAP to BYPASS, Xilinx TAP to USER1 ('AHBJTAG Command Register')
+    BYTE xilinx_user1_and_arm_bypass[] = {0xc2, 0x03};
+    UpdateInstructions(xilinx_user1_and_arm_bypass, 10);
+  
+    // Inform AHBJTAG to perform desired write by setting AHBJTAG Command Register
+    // 34: W/R, 33-32: Size, 31-0: Addr.
+    BYTE grlib_uart_dr_write[] = {address[0], address[1], address[2], address[3], 0x06};
+    UpdateData(grlib_uart_dr_write, 36);
+
+    // Setting Arm DAP to BYPASS, Xilinx TAP to USER2 ('AHBJTAG Data Register')
+    BYTE xilinx_user2_and_arm_bypass[] = {0xc3, 0x03};
+	UpdateInstructions(xilinx_user2_and_arm_bypass, 10);
+    
+    // 32: SEQ (this is the next write in a sequence), 31-0: Big-Endian AHB Read/Write data.
+    // This write is not SEQ. We also need to shift a 0 for the BYPASS register of DAP.
+	BYTE writeSequence[] = {writeBuffer[0], writeBuffer[1], writeBuffer[2], writeBuffer[3], 0x01};
+    UpdateData(writeSequence, 34);
+
+    // Read the 33-bit AHBJTAG data register until the MSB is 1 (Transaction successfull finished)
+	BYTE ahbdata_tdo[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+	do {
+        ReadData(ahbdata_tdo, 40);
+	} while(!(ahbdata_tdo[4] & 1) & exitProgram == 0); // While the SEQ bit is not set.
 }
 
 // Expects a 32-bit address, and a 32-bit buffer to return the read word to.
@@ -258,7 +334,7 @@ void ReadWordFromAhb(BYTE* address, BYTE* readBuffer){
 	BYTE ahbdata_tdo[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
 	do {
         ReadData(ahbdata_tdo, 40);
-	} while(!(ahbdata_tdo[4] & 1)); // While the SEQ bit is not set.
+	} while(!(ahbdata_tdo[4] & 1) && exitProgram == 0); // While the SEQ bit is not set.
     
     memcpy(readBuffer, ahbdata_tdo, 4);
 }
