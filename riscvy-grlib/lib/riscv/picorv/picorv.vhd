@@ -11,11 +11,10 @@ use grlib.stdlib.all;
 package picorv is
         component picorv_grlib_ahb_master is
                 generic (
-                        master_index  :       integer := 2);
+                        master_index  :       integer := 0);
                 port (
                         rst     :       in std_ulogic;
                         clk     :       in std_ulogic;
-                        trap    :       out std_ulogic;
                         enable  :       in std_ulogic;
                         ahbmi   :       in ahb_mst_in_type;
                         ahbmo   :       out ahb_mst_out_type);

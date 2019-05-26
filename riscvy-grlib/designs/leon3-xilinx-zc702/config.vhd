@@ -23,7 +23,7 @@ package config is
   constant CFG_PCISYSCLK: integer := 0;
   constant CFG_CLK_NOFB : integer := 0;
 -- LEON3 processor core
-  constant CFG_LEON3 : integer := 1;
+  constant CFG_LEON3 : integer := 0;
   constant CFG_NCPU : integer := (1);
   constant CFG_NWIN : integer := (8);
   constant CFG_V8 : integer := 16#32# + 4*0;
@@ -63,7 +63,7 @@ package config is
   constant CFG_TLB_TYPE : integer := 0 + 1*2;
   constant CFG_TLB_REP : integer := 0;
   constant CFG_MMU_PAGE : integer := 0;
-  constant CFG_DSU : integer := 1;
+  constant CFG_DSU : integer := 0;
   constant CFG_ITBSZ : integer := 2 + 64*0;
   constant CFG_ATBSZ : integer := 2;
   constant CFG_AHBPF : integer := 0;
@@ -86,7 +86,7 @@ package config is
   constant CFG_REX : integer := 0;
   constant CFG_LEON_MEMTECH : integer := (0*2**17 + 0*2**18 + 0*2**16);
 -- AMBA settings
-  constant CFG_DEFMST : integer := (2);
+  constant CFG_DEFMST : integer := (0);
   constant CFG_RROBIN : integer := 1;
   constant CFG_SPLIT : integer := 0;
   constant CFG_FPNPEN : integer := 0;

@@ -154,7 +154,7 @@ component leon3_zc702_stub
   );
 end component;
 
-constant maxahbm : integer := 3; -- TODO: We should add RISCV conf to the configurator as well, instead of manually adding one here...
+constant maxahbm : integer := 2; -- TODO: We should add RISCV conf to the configurator as well, instead of manually adding one here...
 constant maxahbs : integer := 7;
 constant maxapbs : integer := 16;
 
@@ -242,7 +242,7 @@ signal S_AXI_GP0_wid : STD_LOGIC_VECTOR ( 5 downto 0 );  --
 signal aximi : axi_somi_type;
 signal aximo : axi3_mosi_type;
 
-signal pico_reset_button, pico_resets, trap_led : std_ulogic;
+signal pico_enable_button: std_ulogic;
 
 constant pconfig : apb_config_type := (
   0 => ahb_device_reg ( VENDOR_GAISLER, GAISLER_MIGDDR2, 0, 0, 0),
@@ -279,26 +279,20 @@ begin
 
 -- Enable button, to control when to run the Pico processor
   enable_pico_pad   : inpad  generic map (level => cmos, voltage => x18v, tech => padtech)
-    port map (button(1), pico_reset_button);
+    port map (button(1), pico_enable_button);
 
-  pico_resets <= rstn and not pico_reset_button;
 
 -- PicoRV instance  
   picorv0: picorv_grlib_ahb_master
-    generic map (master_index  =>       2)
+    generic map (master_index  =>       0)
     port map(
                  rst     =>      rstn,
                  clk     =>      clkm,
-                 trap    =>      trap_led,
-                 enable  =>      pico_reset_button,
+                 enable  =>      pico_enable_button,
                  ahbmi   =>      ahbmi,
-                 ahbmo   =>      ahbmo(2));
+                 ahbmo   =>      ahbmo(0));
 
   
-  -- DEBUG LED DS15: Enable signal (tied to button) going into the Pico design.
-  enable_signal_led : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
-     port map (led(7), pico_resets);
-
   -- DEBUG LED DS16: FreeAHB's HBUSREQ signal
   freeahb_busreq_led : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
      port map (led(6), ahbmo(2).hbusreq);
@@ -307,40 +301,16 @@ begin
   hgrant_signal : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
      port map (led(5), ahbmi.hgrant(2));
 
-  -- DEBUG LED DS17: GRLIB AHBCTRL's HGRANT signal to FreeAHB
-  picorv_trap_signal : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
-     port map (led(4), trap_led);
+  -- DEBUG LED DS18: Value of the enable signal going in to the PicoRV core.
+  picorv_enable_signal : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
+     port map (led(4), pico_enable_button);
 
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
 ----------------------------------------------------------------------
 
-  leon3_0 : if CFG_LEON3 = 1 generate
-    cpu : for i in 0 to CFG_NCPU-1 generate
-        u0 : leon3s     -- LEON3 processor
-        generic map (i, fabtech, memtech, CFG_NWIN, CFG_DSU, CFG_FPU*(1-CFG_GRFPUSH), CFG_V8,
-    0, CFG_MAC, pclow, CFG_NOTAG, CFG_NWP, CFG_ICEN, CFG_IREPL, CFG_ISETS, CFG_ILINE,
-    CFG_ISETSZ, CFG_ILOCK, CFG_DCEN, CFG_DREPL, CFG_DSETS, CFG_DLINE, CFG_DSETSZ,
-    CFG_DLOCK, CFG_DSNOOP, CFG_ILRAMEN, CFG_ILRAMSZ, CFG_ILRAMADDR, CFG_DLRAMEN,
-          CFG_DLRAMSZ, CFG_DLRAMADDR, CFG_MMUEN, CFG_ITLBNUM, CFG_DTLBNUM, CFG_TLB_TYPE, CFG_TLB_REP,
-          CFG_LDDEL, disas, CFG_ITBSZ, CFG_PWD, CFG_SVT, CFG_RSTADDR, CFG_NCPU-1,
-    CFG_DFIXED, CFG_SCAN, CFG_MMU_PAGE, CFG_BP, CFG_NP_ASI, CFG_WRPSR)
-        port map (clkm, rstn, ahbmi, ahbmo(i), ahbsi, ahbso,
-        irqi(i), irqo(i), dbgi(i), dbgo(i));
-    end generate;
-  end generate;
-  nocpu : if CFG_LEON3 = 0 generate dbgo(0) <= dbgo_none; end generate;
-
   led1_pad : outpad generic map (tech => padtech, level => cmos, voltage => x33v) port map (led(1), dbgo(0).error);
 
-  dsugen : if CFG_DSU = 1 generate
-      dsu0 : dsu3         -- LEON3 Debug Support Unit
-      generic map (hindex => 2, haddr => 16#900#, hmask => 16#F00#,
-         ncpu => CFG_NCPU, tbits => 30, tech => memtech, irq => 0, kbytes => CFG_ATBSZ)
-      port map (rstn, clkm, ahbmi, ahbsi, ahbso(2), dbgo, dbgi, dsui, dsuo);
-      dsui.enable <= '1';
-      dsui.break <= gpioi.din(0);
-  end generate;
   dsuact_pad : outpad generic map (tech => padtech, level => cmos, voltage => x33v) port map (led(0), dsuo.active);
 
   nodsu : if CFG_DSU = 0 generate
@@ -348,8 +318,8 @@ begin
   end generate;
 
   ahbjtaggen0 :if CFG_AHB_JTAG = 1 generate
-    ahbjtag0 : ahbjtag generic map(tech => fabtech, hindex => CFG_LEON3*CFG_NCPU)
-      port map(rstn, clkm, tck, tms, tdi, tdo, ahbmi, ahbmo(CFG_LEON3*CFG_NCPU),
+    ahbjtag0 : ahbjtag generic map(tech => fabtech, hindex => 1)
+      port map(rstn, clkm, tck, tms, tdi, tdo, ahbmi, ahbmo(1),
                open, open, open, open, open, open, open, gnd);
   end generate;
 
@@ -540,7 +510,7 @@ begin
 
   ua1 : if CFG_UART1_ENABLE /= 0 generate
     uart1 : apbuart                     -- UART 1
-      generic map (pindex   => 1, paddr => 1, pirq => 2, console => dbguart,
+      generic map (pindex   => 1, paddr => 1, pirq => 3, console => dbguart,
          fifosize => CFG_UART1_FIFO)
       port map (rstn, clkm, apbi, apbo(1), u1i, u1o);
     u1i.rxd    <= rxd1;

@@ -21,7 +21,6 @@ module pico_ahb_master (
   output [3:0]  HPROT,
   output [31:0] HWDATA,
 
-  output        TRAP,
   input        ENABLE
   );
 
@@ -52,8 +51,6 @@ module pico_ahb_master (
   wire [3:0]      pico_to_adapter_wstrb;
   wire [31:0]     adapter_to_pico_rdata;
   
-  assign trap = adapter_to_pico_ready;
-
   ahb_master  #(
     .DATA_WDT(32),
     .BEAT_WDT(32)
@@ -96,7 +93,7 @@ module pico_ahb_master (
 
 
   picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(1)) pico_ahb_adapter(
-    .clk                (HCLK               ),
+    .clk                  (HCLK               ),
     .resetn  	          (HRESETn    ),
     .enable               (ENABLE),
 
@@ -132,7 +129,7 @@ module pico_ahb_master (
   //.ENABLE_COUNTERS64    (1                   ),
   //.ENABLE_REGS_16_31    (1                   ),
   //.ENABLE_REGS_DUALPORT (1                   ),
-  //.LATCHED_MEM_RDATA    (1                   ), // Our implementation requires this, as adapter READY data can possibly only last one cycle.
+  //.LATCHED_MEM_RDATA    (0                   ),
   //.TWO_STAGE_SHIFT      (1                   ),
   //.BARREL_SHIFTER       (0                   ),
   //.TWO_CYCLE_COMPARE    (0                   ),
@@ -151,8 +148,8 @@ module pico_ahb_master (
   //.REGS_INIT_ZERO       (0                   ),  // DEBUG ONLY
   //.MASKED_IRQ           (32'h 0000_0000      ),
   //.LATCHED_IRQ          (32'h ffff_ffff      ),
-  .PROGADDR_RESET       (32'h 4000_0000      ), // Note that this prohibits that the LEON and the RISC run stuff at the same time.
-  //.PROGADDR_IRQ         (32'h 0000_0010      ),
+  .PROGADDR_RESET       (32'h 4000_0000      ), 
+  //.PROGADDR_IRQ         (32'h 4000_0010      ),
   //.STACKADDR            (32'h 4010_0000      )
   ) picorv32_core (
     // Clock, reset, traps

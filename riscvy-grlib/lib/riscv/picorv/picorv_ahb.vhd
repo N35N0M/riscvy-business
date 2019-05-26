@@ -17,7 +17,6 @@ entity picorv_grlib_ahb_master is
 	port (
 		rst	  :		in    std_ulogic;
 		clk	  :		in    std_ulogic;
-        trap  :     out   std_ulogic;
         enable :    in    std_ulogic;
 		ahbmi	:	  in    ahb_mst_in_type;
 		ahbmo	:	  out   ahb_mst_out_type);
@@ -42,7 +41,6 @@ architecture pico of picorv_grlib_ahb_master is
 			HBURST	:	out std_logic_vector(2 downto 0);
 			HPROT		:	out std_logic_vector(3 downto 0);
 			HWDATA	:	out std_logic_vector(31 downto 0);
-            TRAP    : out std_ulogic;
             ENABLE  : in std_ulogic);
 
 	end component;
@@ -76,7 +74,6 @@ begin
 			HBURST	 			=> ahbmo.hburst,
 			HPROT					=> ahbmo.hprot,
 			HWDATA        => ahbmo.hwdata,
-            TRAP          => trap,
             ENABLE        => enable);
             
             
