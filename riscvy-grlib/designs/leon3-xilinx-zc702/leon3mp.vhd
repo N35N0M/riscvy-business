@@ -478,7 +478,7 @@ begin
 
   gpio0 : if CFG_GRGPIO_ENABLE /= 0 generate     -- GPIO unit
     grgpio0: grgpio
-    generic map(pindex => 8, paddr => 8, imask => CFG_GRGPIO_IMASK, nbits => CFG_GRGPIO_WIDTH)
+    generic map(pindex => 8, paddr => 8, imask => CFG_GRGPIO_IMASK, nbits => CFG_GRGPIO_WIDTH, pirq => 6, irqgen => 1)
     port map(rst => rstn, clk => clkm, apbi => apbi, apbo => apbo(8), gpioi => gpioi, gpioo => gpioo);
     pio_pads : for i in 0 to 7 generate
         pio_pad : iopad generic map (tech => padtech, level => cmos, voltage => x18v)
@@ -496,7 +496,7 @@ begin
 
   ua1 : if CFG_UART1_ENABLE /= 0 generate
     uart1 : apbuart                     -- UART 1
-      generic map (pindex   => 1, paddr => 1, pirq => 3, console => dbguart,
+      generic map (pindex   => 1, paddr => 1, pirq => 5, console => dbguart,
          fifosize => CFG_UART1_FIFO)
       port map (rstn, clkm, apbi, apbo(1), u1i, u1o);
     u1i.rxd    <= rxd1;
