@@ -219,13 +219,13 @@ int main(int cszArg, char* rgszArg[]) {
     WriteWordToAhb(uartData, writeH);
 	
 	BYTE readBuffer[4];
-    // Check control register...
+    // Check status register...
     ReadWordFromAhb(uartStatus, readBuffer);
     BinaryPrintOfWord(readBuffer);
      
     // And read...
-    //ReadWordFromAhb(uartFifoDebug, readBuffer);
-	//printf("We got %c from the UART transmitter!\n\n", readBuffer[0]);
+    ReadWordFromAhb(uartFifoDebug, readBuffer);
+	printf("We got %c from the UART transmitter!\n\n", readBuffer[0]);
     
     printf("==================================================\n");
     printf("Now monitoring APBUART... Press Ctrl+C to stop.\n");
@@ -240,13 +240,10 @@ int main(int cszArg, char* rgszArg[]) {
             ReadWordFromAhb(uartFifoDebug, readBuffer);
 			
 			// Print that character.
-            BinaryPrintOfWord(readBuffer);
-			printf("Got %c \n", readBuffer[0]);
+			printf("%c", readBuffer[0]);
 		}
 	}
     
-    // Interesting to see the status of registers at the end of Pico execution...
-    PrintUartRegisters();
 
 	// Disable Djtg and close device handle
 	if( hif != hifInvalid ) {
