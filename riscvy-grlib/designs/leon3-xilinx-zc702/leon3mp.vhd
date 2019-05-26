@@ -465,20 +465,6 @@ begin
   generic map (hindex => 1, haddr => CFG_APBADDR, nslaves => 16)
   port map (rstn, clkm, ahbsi, ahbso(1), apbi, apbo );
 
-  irqgen : if CFG_LEON3 = 1 generate
-    irqctrl : if CFG_IRQ3_ENABLE /= 0 generate
-      irqctrl0 : irqmp         -- interrupt controller
-      generic map (pindex => 2, paddr => 2, ncpu => CFG_NCPU)
-      port map (rstn, clkm, apbi, apbo(2), irqo, irqi);
-    end generate;
-  end generate;
-  irqctrl : if (CFG_IRQ3_ENABLE + CFG_LEON3) /= 2 generate
-    x : for i in 0 to CFG_NCPU-1 generate
-      irqi(i).irl <= "0000";
-    end generate;
-    apbo(2) <= apb_none;
-  end generate;
-
   gpt : if CFG_GPT_ENABLE /= 0 generate
     timer0 : gptimer          -- timer unit
     generic map (pindex => 3, paddr => 3, pirq => CFG_GPT_IRQ,
