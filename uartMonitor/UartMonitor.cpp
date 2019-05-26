@@ -240,9 +240,13 @@ int main(int cszArg, char* rgszArg[]) {
             ReadWordFromAhb(uartFifoDebug, readBuffer);
 			
 			// Print that character.
+            BinaryPrintOfWord(readBuffer);
 			printf("Got %c \n", readBuffer[0]);
 		}
 	}
+    
+    // Interesting to see the status of registers at the end of Pico execution...
+    PrintUartRegisters();
 
 	// Disable Djtg and close device handle
 	if( hif != hifInvalid ) {
@@ -332,8 +336,14 @@ void ReadWordFromAhb(BYTE* address, BYTE* readBuffer){
     
     // Read the 33-bit AHBJTAG data register until the MSB is 1 (Read finished!)
 	BYTE ahbdata_tdo[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+    int counter = 0;
 	do {
         ReadData(ahbdata_tdo, 40);
+        counter++;
+        if (counter>10) {
+			printf("MONITOR: I've been waiting to read for quite some time...\n");
+            counter = 0;
+		}
 	} while(!(ahbdata_tdo[4] & 1) && exitProgram == 0); // While the SEQ bit is not set.
     
     memcpy(readBuffer, ahbdata_tdo, 4);

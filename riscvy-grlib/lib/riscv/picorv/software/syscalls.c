@@ -54,13 +54,31 @@ ssize_t _read(int file, void *ptr, size_t len)
 	return 0;
 }
 
+
 ssize_t _write(int file, const void *ptr, size_t len)
 {
-	const void *eptr = ptr + len;
+	volatile const void *eptr = ptr + len;
+    volatile char characterToWrite;
+    volatile int wordToWrite;
 	while (ptr != eptr) {
-		*(volatile int*)0x46000010 = *(char*)(ptr); // Write to random location to test implementation
-		*(volatile int*)0x80000100 = *(char*)(ptr); // Write to random location to test implementation
-        ptr++;
+        // The UART register must be empty before we write.
+        // (This condition may perhaps be relaxed to when the FIFO is full)
+        // Also, the system currently assumes that reads and writes are aligned.
+        // so we have to read from the base of the status register, and then remember that
+        // the original Big Endian bytes are presented in Little Endian by the adapter.
+        // So bit 2 (zero-indexed), TE, originally in the LSB, is now in the MSB.
+		if (*(volatile int*)0x80000104 & (1 << 26)) {
+			characterToWrite= *(char*)(ptr++);
+		
+			// Remember that our memory system makes sure that
+			// writes are made little-endian to the target memory.
+			// The UART registers, however, expect big endian.
+			// Therefore, we must write the bytes in the "wrong" order
+			// as these will be swapped to the correct order in the adapter.
+			wordToWrite = 0x00000000 + ((volatile int)characterToWrite << 24);
+
+			*(volatile int*)0x80000100 = wordToWrite;
+		}
     }
 	return len;
 }

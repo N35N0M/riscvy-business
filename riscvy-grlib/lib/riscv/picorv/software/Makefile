@@ -15,8 +15,8 @@ firmware32.hex: firmware.elf start.elf hex8tohex32.py
 	rm -f start.tmp firmware.tmp
 
 ram.srec: firmware.elf start.elf
-	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x46000020 --gap-fill 0 firmware.elf firmware.srec
-	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x45001000 --gap-fill 0 start.elf start.srec
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x40100000 --gap-fill 0 firmware.elf firmware.srec
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x40001000 --gap-fill 0 start.elf start.srec
 	cat start.srec firmware.srec > ram.srec
 
 firmware.elf: firmware.o syscalls.o
