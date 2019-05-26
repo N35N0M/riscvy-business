@@ -6,6 +6,7 @@
 module pico_ahb_master (
   input         HCLK,
   input         HRESETn,
+  input [31:0]  HIRQ,
   input         HGRANTx,
   input         HREADY,
   input [1:0]   HRESP,
@@ -186,9 +187,11 @@ module pico_ahb_master (
   .pcpi_ready           (),
 
     // Interrupt connection (not used)
-  .irq                  (),
-  .eoi                  (),
-
+  .irq                  (HIRQ),
+  .eoi                  (), // The interrupts we utilize are pulse-based
+							// i.e. they are only held valid one clock cycle
+							// and hence does not need to be cleared by
+							// the outgoing End Of Interrupt signal.
     // Processor trace output (not used)
   .trace_valid          (),
   .trace_data           ()

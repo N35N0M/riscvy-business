@@ -27,6 +27,7 @@ architecture pico of picorv_grlib_ahb_master is
 		port (
 			HCLK		:	in  std_ulogic;
 			HRESETn :	in  std_ulogic;
+            HIRQ    :   in std_logic_vector(31 downto 0); -- TODO: Not quite sure if all 32 IRQs are enabled by default...
 			HGRANTx :	in  std_ulogic;
 			HREADY 	:	in  std_ulogic;
 			HRESP		:	in  std_logic_vector(1 downto 0);
@@ -48,24 +49,25 @@ architecture pico of picorv_grlib_ahb_master is
 	-- GRLIB Plug&play information --
 	constant HCONFIG: ahb_config_type := (
 		-- Only the first config word must be defined for masters (all other words are memory areas, and that is not applicable for master(s))
-		0 => ahb_device_reg (VENDOR_CONTRIB, CONTRIB_CORE1, 0, 0, 0), -- TODO: Define venid, devid, version etc. Last position is which interrupt it drives (0 indicates none).
+		0 => ahb_device_reg (VENDOR_CONTRIB, CONTRIB_CORE1, 0, 0, 0), -- Note that the free version of GRMON does not allow us to use custom vendors or partids.
 		others => X"00000000");
 
 begin
-	ahbmo.hconfig 	<= HCONFIG; -- Dont think it is possible to use HCONFIG at all due to licencing...
-	ahbmo.hindex    <= master_index; -- TODO: Should be parameterized.
-	ahbmo.hirq 			<= (others => '0'); -- TODO: We will want to connect to the interrupt bus later when bare C programs work. But then with ahbmi, not ahbmo.
+	ahbmo.hconfig 	<= HCONFIG; 
+	ahbmo.hindex    <= master_index; 
+	ahbmo.hirq 		<= (others => '0'); -- We do not drive any interrupts.
 
 	wrapped_picorv: pico_ahb_master
 		port map(
-			HCLK 					=> clk,
+			HCLK 				=> clk,
 			HRESETn 			=> rst,
+            HIRQ                => ahbmi.hirq,
 			HGRANTx				=> ahbmi.hgrant(master_index),
 			HREADY				=> ahbmi.hready,
 			HRESP					=> ahbmi.hresp,
 			HRDATA				=> ahbmi.hrdata,
 
-			BUSREQx				=> ahbmo.hbusreq, -- TODO: Should rename BUSREQx to HBUSREQx or HBUSREQ for consistency.
+			BUSREQx				=> ahbmo.hbusreq,
 			HLOCKx				=> ahbmo.hlock,
 			HTRANS				=> ahbmo.htrans,
 			HADDR					=> ahbmo.haddr,
