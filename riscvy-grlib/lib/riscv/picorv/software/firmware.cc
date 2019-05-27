@@ -3,6 +3,9 @@
 #include <vector>
 #include <algorithm>
 
+
+// This is modified PicoRV code, I do not claim this to be entirely my own.
+
 class ExampleBaseClass
 {
 public:
@@ -82,6 +85,7 @@ int main()
 	for (auto n : some_ints)
 		std::cout << std::hex << n << std::endl;
 
-	std::cout << "All done." << std::endl;
+	std::cout << "All done. Now we wait for interrupt(s)" << std::endl;
+
 	return 0;
 }

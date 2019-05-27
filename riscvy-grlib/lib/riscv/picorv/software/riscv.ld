@@ -6,22 +6,25 @@
    notice and this notice are preserved.  */
 
 stackPointerAddr = 0x50000000;
-_ftext = 0x40001000;
+_ftext = 0x40010000;
 
 
 
 OUTPUT_FORMAT("elf32-littleriscv", "elf32-littleriscv",
 	      "elf32-littleriscv")
 OUTPUT_ARCH(riscv)
-ENTRY(_pvstart)
+ENTRY(reset_vec)
 SECTIONS
 {
   /* Start.S processor setup here */
   . = 0x40000000;
   .startpv : { start.o (.text) }
-  
-  /* firmware.cc stuff goes here */
-  . = 0x40001000;
+
+  /* Followed by interrupt handler */
+  .irqhandler : { irq.o (.text) }
+
+  /* firmware.cc and stuff goes here */
+  . = 0x40010000;
   .text           :
   {
     *(.text)
