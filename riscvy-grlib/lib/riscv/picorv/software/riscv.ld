@@ -4,12 +4,23 @@
    Copying and distribution of this script, with or without modification,
    are permitted in any medium without royalty provided the copyright
    notice and this notice are preserved.  */
+
+stackPointerAddr = 0x50000000;
+_ftext = 0x40001000;
+
+
+
 OUTPUT_FORMAT("elf32-littleriscv", "elf32-littleriscv",
 	      "elf32-littleriscv")
 OUTPUT_ARCH(riscv)
-ENTRY(_start)
+ENTRY(_pvstart)
 SECTIONS
 {
+  /* Start.S processor setup here */
+  . = 0x40000000;
+  .startpv : { start.o (.text) }
+  
+  /* firmware.cc stuff goes here */
   . = 0x40001000;
   .text           :
   {

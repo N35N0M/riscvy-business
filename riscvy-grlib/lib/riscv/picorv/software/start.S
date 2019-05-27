@@ -1,6 +1,7 @@
 .section .text
 .global _ftext
 .global _pvstart
+.global stackPointerAddr
 
 _pvstart:
 /* zero-initialize all registers */
@@ -37,11 +38,8 @@ addi x30, zero, 0
 addi x31, zero, 0
 
 /* set stack pointer */
-//lui sp, %hi(1342177280)       // This corresponds to a SP on byte 0x5000_0000, it is 16-byte alligned.
-//addi sp, sp, %lo(1342177280)  // Ditto.
-
-lui sp, %hi(1090519040)         // Stack pointer at 0x4100_0000
-addi sp, sp, %lo(1090519040)
+lui sp, %hi(stackPointerAddr)
+addi sp, sp, %lo(stackPointerAddr)  
 
 /* push zeros on the stack for argc and argv */
 /* (stack is aligned to 16 bytes in riscv calling convention) */
