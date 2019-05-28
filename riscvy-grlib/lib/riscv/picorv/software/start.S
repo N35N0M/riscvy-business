@@ -12,9 +12,8 @@
 
 reset_vec:
 	// no more than 16 bytes here !
-	// What do the following two lines do...?
-	// picorv32_waitirq_insn(zero) 
-	// picorv32_maskirq_insn(zero, zero)
+	//picorv32_waitirq_insn(zero) 
+	picorv32_maskirq_insn(zero, zero)
 	j _pvstart
 
 
@@ -170,6 +169,7 @@ irq_stack:
 /* Remember, that with interrupts, we start higher up. */
  
 _pvstart:
+
 /* zero-initialize all registers */
 addi x1, zero, 0
 addi x2, zero, 0
@@ -214,6 +214,13 @@ sw zero,0(sp)
 sw zero,4(sp)
 sw zero,8(sp)
 sw zero,12(sp)
+
+// Enable peripheral interrupts.
+// maskirq rd, rs
+//.equ PERIPHERAL_IRQs, 0xcafebabe
+//maskirq x1, x2
+//addi, x28, zero, 480
+//maskirq x28, x29
 
 /* jump to libc init */
 j _ftext

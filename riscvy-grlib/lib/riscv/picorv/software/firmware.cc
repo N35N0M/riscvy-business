@@ -49,10 +49,28 @@ public:
 
 int main()
 {
+    // Put UART in debug mode.
+	volatile int set_uart_control_to_fifo_debug = 0x03080080; // Enable interrupts from GPIO line 0
+    *(volatile int*)0x80000108 = set_uart_control_to_fifo_debug;
+
 	printf("Hello World, C!\n");
 
 	std::cout << "Hello World, C++!" << std::endl;
 
+    printf("Setting up (other) GRLIB hardware...\n");
+
+	// All GRLIB data is big-endian, so we provide the data in reverse order (as we store in little-endian)
+    volatile int grgpio_ipol  = 0x01000000; // Specify that GPIO line 0, SW7 button, is active high
+    volatile int grgpio_iedge = 0x01000000; // Trigger interrupt on (rising) edge, not level
+	volatile int grgpio_imask = 0x01000000; // Enable interrupts from GPIO line 0
+    *(volatile int*)0x80000810 = grgpio_ipol;
+    *(volatile int*)0x80000814 = grgpio_iedge;
+    *(volatile int*)0x8000080C = grgpio_imask;
+
+	printf("Enabled GRGPIO button interrupt!\n");
+
+
+    printf("Running the rest of the demo program...\n");
 	ExampleBaseClass *obj = new ExampleBaseClass;
 	obj->print_something_virt();
 	obj->print_something_novirt();
@@ -87,6 +105,10 @@ int main()
 		std::cout << std::hex << n << std::endl;
 
 	std::cout << "All done. Now we wait for interrupt(s)" << std::endl;
+    
+	// On purpose endless looping to test interrupt handling.
+    while (true){
+	}
 
 	return 0;
 }
