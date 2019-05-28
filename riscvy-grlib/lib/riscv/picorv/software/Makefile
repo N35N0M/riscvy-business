@@ -21,11 +21,12 @@ firmware.elf: firmware.o syscalls.o start.o irq.o
 	$(CC) $(LDFLAGS) -o $@ $^ -T riscv.ld $(LDLIBS)
 	chmod -x firmware.elf
 
+irq.o: irq.c
+	$(CC) -nostdlib -o irq.o -c irq.c
+
 start.o: start.S
 	$(CC) -nostdlib -o start.o -c start.S
 
-irq.o: irq.c
-	$(CC) -o irq.o -c irq.c
 
 clean:
 	rm -f *.o *.d *.tmp start.elf

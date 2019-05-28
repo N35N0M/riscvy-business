@@ -18,10 +18,8 @@ SECTIONS
 {
   /* Start.S processor setup here */
   . = 0x40000000;
-  .startpv : { start.o (.text) }
-
-  /* Followed by interrupt handler */
-  .irqhandler : { irq.o (.text) }
+  startpv : { start.o (.text) }
+  irqhandler : { irq.o (.text) }
 
   /* firmware.cc and stuff goes here */
   . = 0x40010000;

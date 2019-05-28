@@ -12,8 +12,8 @@
 
 reset_vec:
 	// no more than 16 bytes here !
-	// Disables all interrupts to start with.
-	// picorv32_waitirq_insn(zero) NOTE: I believe this instruction causes trouble.
+	// What do the following two lines do...?
+	// picorv32_waitirq_insn(zero) 
 	// picorv32_maskirq_insn(zero, zero)
 	j _pvstart
 
