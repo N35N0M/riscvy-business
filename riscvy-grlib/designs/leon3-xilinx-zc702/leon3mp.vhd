@@ -242,7 +242,8 @@ signal S_AXI_GP0_wid : STD_LOGIC_VECTOR ( 5 downto 0 );  --
 signal aximi : axi_somi_type;
 signal aximo : axi3_mosi_type;
 
-signal pico_enable_button: std_ulogic;
+signal pico_enable_and_interrupt_button: std_ulogic;
+--signal always_enable : std_ulogic := '1';
 
 constant pconfig : apb_config_type := (
   0 => ahb_device_reg ( VENDOR_GAISLER, GAISLER_MIGDDR2, 0, 0, 0),
@@ -277,10 +278,10 @@ begin
 ----------------------------------------------------------------------
 
 
--- Enable button, to control when to run the Pico processor
-  enable_pico_pad   : inpad  generic map (level => cmos, voltage => x18v, tech => padtech)
-    port map (button(1), pico_enable_button);
+--  enable_and_reset_btn   : inpad  generic map (level => cmos, voltage => x18v, tech => padtech)
+--    port map (button(1), pico_enable_and_interrupt_button);
 
+pico_enable_and_interrupt_button <= gpioi.din(0);
 
 -- PicoRV instance  
   picorv0: picorv_grlib_ahb_master
@@ -288,7 +289,7 @@ begin
     port map(
                  rst     =>      rstn,
                  clk     =>      clkm,
-                 enable  =>      pico_enable_button,
+                 enable  =>      pico_enable_and_interrupt_button,
                  ahbmi   =>      ahbmi,
                  ahbmo   =>      ahbmo(0));
 
@@ -302,8 +303,8 @@ begin
      port map (led(5), ahbmi.hgrant(2));
 
   -- DEBUG LED DS18: Value of the enable signal going in to the PicoRV core.
-  picorv_enable_signal : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
-     port map (led(4), pico_enable_button);
+  --picorv_enable_signal : outpad generic map (level => cmos, voltage => x33v, tech => padtech)
+  --   port map (led(4), pico_enable_button);
 
 ----------------------------------------------------------------------
 ---  LEON3 processor and DSU -----------------------------------------
@@ -476,23 +477,19 @@ begin
 
   nogpt : if CFG_GPT_ENABLE = 0 generate apbo(3) <= apb_none; end generate;
 
-  gpio0 : if CFG_GRGPIO_ENABLE /= 0 generate     -- GPIO unit
-    grgpio0: grgpio
-    generic map(pindex => 8, paddr => 8, imask => CFG_GRGPIO_IMASK, nbits => CFG_GRGPIO_WIDTH, pirq => 6, irqgen => 1)
-    port map(rst => rstn, clk => clkm, apbi => apbi, apbo => apbo(8), gpioi => gpioi, gpioo => gpioo);
-    pio_pads : for i in 0 to 7 generate
-        pio_pad : iopad generic map (tech => padtech, level => cmos, voltage => x18v)
-            port map (switch(i), gpioo.dout(i), gpioo.oen(i), gpioi.din(i));
-    end generate;
-    pio_pads2 : for i in 9 to 10 generate -- Kris: We changed range 8-10 to 9-10 to "steal" a button for pico enable
-        pio_pad : inpad generic map (tech => padtech, level => cmos, voltage => x18v)
-            port map (button(i-8+1), gpioi.din(i)); -- Use +1 because button(0) is used for reset
-    end generate;
---    pio_pads3 : for i in 11 to 11 generate
---        pio_pad : outpad generic map (tech => padtech, level => cmos, voltage => x33v)
- --           port map (led(i-11+4), gpioo.dout(i));
- --   end generate;
-  end generate;
+  grgpio0 : grgpio
+  	generic map(pindex => 8, paddr => 8, imask => 16#0001#, nbits => 3, pirq => 6, irqgen => 1, iflagreg => 1)
+  	port map(rst => rstn, clk => clkm, apbi => apbi, apbo => apbo(8), gpioi => gpioi, gpioo => gpioo);
+
+	-- Button 0 (reset) and button 1 are the only real buttons, but the vivado toolflow will complain if we do not
+    -- initialize button 2 and 3 too.
+        enable_and_interrupt_button : inpad generic map (tech => padtech, level => cmos, voltage => x18v)
+            port map (button(1), gpioi.din(0));
+        do_not_care1 : inpad generic map (tech => padtech, level => cmos, voltage => x18v)
+            port map (button(2), gpioi.din(1));
+        do_not_care2 : inpad generic map (tech => padtech, level => cmos, voltage => x18v)
+            port map (button(3), gpioi.din(2));
+		
 
   ua1 : if CFG_UART1_ENABLE /= 0 generate
     uart1 : apbuart                     -- UART 1
