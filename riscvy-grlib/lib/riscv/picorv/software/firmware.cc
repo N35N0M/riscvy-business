@@ -3,10 +3,10 @@
 #include <vector>
 #include <algorithm>
 
+// This is a modified version of firmware.cc, found in the original PicoRV repository.
+
 // Defined in start.S
 extern "C" uint32_t WaitForInterrupt();
-
-// This is modified PicoRV code, I do not claim this to be entirely my own.
 
 class ExampleBaseClass
 {
@@ -50,16 +50,16 @@ public:
 
 int main()
 {
-    // Put UART in debug mode.
-	volatile int set_uart_control_to_fifo_debug = 0x03080080; // Enable interrupts from GPIO line 0
+    // Put UART in FIFO debug mode, enable transfer and receive, enable receiver interrupts
+	// Payload is reversed since the adapter swaps bytes, and pico feeds the adapter in little-endian order.
+	// The GRLIB peripheral registers are big endian.
+	volatile int set_uart_control_to_fifo_debug = 0x07080080;
     *(volatile int*)0x80000108 = set_uart_control_to_fifo_debug;
 
-	printf("Hello World, C!\n");
+	printf("Welcome to PicoRV32[IC] on GRLIB, running on the Xilinx ZC702!\n\n");
 
-	std::cout << "Hello World, C++!" << std::endl;
-
-    printf("Setting up (other) GRLIB hardware...\n");
-
+    printf("Setting up GRLIB peripherals...\n");
+	printf("UART is already enabled, in FIFO debug mode, and with receiver interrupts enabled.\n");
 	// All GRLIB data is big-endian, so we provide the data in reverse order (as we store in little-endian)
     volatile int grgpio_ipol  = 0x01000000; // Specify that GPIO line 0, SW7 button, is active high
     volatile int grgpio_iedge = 0x01000000; // Trigger interrupt on (rising) edge, not level
@@ -70,8 +70,7 @@ int main()
 
 	printf("Enabled GRGPIO button interrupt!\n");
 
-
-    printf("Running the rest of the demo program...\n");
+    printf("Testing the stack. \n");
 	ExampleBaseClass *obj = new ExampleBaseClass;
 	obj->print_something_virt();
 	obj->print_something_novirt();
@@ -105,17 +104,20 @@ int main()
 	for (auto n : some_ints)
 		std::cout << std::hex << n << std::endl;
 
-	std::cout << "All done. Now we wait for interrupt(s)" << std::endl;
+	std::cout << "\nAll done. Now we wait for interrupt(s)" << std::endl;
     
 	// On purpose endless looping to test interrupt handling.
-	
+	//char enq = '\x05';
+	char response;
     while (true){
 		printf("I will now wait for a button interrupt.\n");
 		WaitForInterrupt();
 		printf("Finished waiting for button!\n");
         printf("Requesting input from user.\n");
-    
-		
+		//std::cout << enq << std::endl; // ASCII code: ENQ - Enquiry
+		printf("Got input from user! Now I just need to read it!\n");
+		response = getchar();
+		printf("We successfully received this character: %c", response);
 	}
 
 	return 0;

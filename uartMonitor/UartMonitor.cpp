@@ -205,8 +205,8 @@ int main(int cszArg, char* rgszArg[]) {
     printf("========== INITIAL UART STATUS ==========\n");
 	PrintUartRegisters();
 
-	// Set APBUART to transmit and receive enable, and in FIFO debug mode, and with FIFOs available bit.
-    BYTE setUartToDebug[] = {0x03, 0x08, 0x00, 0x80};
+	// Set APBUART to transmit and receive enable, receiver interrupt, and in FIFO debug mode, and with FIFOs available bit.
+    BYTE setUartToDebug[] = {0x07, 0x08, 0x00, 0x80};
     WriteWordToAhb(uartControl, setUartToDebug);
 
     printf("========== UART SET TO FIFO DEBUG MODE ==========\n");
@@ -230,6 +230,9 @@ int main(int cszArg, char* rgszArg[]) {
     printf("==================================================\n");
     printf("Now monitoring APBUART... Press Ctrl+C to stop.\n");
     printf("==================================================\n");
+    
+	char userInput;
+    BYTE response[4] = {0x00,0x00,0x00,0x00};
     while (exitProgram == 0) {
 		// Read the status register...
 		ReadWordFromAhb(uartStatus, readBuffer);
@@ -239,8 +242,21 @@ int main(int cszArg, char* rgszArg[]) {
 			// Read that data....
             ReadWordFromAhb(uartFifoDebug, readBuffer);
 			
-			// Print that character.
-			printf("%c", readBuffer[0]);
+			// If it is an enquiry (ENQ, 0x05), we should prompt for a char from the user.
+            if (readBuffer[0] == '\x05') {
+				printf("\n\n>>>UartMonitor<<< Received ENQUIRY! Enter a character please: \n");
+				userInput = getchar();
+                getchar(); // We dont want the newline character.
+				printf(">>>UartMonitor<<< You entered %c! Sending it to Pico via UART...\n", userInput);
+				response[0] = userInput;
+				WriteWordToAhb(uartFifoDebug, response); // Writing to the FIFO debug register
+														 // means writing to the receiver FIFO.
+				
+			}
+			else {
+				// Print that character.
+				printf("%c", readBuffer[0]);
+			}
 		}
 	}
     
