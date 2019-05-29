@@ -9,6 +9,7 @@
 .global reset_vec
 .global stackPointerAddr
 .global irq
+.global WaitForInterrupt
 
 reset_vec:
 	// no more than 16 bytes here !
@@ -224,3 +225,8 @@ sw zero,12(sp)
 
 /* jump to libc init */
 j _ftext
+
+
+WaitForInterrupt:
+	picorv32_waitirq_insn(zero) 
+	ret

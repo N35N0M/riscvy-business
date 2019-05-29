@@ -3,7 +3,8 @@
 #include <vector>
 #include <algorithm>
 
-
+// Defined in start.S
+extern "C" uint32_t WaitForInterrupt();
 
 // This is modified PicoRV code, I do not claim this to be entirely my own.
 
@@ -107,7 +108,14 @@ int main()
 	std::cout << "All done. Now we wait for interrupt(s)" << std::endl;
     
 	// On purpose endless looping to test interrupt handling.
+	
     while (true){
+		printf("I will now wait for a button interrupt.\n");
+		WaitForInterrupt();
+		printf("Finished waiting for button!\n");
+        printf("Requesting input from user.\n");
+    
+		
 	}
 
 	return 0;
