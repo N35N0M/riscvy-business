@@ -244,10 +244,10 @@ int main(int cszArg, char* rgszArg[]) {
 			
 			// If it is an enquiry (ENQ, 0x05), we should prompt for a char from the user.
             if (readBuffer[0] == '\x05') {
-				printf("\n\n>>>UartMonitor<<< Received ENQUIRY! Enter a character please: \n");
+				printf("\n\n***UARTMONITOR*** Received ENQUIRY! Enter ONE character, then press enter, please: \n");
 				userInput = getchar();
                 getchar(); // We dont want the newline character.
-				printf(">>>UartMonitor<<< You entered %c! Sending it to Pico via UART...\n", userInput);
+				printf("***UARTMONITOR*** You entered %c! Sending it to Pico via UART...\n\n", userInput);
 				response[0] = userInput;
 				WriteWordToAhb(uartFifoDebug, response); // Writing to the FIFO debug register
 														 // means writing to the receiver FIFO.

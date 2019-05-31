@@ -9,27 +9,29 @@
 
 uint32_t *irq(uint32_t *regs, uint32_t irqs)
 {
-	printf("\n\n========== INTERRUPT HANDLER CALLED ==========\n");
-	// APBUART Receiver FIFO -- not implemented
+	// Use prints sparingly, as they make the handlers much slower.
+	//printf("\n\n========== INTERRUPT HANDLER CALLED ==========\n");
+	
 	if ((irqs & (1<<5)) != 0) {
-		printf("Pico: Hey, I got notified by APBUART that it received something.\n");
+		printf("INTERRUPT HANDLER: Received data in APBUART! \n");
 	}
 
 	// GRGPIO IRQ (Xilinx ZC702, SW7 button)
 	if ((irqs & (1<<6)) != 0) {
-		printf("Pico: Ouch! I felt that! \n");
+		printf("INTERRUPT HANDLER: Registered button press! \n");
 	}
 
 	// AHBSTATUS IRQ -- not implemented
 	if ((irqs & (1<<7)) != 0) {
-		printf("Pico: The AHBSTATUS register has something it wants to tell you.\n");
+		printf("INTERRUPT HANDLER: The AHBSTATUS register has something it wants to tell you.\n");
 	}
 
-	// GPTIMER IRQ (it ticks!) -- not implemented
+	// GPTIMER IRQ (it ticks!)
 	if ((irqs & (1<<8)) != 0) {
-		printf("Pico: Can you hear the clocks oscillating? \nI can. Or at least they interrupt me.\n");
+		//printf("Pico: Can you hear the clocks oscillating? \nI can. Or at least they interrupt me.\n");
+		
 	}
-	printf("========== EXITING INTERRUPT HANDLER ==========\n\n");
+	//printf("========== EXITING INTERRUPT HANDLER ==========\n\n");
 
 	return regs;
 }
