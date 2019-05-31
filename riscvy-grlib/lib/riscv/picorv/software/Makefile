@@ -14,18 +14,19 @@ firmware32.hex: firmware.elf start.elf hex8tohex32.py
 	python3 hex8tohex32.py firmware.hex > firmware32.hex
 	rm -f start.tmp firmware.tmp
 
-ram.srec: firmware.elf start.elf
+firmware.srec: firmware.elf
 	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x40100000 --gap-fill 0 firmware.elf firmware.srec
-	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x40001000 --gap-fill 0 start.elf start.srec
-	cat start.srec firmware.srec > ram.srec
 
-firmware.elf: firmware.o syscalls.o
+firmware.elf: firmware.o syscalls.o start.o irq.o
 	$(CC) $(LDFLAGS) -o $@ $^ -T riscv.ld $(LDLIBS)
 	chmod -x firmware.elf
 
-start.elf: start.S start.ld
-	$(CC) -nostdlib -o start.elf start.S -T start.ld $(LDLIBS)
-	chmod -x start.elf
+irq.o: irq.c
+	$(CC) -nostdlib -o irq.o -c irq.c
+
+start.o: start.S
+	$(CC) -nostdlib -o start.o -c start.S
+
 
 clean:
 	rm -f *.o *.d *.tmp start.elf

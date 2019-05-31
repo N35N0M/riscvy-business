@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdio.h>
 
 #define UNIMPL_FUNC(_f) ".globl " #_f "\n.type " #_f ", @function\n" #_f ":\n"
 
@@ -50,8 +51,22 @@ void unimplemented_syscall()
 
 ssize_t _read(int file, void *ptr, size_t len)
 {
-	// always EOF
-	return 0;
+	
+	// Request the user to input character
+	*(volatile int*)0x80000100 = 0x05000000; // 0x05 = ENQ
+	
+
+	// Wait until the UART receiver interrupts.
+	WaitForInterrupt();
+
+	// Read out the recevied character.
+    volatile char receivedCharacter;
+    volatile int receivedWord;
+	receivedWord = *(volatile int*)0x80000100;
+	receivedCharacter = (char)(receivedWord >> (8*3)) & 0xff;
+	*(char*)(ptr) = receivedCharacter;
+		
+	return 1;
 }
 
 

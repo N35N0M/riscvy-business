@@ -127,17 +127,17 @@ package config is
   constant CFG_IRQ3_NSEC : integer := 0;
 -- Modular timer
   constant CFG_GPT_ENABLE : integer := 1;
-  constant CFG_GPT_NTIM : integer := (2);
+  constant CFG_GPT_NTIM : integer := (1);
   constant CFG_GPT_SW : integer := (8);
   constant CFG_GPT_TW : integer := (32);
   constant CFG_GPT_IRQ : integer := (8);
-  constant CFG_GPT_SEPIRQ : integer := 1;
+  constant CFG_GPT_SEPIRQ : integer := 0;
   constant CFG_GPT_WDOGEN : integer := 0;
   constant CFG_GPT_WDOG : integer := 16#0#;
 -- GPIO port
-  constant CFG_GRGPIO_ENABLE : integer := 1;
-  constant CFG_GRGPIO_IMASK : integer := 16#0000#;
-  constant CFG_GRGPIO_WIDTH : integer := (16);
+--  constant CFG_GRGPIO_ENABLE : integer := 1;
+--  constant CFG_GRGPIO_IMASK : integer := 16#FFFF#; 
+--  constant CFG_GRGPIO_WIDTH : integer := (16);
 -- GRLIB debugging
   constant CFG_DUART : integer := 0;
 end;
