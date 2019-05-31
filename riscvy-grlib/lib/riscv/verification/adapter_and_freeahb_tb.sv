@@ -1,7 +1,5 @@
 // Inspired by the style of the FreeAHB TB.
 
-// DUV is the FreeAHB Adapter.
-// We will apply valid stimulus from the Pico IF and FreeAHB master manually.
 module adapter_and_freeahb_test;
     // ADAPTER
     logic    [31:0]    freeahb_wdata;
@@ -10,17 +8,15 @@ module adapter_and_freeahb_test;
     logic    [2:0]     freeahb_size;
     logic              freeahb_write;
     logic              freeahb_read;
-    logic    [31:0]    freeahb_min_len;     // Minimum guaranteed size of burst
-    logic              freeahb_cont;        // Continues prev transfer
+    logic    [31:0]    freeahb_min_len;
+    logic              freeahb_cont;
     logic    [3:0]     freeahb_prot;
     logic              freeahb_lock;
-    bit                freeahb_next;        // Asserted indicates transfer
-                                            // finished. Must be bit, not logic,
-                                            // as our logic doesnt
-                                            // support tristate values.
+    bit                freeahb_next;
+
     logic    [31:0]    freeahb_rdata;
-    logic    [31:0]    freeahb_result_addr; // Not used.
-    logic              freeahb_ready;       // rdata contains valid data.
+    logic    [31:0]    freeahb_result_addr;
+    logic              freeahb_ready;
 
     // Native PicoRV32 memory interface
 
@@ -87,15 +83,15 @@ picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (
     .freeahb_size(freeahb_size),
     .freeahb_write(freeahb_write),
     .freeahb_read(freeahb_read),
-    .freeahb_min_len(freeahb_min_len), // Minimum "guaranteed size of burst"
-    .freeahb_cont(freeahb_cont),       // Continues prev transfer
+    .freeahb_min_len(freeahb_min_len),
+    .freeahb_cont(freeahb_cont),
     .freeahb_prot(freeahb_prot),
     .freeahb_lock(freeahb_lock),
 
-    .freeahb_next(freeahb_next),       // Asserted indicates transfer finished.
+    .freeahb_next(freeahb_next),
     .freeahb_rdata(freeahb_rdata),
-    .freeahb_result_addr(freeahb_result_addr), // Not used.
-    .freeahb_ready(freeahb_ready),             // rdata contains valid data.
+    .freeahb_result_addr(freeahb_result_addr),
+    .freeahb_ready(freeahb_ready),
 
     // Pico interface
     .mem_valid(mem_valid),

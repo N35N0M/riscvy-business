@@ -30,7 +30,7 @@ start.o: start.S
 
 clean:
 	rm -f *.o *.d *.tmp start.elf
-	rm -f *.srec *.bin
+	rm -f *.srec *.bin *.hex
 	rm -f firmware.elf firmware32.hex
 
 -include *.d

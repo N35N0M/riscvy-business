@@ -1,7 +1,10 @@
-// An extremely minimalist syscalls.c for newlib
-// Based on riscv newlib libgloss/riscv/sys_*.c
-// Written by Clifford Wolf.
-
+/*
+ * An extremely minimalist syscalls.c for newlib
+ * Based on riscv newlib libgloss/riscv/sys_*.c
+ *
+ * Written by Clifford Wolf.
+ * Modified by Kris Monsen to suit the GRLIB design on ZC702.
+ */
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
@@ -10,121 +13,113 @@
 #define UNIMPL_FUNC(_f) ".globl " #_f "\n.type " #_f ", @function\n" #_f ":\n"
 
 asm (
-	".text\n"
-	".align 2\n"
-	UNIMPL_FUNC(_open)
-	UNIMPL_FUNC(_openat)
-	UNIMPL_FUNC(_lseek)
-	UNIMPL_FUNC(_stat)
-	UNIMPL_FUNC(_lstat)
-	UNIMPL_FUNC(_fstatat)
-	UNIMPL_FUNC(_isatty)
-	UNIMPL_FUNC(_access)
-	UNIMPL_FUNC(_faccessat)
-	UNIMPL_FUNC(_link)
-	UNIMPL_FUNC(_unlink)
-	UNIMPL_FUNC(_execve)
-	UNIMPL_FUNC(_getpid)
-	UNIMPL_FUNC(_fork)
-	UNIMPL_FUNC(_kill)
-	UNIMPL_FUNC(_wait)
-	UNIMPL_FUNC(_times)
-	UNIMPL_FUNC(_gettimeofday)
-	UNIMPL_FUNC(_ftime)
-	UNIMPL_FUNC(_utime)
-	UNIMPL_FUNC(_chown)
-	UNIMPL_FUNC(_chmod)
-	UNIMPL_FUNC(_chdir)
-	UNIMPL_FUNC(_getcwd)
-	UNIMPL_FUNC(_sysconf)
-	"j unimplemented_syscall\n"
+    ".text\n"
+    ".align 2\n"
+    UNIMPL_FUNC(_open)
+    UNIMPL_FUNC(_openat)
+    UNIMPL_FUNC(_lseek)
+    UNIMPL_FUNC(_stat)
+    UNIMPL_FUNC(_lstat)
+    UNIMPL_FUNC(_fstatat)
+    UNIMPL_FUNC(_isatty)
+    UNIMPL_FUNC(_access)
+    UNIMPL_FUNC(_faccessat)
+    UNIMPL_FUNC(_link)
+    UNIMPL_FUNC(_unlink)
+    UNIMPL_FUNC(_execve)
+    UNIMPL_FUNC(_getpid)
+    UNIMPL_FUNC(_fork)
+    UNIMPL_FUNC(_kill)
+    UNIMPL_FUNC(_wait)
+    UNIMPL_FUNC(_times)
+    UNIMPL_FUNC(_gettimeofday)
+    UNIMPL_FUNC(_ftime)
+    UNIMPL_FUNC(_utime)
+    UNIMPL_FUNC(_chown)
+    UNIMPL_FUNC(_chmod)
+    UNIMPL_FUNC(_chdir)
+    UNIMPL_FUNC(_getcwd)
+    UNIMPL_FUNC(_sysconf)
+    "j unimplemented_syscall\n"
 );
 
 void unimplemented_syscall()
 {
-	const char *p = "Unimplemented system call called!\n";
-	while (*p)
-		*(volatile int*)0x80000100 = *(p++);          // Address of UART on ZC702 GRLIB design
-	asm volatile ("ebreak");
-	__builtin_unreachable();
+    const char *p = "Unimplemented system call called!\n";
+    while (*p)
+        /* APBUART address */
+        *(volatile int*)0x80000100 = *(p++);
+    asm volatile ("ebreak");
+    __builtin_unreachable();
 }
 
 ssize_t _read(int file, void *ptr, size_t len)
 {
-	
-	// Request the user to input character
-	*(volatile int*)0x80000100 = 0x05000000; // 0x05 = ENQ
-	
+    /* Request the user to input character by sending ENQ character */
+    *(volatile int*)0x80000100 = 0x05000000;
 
-	// Wait until the UART receiver interrupts.
-	WaitForInterrupt();
+    /* Wait until we recieve an interrupt (from the UART, hopefully) */
+    WaitForInterrupt();
 
-	// Read out the recevied character.
+    /* Read out the received character. */
     volatile char receivedCharacter;
     volatile int receivedWord;
-	receivedWord = *(volatile int*)0x80000100;
-	receivedCharacter = (char)(receivedWord >> (8*3)) & 0xff;
-	*(char*)(ptr) = receivedCharacter;
-		
-	return 1;
+    receivedWord = *(volatile int*)0x80000100;
+    receivedCharacter = (char)(receivedWord >> (8*3)) & 0xff;
+    *(char*)(ptr) = receivedCharacter;
+
+    return 1;
 }
 
 
 ssize_t _write(int file, const void *ptr, size_t len)
 {
-	volatile const void *eptr = ptr + len;
+    volatile const void *eptr = ptr + len;
     volatile char characterToWrite;
     volatile int wordToWrite;
-	while (ptr != eptr) {
-        // The UART register must be empty before we write.
-        // (This condition may perhaps be relaxed to when the FIFO is full)
-        // Also, the system currently assumes that reads and writes are aligned.
-        // so we have to read from the base of the status register, and then remember that
-        // the original Big Endian bytes are presented in Little Endian by the adapter.
-        // So bit 2 (zero-indexed), TE, originally in the LSB, is now in the MSB.
-		if (*(volatile int*)0x80000104 & (1 << 26)) {
-			characterToWrite= *(char*)(ptr++);
-		
-			// Remember that our memory system makes sure that
-			// writes are made little-endian to the target memory.
-			// The UART registers, however, expect big endian.
-			// Therefore, we must write the bytes in the "wrong" order
-			// as these will be swapped to the correct order in the adapter.
-			wordToWrite = 0x00000000 + ((volatile int)characterToWrite << 24);
-
-			*(volatile int*)0x80000100 = wordToWrite;
-		}
+    while (ptr != eptr) {
+        /* We require that UART transmitter FIFO must be empty (TE) 
+         * before we write. This could be relaxed to when the transmitter
+         * FIFO is not full (!TF) for better performance.
+         *
+         * Payload is reversed since APBUART registers are big-endian.
+         */
+        if (*(volatile int*)0x80000104 & (1 << 26)) {
+            characterToWrite= *(char*)(ptr++);
+            wordToWrite = 0x00000000 + ((volatile int)characterToWrite << 24);
+            *(volatile int*)0x80000100 = wordToWrite;
+        }
     }
-	return len;
+    return len;
 }
 
 int _close(int file)
 {
-	// close is called before _exit()
-	return 0;
+    /* close is called before _exit() */
+    return 0;
 }
 
 int _fstat(int file, struct stat *st)
 {
-	// fstat is called during libc startup
-	errno = ENOENT;
-	return -1;
+    /* fstat is called during libc startup */
+    errno = ENOENT;
+    return -1;
 }
 
 void *_sbrk(ptrdiff_t incr)
 {
-	extern unsigned char _end[];	// Defined by linker
-	static unsigned long heap_end;
+    extern unsigned char _end[];    // Defined by linker
+    static unsigned long heap_end;
 
-	if (heap_end == 0)
-		heap_end = (long)_end;
+    if (heap_end == 0)
+        heap_end = (long)_end;
 
-	heap_end += incr;
-	return (void *)(heap_end - incr);
+    heap_end += incr;
+    return (void *)(heap_end - incr);
 }
 
 void _exit(int exit_status)
 {
-	asm volatile ("ebreak");
-	__builtin_unreachable();
+    asm volatile ("ebreak");
+    __builtin_unreachable();
 }
