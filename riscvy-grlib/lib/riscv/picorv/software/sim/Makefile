@@ -8,6 +8,9 @@ LDFLAGS = -Wl,--gc-sections
 LDLIBS = -lstdc++
 
 # Simulation version
+ram.srec: firmware.elf                                                     
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x40100000 --gap-fill 0 firmware.elf ram.srec
+
 firmware32.hex: firmware.elf hex8tohex32.py
 	$(RISCV_TOOLS_PREFIX)objcopy -O verilog firmware.elf firmware.hex
 	python3 hex8tohex32.py firmware.hex > firmware32.hex
