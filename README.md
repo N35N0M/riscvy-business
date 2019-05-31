@@ -157,7 +157,7 @@ With all of the above in place, the last thing you should have to do is to press
 ## Running the verilog-only testbench (no GRLIB or ZC702 simulation)
 If one should wish to verify very basic aspects of the PicoRV+adapter+FreeAHB side of the design, one can utilize the provided testbenches in ```riscvy-business/riscvy-grlib/lib/riscv/verification```. In this folder, run ```make help``` to get a list of available testbenches. Running one of the targets will run the testbench in Icarus Verilog, then launch GtkWave so that one can inspect the wavedump.
 
-Note that these testbenches were used only to get the PicoRV up and running, and making sure that it functions together with the picorv-to-freeahb adapter and the FreeAHB master. It therefore lacks somewhat in coverage for complex behaviors, and does not simulate the end product which you see on chip, as GRLIB peripherals and interrupts are not emulated, and therefore a simpler, earlier version of the firmware is used.
+Note that these testbenches were used only to help us integrate PicoRV with GRLIB, and making sure that it functions together with the picorv-to-freeahb adapter and the FreeAHB master. It therefore lacks somewhat in coverage for complex behaviors, and does not simulate the end product which you see on chip, as GRLIB peripherals and interrupts are not emulated, and therefore a simpler, earlier version of the firmware is used.
 
 ## Running the full system testbench with the GRLIB ZC702 ActiveHDL testbench
 If one wishes to perform full system simulation, GRLIB has support for ActiveHDL. We have utilized the student edition for this project.
