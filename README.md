@@ -6,7 +6,7 @@ We utilize Cobham Gaisler's GRLIB IP Core library, Clifford Wolf's PicoRV RISCV-
 
 This README merely describes the structure and how to run the design. For the motivation and surrounding discussion, see the master thesis report (coming soon).
 
-## Repository layout
+## Getting started
 To get started, make sure that you are on a x86-64bit Ubuntu 18.04 LTS system with a recent version of ```git``` installed.
 We have only tested the build and implementatio via this OS, and cannot guarantee
 that it works for other Linux flavors or other OSes.
@@ -22,7 +22,8 @@ git submodule init
 git submodule update 
 ```
 
-Then follow the installation procedure described shortly.
+## Repository layout
+TODO
 
 ## Installation on x86 64-bit Ubuntu 18.04 LTS
 ### Required apt packages
