@@ -166,7 +166,7 @@ picorv32_freeahb_adapter #(.BIG_ENDIAN_AHB(0)) FREEAHB_ADAPT    (
     always @(posedge clk) begin
         if ((mem_valid && !mem_ready) || write_data_next) begin
             case (1)
-            o_haddr == 32'h 8000_0100: begin
+            o_haddr == 32'h 8000_0103: begin
                        if (!write_data_next && o_htrans == 2'b10 && o_hwrite) begin
                             write_data_next <= 1;
                        end

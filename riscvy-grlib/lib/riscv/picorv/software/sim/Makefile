@@ -7,18 +7,19 @@ CCFLAGS = -MD  -Wall -std=c++11
 LDFLAGS = -Wl,--gc-sections
 LDLIBS = -lstdc++
 
-# Implementation version, see sim-folder for simulation version.
-firmware.srec: firmware.elf
-	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x40100000 --gap-fill 0 firmware.elf firmware.srec
+# Simulation version
+firmware32.hex: firmware.elf hex8tohex32.py
+	$(RISCV_TOOLS_PREFIX)objcopy -O verilog firmware.elf firmware.hex
+	python3 hex8tohex32.py firmware.hex > firmware32.hex
 
-firmware.elf: firmware.o syscalls.o start.o irq.o
-	$(CC) $(LDFLAGS) -o $@ $^ -T riscv.ld $(LDLIBS)
-
-irq.o: irq.c
-	$(CC) -nostdlib -o irq.o -c irq.c
+firmware.elf: firmware.o syscalls.o start.o
+	$(CC) $(LDFLAGS) -o $@ $^ -T riscv_sim.ld $(LDLIBS)
 
 start.o: start.S
 	$(CC) -nostdlib -o start.o -c start.S
+
+firmware.o: firmware.cc
+	$(CC) -nostdlib -o firmware.o -c firmware.cc
 
 
 # HELPERS

@@ -38,7 +38,7 @@ topdesign_tb: firmware32.hex
 
 # SOFTWARE BUILDING FOR DEPENDENT TESTBENCHES
 firmware32.hex:  ## Builds the hexfile needed by the bare-metal application TBs.
-	cd ${PICO_SOFTWARE} && $(MAKE) firmware32.hex && cp firmware32.hex ${RISCV_LIB_VERIFICATION}/firmware32.hex
+	cd ${PICO_SIM_SOFTWARE} && $(MAKE) firmware32.hex && cp firmware32.hex ${RISCV_LIB_VERIFICATION}/firmware32.hex
 
 
 .PHONY: clean help
@@ -51,4 +51,4 @@ help: ## This help dialog. Source - gist.github.com/prwhite/8168133
 
 clean: ## Clean files built with this Makefile.
 	rm -f *.vvp *.vcd *.hex
-	cd ${PICO_SOFTWARE} && $(MAKE) clean
+	cd ${PICO_SIM_SOFTWARE} && $(MAKE) clean

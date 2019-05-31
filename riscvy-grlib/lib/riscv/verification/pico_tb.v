@@ -80,7 +80,8 @@ module testbench;
             mem_rdata <= 'bx;
             case (1)
             mem_addr == 32'h 8000_0100: begin
-                $write("%c", mem_wdata[7:0]);
+                // PicoRV makes UART writes big-endian to match the target system.
+                $write("%c", mem_wdata[31:24]);
             end
                 (mem_addr - MEM_OFFSET) < MEM_SIZE: begin
                 `ifdef MEM8BIT

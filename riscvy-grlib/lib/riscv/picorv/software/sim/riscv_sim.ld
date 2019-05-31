@@ -5,7 +5,7 @@
    are permitted in any medium without royalty provided the copyright
    notice and this notice are preserved.  */
 
-stackPointerAddr = 0x50000000;
+stackPointerAddr = 0x40010000;
 _ftext = 0x40010000;
 
 
@@ -13,13 +13,12 @@ _ftext = 0x40010000;
 OUTPUT_FORMAT("elf32-littleriscv", "elf32-littleriscv",
 	      "elf32-littleriscv")
 OUTPUT_ARCH(riscv)
-ENTRY(reset_vec)
+ENTRY(_pvstart)
 SECTIONS
 {
   /* Start.S processor setup here */
   . = 0x40000000;
   startpv : { start.o (.text) }
-  irqhandler : { irq.o (.text) }
 
   /* firmware.cc and stuff goes here */
   . = _ftext;

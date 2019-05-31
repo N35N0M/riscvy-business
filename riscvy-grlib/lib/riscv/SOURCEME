@@ -1,5 +1,5 @@
 export FREEAHB_MASTER_PATH=$(pwd)/shared/FreeAHB/ahb_master/sources/ahb_master.v
 export ADAPTER_PATH=$(pwd)/picorv/picorv32_freeahb_adapter.v
-export PICO_SOFTWARE=$(pwd)/picorv/software
+export PICO_SIM_SOFTWARE=$(pwd)/picorv/software/sim
 export PICO_CORE=$(pwd)/picorv/core/picorv32.v
 export RISCV_LIB_VERIFICATION=$(pwd)/verification
