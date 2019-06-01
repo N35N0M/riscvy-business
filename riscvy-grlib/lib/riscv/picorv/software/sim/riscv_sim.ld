@@ -5,8 +5,8 @@
    are permitted in any medium without royalty provided the copyright
    notice and this notice are preserved.  */
 
-stackPointerAddr = 0x40010000;
-_ftext = 0x40010000;
+stackPointerAddr = 0x400F0000;
+_ftext = 0x40001000;
 
 
 

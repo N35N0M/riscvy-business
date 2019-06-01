@@ -9,7 +9,7 @@ LDLIBS = -lstdc++
 
 # Simulation version
 ram.srec: firmware.elf                                                     
-	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x40100000 --gap-fill 0 firmware.elf ram.srec
+	$(RISCV_TOOLS_PREFIX)objcopy -O srec --pad-to=0x400F0000 --gap-fill 0 firmware.elf ram.srec
 
 firmware32.hex: firmware.elf hex8tohex32.py
 	$(RISCV_TOOLS_PREFIX)objcopy -O verilog firmware.elf firmware.hex
