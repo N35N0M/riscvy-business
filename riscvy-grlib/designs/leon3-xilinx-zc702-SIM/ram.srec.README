@@ -1,0 +1,13 @@
+# IMPORTANT
+
+There seems like there is a bug in how the ActiveHDL loads the ram.srec into its memory.
+All lines are assumed to be word-aligned with zeropadding until the end of words.
+Our linker doesn't currently do that.
+
+Therefore, one has to manually zero the last data bit of start.S (around 0x4000_0090) of the simulation
+version of the software. Don't worry about the parity bits, as they are not checked by the testbench.
+
+Failing to do so will cause the ActiveHDL testbench to crash, as a memory area around 0x4000_0090 will be
+represented as XXXX (high impedance), and this doesn't make our design happy, as we do not account for tristate logic.
+
+This included ram.srec does not have the issue.
