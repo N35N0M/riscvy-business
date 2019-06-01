@@ -81,14 +81,14 @@ module pico_ahb_master (
     .i_lock       (adapter_to_ahb_lock     ),
     .i_min_len    (adapter_to_ahb_min_len  ),
     .i_prot       (adapter_to_ahb_prot     ),
-    .i_read       (adapter_to_ahb_read     ),
+    .i_rd       (adapter_to_ahb_read     ),
     .i_size       (adapter_to_ahb_size     ),
-    .i_valid      (adapter_to_ahb_valid    ),
-    .i_write      (adapter_to_ahb_write    ),
+    .i_dav     (adapter_to_ahb_valid    ),
+    .i_wr      (adapter_to_ahb_write    ),
     .o_addr       (ahb_to_adapter_addr     ), // Not used, we dont verify the read addr.
     .o_data       (ahb_to_adapter_data     ),
     .o_next       (ahb_to_adapter_next     ), // Not used, we expect a single transfer.
-    .o_ready      (ahb_to_adapter_ready    )
+    .o_dav      (ahb_to_adapter_ready    )
   );
 
 

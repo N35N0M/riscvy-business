@@ -55,11 +55,11 @@ ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (
     .i_hclk(clk),
     .i_hreset_n(resetn),
     .i_data(freeahb_wdata),
-    .i_valid(freeahb_valid),
+    .i_dav(freeahb_valid),
     .i_addr(freeahb_addr),
     .i_size(freeahb_size),
-    .i_write(freeahb_write),
-    .i_read(freeahb_read),
+    .i_wr(freeahb_write),
+    .i_rd(freeahb_read),
     .i_min_len(freeahb_min_len),
     .i_cont(freeahb_cont),
     .i_prot(freeahb_prot),
@@ -67,7 +67,7 @@ ahb_master #(.DATA_WDT(32), .BEAT_WDT(32)) FREEAHB_MAST (
     .o_next(freeahb_next),
     .o_data(freeahb_rdata),
     .o_addr(freeahb_result_addr),
-    .o_ready(freeahb_ready),
+    .o_dav(freeahb_ready),
     .*
 );
 
