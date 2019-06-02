@@ -1,14 +1,16 @@
-# riscvy-business
+# RISCVy Business
 
-Master's project: Fusing together RISC-V and GRLIB
+***Master's project: Fusing together a RISC-V core and the GRLIB IP core library.***
 
-We utilize Cobham Gaisler's GRLIB IP Core library, Clifford Wolf's PicoRV RISCV-32I[M][C] processor, Revanth Kamaraj's FreeAHB master, to form a sample RISC-V32 computing platform, running on a FPGA on the Xilinx ZC702 AP SoC.
+We utilize Cobham Gaisler's [GRLIB IP Core library](https://www.gaisler.com/index.php/downloads/leongrlib), Clifford Wolf's [PicoRV RISCV-32I[M][C] processor](https://github.com/cliffordwolf/picorv32), and Revanth Kamaraj's [FreeAHB master](https://github.com/krevanth/FreeAHB), to form a sample RISC-V32 computing platform, running on a FPGA on the Xilinx ZC702 AP SoC.
 
-This README merely describes the structure and how to run the design. For the motivation and surrounding discussion, see the master thesis report (coming soon).
+We have also heavily depended on great open-source tools such as [Icarus Verilog](http://iverilog.icarus.com/) and [GtkWave](http://gtkwave.sourceforge.net/) for this project.
+
+This README merely describes the structure and how to run the design. For the motivation and surrounding discussion, see the master thesis report (coming soon). *If you are not here for reproducing the results, chances are that the thesis contains more interesting information for hardware porting concerns and techniques.*
 
 ## Getting started
 To get started, make sure that you are on a x86-64bit Ubuntu 18.04 LTS system with a recent version of ```git``` installed.
-We have only tested the build and implementatio via this OS, and cannot guarantee
+We have only tested the build and implementation via this OS, and cannot guarantee
 that it works for other Linux flavors or other OSes.
 
 Clone this repository, then initialize the submodules PicoRV and FreeAHB.
@@ -23,7 +25,35 @@ git submodule update
 ```
 
 ## Repository layout
-TODO
+
+![Hello](toplevel.png)
+
+**riscvy-grlib** is a modified version of the Cobham Gaisler IP core library version 2018.3-b4226, available [here](https://www.gaisler.com/index.php/downloads/leongrlib). Per the GRLIB user manual (found [here](https://www.gaisler.com/index.php/downloads/leongrlib)): ```bin``` contains scripts and support files for tools, ```boards``` contain support files for various prototype boards, ```designs``` contain various template GRLIB designs, ```doc``` includes the documentation, ```lib``` contains the various IP cores available, and ```software``` contains utilities and TB.
+Our main contributions within ```riscvy-grlib``` is contained in four places:
+
+- ```riscvy-grlib/lib/riscv```: A new IP core library we have added, which contains firmware, hardware designs, and verification TBs for GRLIB-targetted RISC-V designs. See the next section for more details.
+- ```riscvy-grlib/designs/leon3-xilinx-zc702```: A modification of the out-of-the-box LEON3 GRLIB design for the Xilinx ZC702. Here, we have cut out the LEON3 processor and DSU, and replaced it with PicoRV and relevant wiring.
+- ```riscvy-grlib/designs/leon3-xilinx-zc702-SIM```: A simulator version of a earlier version of the modified design, but does not include elements from the final design, as the activeHDL testbench it is based on depends on the LEON3 to be instantiated to function, and we have not had the time to make a full system testbench designed with something else than the LEON3 in mind.
+
+**uartMonitor** contains a simple software monitor, which utilizes the Digilent Adept2 SDK, in order to communicate with our target ZC702 FPGA design. It instructs the Xilinx TAP on the chip's JTAG scan-chain to perform USER1 and USER2 instructions, which are connected to AHBJTAG on the GRLIB FPGA design, which takes these instructions and produces AHB bus accesses from them.
+
+### The RISC-V Library
+The RISC-V library has the following layout:
+![RISC-V library layout](riscvlib.png)
+
+The ***SOURCEME*** must be sourced when running testbenches in verification. It will set environment variables which contains paths to various verilog modules that are utilizes in the testbenches.
+
+***dirs.txt*** is a special file used by GRLIB Makefiles so it knowns where to look for riscv library files. 
+
+***picorv*** contains all files that are strictly relevant for a PicoRV-based GRLIB design. It contains ```core```, which is a git submodule of a fork of the original PicoRV repository. ```picorv32_freeahb_adapter.v``` is a custom adapter which connects the PicoRV memory interface to the FreeAHB master UI interface. ```picorv_ahb.v``` is a toplevel design which instantiates PicoRV, the pico-to-freeahb adapter, and the FreeAHB master together. ```picorv_ahb.vhd``` is a language wrapper for the verilog version of the design. It also adds extra VHDL primitives which are used in the *GRLIB plug-and-play mechanism* that is added on top of the standard AMBA AHB specification. ```picorv.vhd``` creates a VHDL package out of the module, so that it can easily be instantiated in the architecture of other VHDL modules. 
+
+```software``` contains the neccessary software for building a version of the firmware for the implementation version, and one for module testbenches and the ZC702 design testbench found in ```picorv/software/sim```. Many of the software files are derived variants of the software(s) found in the original PicoRV repository, which were released to the public domain.
+
+Finally, ```vhdlsyn.txt``` and ```vlogsyn.txt``` are special files used by the GRLIB Makefiles to determine which files are used for VHDL synthesis and Verilog synthesis respectively.
+
+***shared*** is intended to hold components that are natural to be shared between various RISC-V processors. It might seem a bit redundant when only picorv is in place, but the intention is that this library can be expanded to hold several cores. FreeAHB is then a natural component to share, as it can easily be adapted to suit the memory interfaces of other cores as well. ```FreeAHB``` is a submodule of a fork of the original FreeAHB master. Only minor changes has been done to the fork, and it is mostly done to ensure availability.
+
+***verification*** contains testbenches used to test modules inside the library only (i.e. nothing that has to do with GRLIB designs). Run ```make help``` inside here in order to see what testbenches are available. Most of them are only slightly derived from the originals found in the PicoRV and FreeAHB source repositories.
 
 ## Installation on x86 64-bit Ubuntu 18.04 LTS
 ### Required apt packages
@@ -58,6 +88,7 @@ as that is the one we are using. Feel free to install any others if you wish to 
 
 ### Licenced software installations
 You will also need to manually install these applications:
+
 - [Xilinx Vivado 2013.4: WebPACK Edition !!!WITH THE SDK!!!](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive.html)
 - [Digilent Adept2 Runtime, SDK, and utilities (64-bit Linux Zip)](https://reference.digilentinc.com/reference/software/adept/start?redirect=1#software_downloads)
 - [GRMON3 Evaluation Version](https://www.gaisler.com/index.php/downloads/debug-tools)
@@ -152,7 +183,9 @@ UartMonitor will then run a startup routine, and set the APBUART control registe
 If you get a message about the device not existing, make sure that you have connected to the Digilent JTAG USB port on the ZC702, that the SW10 TAP is set to Digilent (01), make sure GRMON is closed (so that it doesn't take up the connection), and use ```djtgcfg enum``` to see if the Digilent Adept2 utility can see a device. If a different device name is dispalyed, use that instead of JtagSmt1.
 
 ## Running the test
-With all of the above in place, the last thing you should have to do is to press SW7 to enable PicoRV, and then you should see printout to the UartMonitor.
+With all of the above in place, the last thing you should have to do is to press SW7 to enable PicoRV, and then you should see printout to the UartMonitor. It should look something like this:
+
+![UartMonitor system test printout](picorv_demo.png)
 
 ## Running the verilog-only testbench (no GRLIB or ZC702 simulation)
 If one should wish to verify very basic aspects of the PicoRV+adapter+FreeAHB side of the design, one can utilize the provided testbenches in ```riscvy-business/riscvy-grlib/lib/riscv/verification```. In this folder, run ```make help``` to get a list of available testbenches. Running one of the targets will run the testbench in Icarus Verilog, then launch GtkWave so that one can inspect the wavedump.
@@ -160,9 +193,26 @@ If one should wish to verify very basic aspects of the PicoRV+adapter+FreeAHB si
 Note that these testbenches were used only to help us integrate PicoRV with GRLIB, and making sure that it functions together with the picorv-to-freeahb adapter and the FreeAHB master. It therefore lacks somewhat in coverage for complex behaviors, and does not simulate the end product which you see on chip, as GRLIB peripherals and interrupts are not emulated, and therefore a simpler, earlier version of the firmware is used.
 
 ## Running the full system testbench with the GRLIB ZC702 ActiveHDL testbench
-If one wishes to perform full system simulation, GRLIB has support for ActiveHDL. We have utilized the student edition for this project.
+If one wishes to perform full system simulation, GRLIB has support for ActiveHDL. We have utilized the [student edition](https://www.aldec.com/en/products/fpga_simulation/active_hdl_student) for this project.
 ActiveHDL is only available for Windows, so this requires access to a Windows10 environment.
 
-With a Windows 10 environment in hand, one is requried to install CYGWIN, which provides UNIX-like functionality to Windows through a custom terminal and environment.
+With a Windows 10 environment in hand, one is requried to install [CYGWIN](https://www.cygwin.com/), which provides packages for many tools usually found in Linux.
 
-TODO: Finish this by confirming step-by-step in Windows. I have to swap OSes first....
+When installing Cygwin, install the following packages:
+
+- autoconf 
+- automake
+- binutils
+- make
+
+With Cygwin in place, launch a cygwin terminal window. Clone and initialize the riscvy-business repository. Navigate to ```riscvy-business/riscvy-grlib/designs/leon3-xilinx-zc702-SIM/```. Here, run ```make avhdl-launch```, and it should launch ActiveHDL for you.
+
+ActiveHDL takes a while to setup everything. When everything is successfully set up, select ```Create a new waveform``` in the topmost toolbar. A waveform window should appear. Then, select the ```resources``` tab in the top-left quarter of the ActiveHDL screen, then expand ```testbench.vhd```, then ```cpu0```. You should now see a list of top modules. Click and drag the topmodules you wish to have wavedumps of. 
+
+We have usually only tracked two components: ```picorv0``` - the toplevel initialization of the PicoRV-based design found in the RISCV library. And ```leon3_zc702_stub```, which contains simulator stubs which, amongst other things, show the simulated AXI4 signals to the RAM, which is quite useful for debugging reads and writes. 
+
+Now, press ```Run``` on the topmost toolbar. Alternatively alt+F5. The testbench will now run. While the simple verilog testbenches in the RISC-V library run in seconds, this testbench can run for possibly hours (4+) on a decent laptop. So get some coffee.
+
+If you wish to have some decent debug prints in the meantime, there are some you can enable before running ```make avhdl-launch```. In ```riscv-grlib/lib/riscv/picorv/core/picorv32.v``` there are two definitions you can uncomment in order to get some debug prints. Defining```debugasm``` will print the processor assembly so you can see what it does. Defining ```debug``` will let you see the received instructions and data.
+
+In ```riscv-grlib/lib/riscv/shared/FreeAHB/ahb_master/sources/ahb_master.v``` you can define ```debug``` to see if bursts are computed correctly.
