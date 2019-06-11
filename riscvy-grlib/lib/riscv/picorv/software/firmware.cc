@@ -149,7 +149,8 @@ int main()
     for (auto n : some_ints)
         std::cout << std::hex << n << std::endl;
 
-    std::cout << "Setup and quicktest done. Now we run the main application.\n\n" << std::endl;
+    std::cout << "Setup and quicktest done. Now we run the main application.\n\n" 
+              << std::endl;
 
     // Values for GPTIMER's TIMER1. Refer to GRLIB IP core manual for details.
     volatile int timer1_enable_with_interrupt = 0x0D000000;
